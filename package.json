@@ -28,6 +28,7 @@
     "typescript": "^3.5.2"
   },
   "dependencies": {
-    "discord.js": "^11.5.1"
+    "discord.js": "^11.5.1",
+    "ffmpeg-binaries": "^4.0.0"
   }
 }
