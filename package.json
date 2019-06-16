@@ -28,7 +28,10 @@
     "typescript": "^3.5.2"
   },
   "dependencies": {
+    "@discordjs/uws": "^11.149.1",
     "discord.js": "^11.5.1",
-    "ffmpeg-binaries": "^4.0.0"
+    "erlpack": "github:hammerandchisel/erlpack",
+    "libsodium-wrappers": "^0.7.4",
+    "node-opus": "^0.3.2"
   }
 }
