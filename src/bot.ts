@@ -1,15 +1,12 @@
-import { Client } from "discord.js";
-export class Bot {
-  private _instance: Client = new Client();
-  set instance(value: Client) {
-    this._instance = value;
-  }
-  get instance() {
-    return this._instance;
-  }
-  login() {
-    this._instance.login(
-      "NTg5NTk1MTg5NjMxMzg1NjAy.XQWd1w.5yZcJNlE3Hs5sRqePdXX0sBvH6Y"
-    );
-  }
-}
+import { BotClient } from './classes/BotClient';
+import { MessageHandler } from './classes/MessageHandler';
+
+export const bot = new BotClient({
+    messageCacheMaxSize: 100,
+    disabledEvents: ['TYPING_START'],
+});
+
+(async () => {
+    await bot.init();
+    const mh = new MessageHandler(bot);
+})()
