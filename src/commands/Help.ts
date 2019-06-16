@@ -13,12 +13,16 @@ export class Help extends Command {
       .addField(
         "Commands",
         `\`\`${config.SERVERPREFIXES[msg.guild.id]}play <url>\`\` \n \`\`${
-          config.PREFIX
+          config.SERVERPREFIXES[msg.guild.id]
         }skip <number>\`\` \n \`\`${
           config.SERVERPREFIXES[msg.guild.id]
-        }pause\`\` \n \`\`${config.PREFIX}resume\`\` \n \`\`${
+        }pause\`\` \n \`\`${
           config.SERVERPREFIXES[msg.guild.id]
-        }stop\`\` \n \`\`${config.PREFIX}remove <number>\`\``
+        }resume\`\` \n \`\`${
+          config.SERVERPREFIXES[msg.guild.id]
+        }stop\`\` \n \`\`${
+          config.SERVERPREFIXES[msg.guild.id]
+        }remove <number>\`\``
       );
     msg.channel.send(embed);
   }
