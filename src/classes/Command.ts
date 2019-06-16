@@ -1,9 +1,12 @@
-abstract class Command {
-    arguments: string[]; 
+import { Message } from "discord.js";
+import { BotClient } from "./BotClient";
 
-    constructor(args: string[]) {
-        this.arguments = args;
-    }
+export abstract class Command {
+  arguments: string[];
 
-    abstract execute(): void;
+  constructor(args: string[]) {
+    this.arguments = args;
+  }
+
+  abstract execute(msg: Message, bot: BotClient): void;
 }

@@ -1,19 +1,23 @@
-import { Client as DiscordClient, ClientOptions } from 'discord.js';
-import { config } from '../config';
+import { Client as DiscordClient, ClientOptions } from "discord.js";
+import { config } from "../config";
 
 export class BotClient extends DiscordClient {
-    initTime: number;
+  initTime: number;
 
-    constructor(options?: ClientOptions | undefined) {
-        super(options);
-        this.initTime = Date.now();
+  constructor(options?: ClientOptions | undefined) {
+    super(options ? options : undefined);
+    this.initTime = Date.now();
 
-        this.once('ready', () => {
-            this.user.setActivity(`${config.PREFIX}help`);
-        });
-    }
+    this.once("ready", () => {
+      this.user.setActivity(`${config.PREFIX}help`);
+      const allGuilds = this.guilds;
+      allGuilds.tap(guild => {
+        config.SERVERPREFIXES[guild.id] = config.PREFIX;
+      });
+    });
+  }
 
-    async init() {
-        await this.login(config.TOKEN);
-    }
+  async init() {
+    await this.login(config.TOKEN);
+  }
 }
