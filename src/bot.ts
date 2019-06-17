@@ -1,12 +1,12 @@
-import { BotClient } from './classes/BotClient';
-import { MessageHandler } from './classes/MessageHandler';
+import { BotClient } from "./classes/BotClient";
+import { MessageHandler } from "./classes/MessageHandler";
 
 export const bot = new BotClient({
-    messageCacheMaxSize: 100,
-    disabledEvents: ['TYPING_START']
+  messageCacheMaxSize: 100,
+  disabledEvents: ["TYPING_START"]
 });
 
 (async () => {
-    await bot.init();
-    const mh = new MessageHandler(bot);
+  await bot.init();
+  const mh = new MessageHandler(bot);
 })();
