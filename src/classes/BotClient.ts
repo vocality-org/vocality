@@ -1,23 +1,21 @@
-import {
-  Client as DiscordClient,
-  Collection,
-  ClientOptions
-} from 'discord.js';
-import { config } from '../config';
-import { Command } from '../interfaces/Command';
-import * as commandDefs from '../commands';
+import { Client as DiscordClient, Collection, ClientOptions } from "discord.js";
+import { config } from "../config";
+import { Command } from "../interfaces/Command";
+import * as commandDefs from "../commands";
 
 export class BotClient extends DiscordClient {
   initTime: number;
   commands: Collection<string, Command>;
 
-  constructor (options?: ClientOptions | undefined) {
+  constructor(options?: ClientOptions | undefined) {
     super(options);
     this.initTime = Date.now();
     this.commands = this.loadCommands();
 
-    this.once('ready', () => {
-      this.user.setActivity(`${config.PREFIX}help`, { type: 'LISTENING' }).catch(err => console.log(err));
+    this.once("ready", () => {
+      this.user
+        .setActivity(`${config.PREFIX}help`, { type: "LISTENING" })
+        .catch(err => console.log(err));
       this.guilds.tap(guild => {
         config.SERVERPREFIXES[guild.id] = config.PREFIX;
       });
@@ -32,7 +30,7 @@ export class BotClient extends DiscordClient {
    * @returns {Collection<string, Command>}
    * @memberof BotClient
    */
-  loadCommands (): Collection<string, Command> {
+  loadCommands(): Collection<string, Command> {
     const cmds = new Collection<string, Command>();
     Object.keys(commandDefs).forEach(name => {
       const cmd = new ((commandDefs as ConstructorMap)[name] as any)();
@@ -41,7 +39,7 @@ export class BotClient extends DiscordClient {
     return cmds;
   }
 
-  async init () {
+  async init() {
     await this.login(config.TOKEN);
   }
 }
