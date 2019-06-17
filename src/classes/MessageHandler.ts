@@ -2,7 +2,7 @@ import { Message } from "discord.js";
 import { BotClient } from "./BotClient";
 import { ArgumentParser } from "./ArgumentParser";
 import { BotError } from "./BotError";
-import { Command } from "./Command";
+import { config } from "../config";
 
 export class MessageHandler {
   bot: BotClient;
@@ -15,25 +15,37 @@ export class MessageHandler {
   addListeners() {
     this.bot.on("message", msg => this.onMessage(msg));
     this.bot.on("messageUpdate", msg => this.onMessageUpdate(msg));
-    this.bot.on("raw", (msg: any) => this.onRaw(msg));
   }
 
   onMessage(message: Message) {
-    const argumentParser: ArgumentParser = new ArgumentParser();
-    const command: Command | BotError | undefined = argumentParser.buildCommand(
-      message
-    );
-    if (command instanceof BotError) {
-      message.reply(command.errorMessage);
-    }
-    if (command instanceof Command) {
-      command.execute(message, this.bot);
+    if (!this.validateMessage(message)) return;
+
+    const content = message.content.slice(config.SERVERPREFIXES[message.guild.id].length);
+    const args = ArgumentParser.parse(content);
+
+    if (args instanceof BotError) {
+      message.reply(args.errorMessage);
+    } else {
+      const command = args.shift()!.toLowerCase();
+      
+      if (!this.bot.commands.has(command)) {
+        message.reply("Unknown command!");
+      }
+
+      try {
+        this.bot.commands.get(command)!.execute(message, args);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
-  onMessageUpdate(msg: Message) {}
+  onMessageUpdate(msg: Message): void { }
 
-  onRaw(msg: any) {
-    //? https://github.com/AnIdiotsGuide/discordjs-bot-guide/blob/master/coding-guides/raw-events.md
+  private validateMessage(message: Message): boolean {
+    return (
+      !message.author.bot &&
+      message.content.startsWith(config.SERVERPREFIXES[message.guild.id])
+    );
   }
 }

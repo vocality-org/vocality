@@ -1,6 +1,6 @@
-import { Command } from "../classes/Command";
+import { Command } from "../interfaces/Command";
 
-class Pause extends Command {
+export class Pause implements Command {
   execute(): void {
     throw new Error("Method not implemented.");
   }

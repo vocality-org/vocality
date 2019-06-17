@@ -1,10 +1,9 @@
-import { Command } from "../classes/Command";
 import { Message, RichEmbed } from "discord.js";
+import { Command } from "../interfaces/Command";
 import { config } from "../config";
-import { BotClient } from "../classes/BotClient";
 
-export class Help extends Command {
-  execute(msg: Message, bot: BotClient): void {
+export class Help implements Command {
+  execute(msg: Message, args: string[]): void {
     const embed = new RichEmbed()
       .setTitle("Available Commands")
       .setColor("#00e773")
@@ -13,15 +12,15 @@ export class Help extends Command {
       .addField(
         "Commands",
         `\`\`${config.SERVERPREFIXES[msg.guild.id]}play <url>\`\` \n \`\`${
-          config.SERVERPREFIXES[msg.guild.id]
+        config.SERVERPREFIXES[msg.guild.id]
         }skip <number>\`\` \n \`\`${
-          config.SERVERPREFIXES[msg.guild.id]
+        config.SERVERPREFIXES[msg.guild.id]
         }pause\`\` \n \`\`${
-          config.SERVERPREFIXES[msg.guild.id]
+        config.SERVERPREFIXES[msg.guild.id]
         }resume\`\` \n \`\`${
-          config.SERVERPREFIXES[msg.guild.id]
+        config.SERVERPREFIXES[msg.guild.id]
         }stop\`\` \n \`\`${
-          config.SERVERPREFIXES[msg.guild.id]
+        config.SERVERPREFIXES[msg.guild.id]
         }remove <number>\`\``
       );
     msg.channel.send(embed);

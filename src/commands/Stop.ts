@@ -1,9 +1,8 @@
-import { Command } from "../classes/Command";
 import { Message } from "discord.js";
-import { BotClient } from "../classes/BotClient";
+import { Command } from "../interfaces/Command";
 
-export class Stop extends Command {
-  execute(msg: Message, bot: BotClient): void {
+export class Stop implements Command {
+  execute(msg: Message, args: string[]): void {
     msg.member.voiceChannel.leave();
   }
 }

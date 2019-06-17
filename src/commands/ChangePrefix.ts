@@ -1,11 +1,17 @@
-import { Command } from "../classes/Command";
 import { Message } from "discord.js";
+import { Command } from "../interfaces/Command";
 import { config } from "../config";
-import { BotClient } from "../classes/BotClient";
+import { CommandData } from "../decorators/CommandData";
 
-export class ChangePrefix extends Command {
-  execute(msg: Message, bot: BotClient): void {
-    config.SERVERPREFIXES[msg.guild.id] = this.arguments[0];
+@CommandData({
+  name: "ChangePrefix",
+  description: "",
+  cooldown: 10,
+  hasArguments: true
+})
+export class ChangePrefix implements Command {
+  execute(msg: Message, args: string[]): void {
+    config.SERVERPREFIXES[msg.guild.id] = args[0];
     msg.channel.send(
       `prefix changed to \`${config.SERVERPREFIXES[msg.guild.id]}\``
     );
