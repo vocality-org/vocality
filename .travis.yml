@@ -1,0 +1,13 @@
+language: node_js
+cache:
+  directories:
+    - node_modules
+before_script:
+sudo apt-get install ffmpeg -y
+deploy:
+  provider: heroku
+  api_key:
+    secure: $heroku-api-key
+  app: bass-bot-app
+  on:
+    repo: MatthiasHerzog2000/rythm-bot
