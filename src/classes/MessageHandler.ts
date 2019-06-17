@@ -1,8 +1,8 @@
-import { Message } from "discord.js";
-import { BotClient } from "./BotClient";
-import { ArgumentParser } from "./ArgumentParser";
-import { BotError } from "./BotError";
-import { config } from "../config";
+import { Message } from 'discord.js';
+import { BotClient } from './BotClient';
+import { ArgumentParser } from './ArgumentParser';
+import { BotError } from './BotError';
+import { config } from '../config';
 
 export class MessageHandler {
   bot: BotClient;
@@ -13,8 +13,8 @@ export class MessageHandler {
   }
 
   addListeners() {
-    this.bot.on("message", msg => this.onMessage(msg));
-    this.bot.on("messageUpdate", msg => this.onMessageUpdate(msg));
+    this.bot.on('message', msg => this.onMessage(msg));
+    this.bot.on('messageUpdate', msg => this.onMessageUpdate(msg));
   }
 
   onMessage(message: Message) {
@@ -27,9 +27,9 @@ export class MessageHandler {
       message.reply(args.errorMessage);
     } else {
       const command = args.shift()!.toLowerCase();
-      
+
       if (!this.bot.commands.has(command)) {
-        message.reply("Unknown command!");
+        message.reply('Unknown command!');
       }
 
       try {
