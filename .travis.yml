@@ -3,7 +3,7 @@ cache:
   directories:
     - node_modules
 before_script:
-sudo apt-get install ffmpeg -y
+  - sudo apt-get install ffmpeg -y
 deploy:
   provider: heroku
   api_key:
