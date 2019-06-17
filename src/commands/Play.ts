@@ -1,12 +1,9 @@
-import { Command } from "../classes/Command";
 import { Message } from "discord.js";
-import { BotClient } from "../classes/BotClient";
 import ytdl from "ytdl-core";
-import * as fs from "fs";
-import { WriteStream } from "tty";
+import { Command } from "../interfaces/Command";
 
-export class Play extends Command {
-  execute(msg: Message, bot: BotClient): void {
+export class Play implements Command {
+  execute(msg: Message, args: string[]): void {
     if (msg.member.voiceChannel) {
       msg.member.voiceChannel.join().then(connection => {
         const stream = ytdl("https://youtu.be/pqIv3e5eBeo", {
