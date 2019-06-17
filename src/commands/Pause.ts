@@ -1,7 +1,7 @@
-import { Command } from "../interfaces/Command";
+import { Command } from '../interfaces/Command';
 
 export class Pause implements Command {
-  execute(): void {
-    throw new Error("Method not implemented.");
+  execute (): void {
+    throw new Error('Method not implemented.');
   }
 }

@@ -1,11 +1,11 @@
-import { Message } from "discord.js";
-import { Command } from "../interfaces/Command";
-import { config } from "../config";
-import { CommandData } from "../decorators/CommandData";
+import { Message } from 'discord.js';
+import { Command } from '../interfaces/Command';
+import { config } from '../config';
+import { CommandData } from '../decorators/CommandData';
 
 @CommandData({
-  name: "ChangePrefix",
-  description: "",
+  name: 'ChangePrefix',
+  description: '',
   cooldown: 10,
   hasArguments: true
 })

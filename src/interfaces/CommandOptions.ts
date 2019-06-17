@@ -1,6 +1,6 @@
 export interface CommandOptions {
-    name: string,
-    description: string,
-    hasArguments: boolean,
-    cooldown?: number,
+  name: string;
+  description: string;
+  hasArguments: boolean;
+  cooldown?: number;
 }
