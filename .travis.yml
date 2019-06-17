@@ -7,7 +7,7 @@ before_script:
 deploy:
   provider: heroku
   api_key:
-    secure: $heroku-api-key
+    secure: $HEROKU_KEY
   app: bass-bot-app
   on:
     repo: MatthiasHerzog2000/rythm-bot
