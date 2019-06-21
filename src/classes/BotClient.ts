@@ -38,7 +38,11 @@ export class BotClient extends DiscordClient {
     });
     return cmds;
   }
-
+  /**
+   *Used to login the Bot with the Discord Token
+   *
+   * @memberof BotClient
+   */
   async init() {
     await this.login(config.TOKEN);
   }
