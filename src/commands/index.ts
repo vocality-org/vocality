@@ -8,3 +8,4 @@ export * from "./Resume";
 export * from "./Skip";
 export * from "./Stop";
 export * from "./Current";
+export * from "./Lyrics";
