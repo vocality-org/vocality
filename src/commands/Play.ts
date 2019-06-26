@@ -20,6 +20,9 @@ export class Play implements Command {
         const video_length = Number(video.length_seconds);
         const song: Song = {
           title: video.title,
+          songName: video.media.song,
+          interpreters: video.media.artist,
+          length_ms: video_length * 1000,
           url: video.video_url,
           length: new Date(video_length * 1000).toISOString().substr(11, 8),
           thumbnail_url:

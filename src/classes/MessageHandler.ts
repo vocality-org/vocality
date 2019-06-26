@@ -1,4 +1,9 @@
-import { Message } from "discord.js";
+import {
+  Message,
+  ReactionCollector,
+  MessageReaction,
+  RichEmbed
+} from "discord.js";
 import { BotClient } from "./BotClient";
 import { ArgumentParser } from "./ArgumentParser";
 import { BotError } from "./BotError";
@@ -22,6 +27,8 @@ export class MessageHandler {
   }
 
   onMessage(message: Message) {
+    this.checkForLyricsReactions(message);
+
     if (!this.validateMessage(message)) return;
 
     const content = message.content.slice(
@@ -46,7 +53,8 @@ export class MessageHandler {
           command === "stop" ||
           command === "current" ||
           command === "pause" ||
-          command === "resume"
+          command === "resume" ||
+          command === "lyrics"
         ) {
           if (this.serverQueue.find(message.guild.id)) {
             serverEntry = this.serverQueue.find(message.guild.id)!;
@@ -55,7 +63,9 @@ export class MessageHandler {
               connection: null,
               songs: [],
               textChannel: message.channel,
-              voiceChannel: message.member.voiceChannel
+              voiceChannel: message.member.voiceChannel,
+              lyricsFragments: [],
+              page: 1
             };
             this.serverQueue.add(message.guild.id, serverEntry);
           }
@@ -74,5 +84,64 @@ export class MessageHandler {
       !message.author.bot &&
       message.content.startsWith(config.SERVERPREFIXES[message.guild.id])
     );
+  }
+  private checkForLyricsReactions(message: Message) {
+    if (message.embeds.length != 0) {
+      if (
+        message.embeds[0].title.includes("Lyrics") &&
+        message.author.id === this.bot.user.id
+      ) {
+        const serverEntry = this.serverQueue.find(message.guild.id);
+        if (serverEntry!.lyricsFragments.length > 1) {
+          message.react("◀").then(() => message.react("▶"));
+          const filter = (reaction: MessageReaction) => {
+            return ["◀", "▶"].includes(reaction.emoji.name);
+          };
+          let collector = message.createReactionCollector(filter, {
+            time: serverEntry!.songs[0].length_ms
+          });
+          collector.on("collect", (reaction, collector) => {
+            if (reaction.users.size > 1) {
+              const embed = new RichEmbed()
+                .setTitle(message.embeds[0].title)
+                .setURL(message.embeds[0].url)
+                .setColor(message.embeds[0].color);
+              if (reaction.emoji.name === "◀") {
+                if (serverEntry!.page != 1) {
+                  serverEntry!.page -= 1;
+                  embed.setDescription(
+                    serverEntry!.lyricsFragments[serverEntry!.page - 1]
+                  );
+                } else {
+                  embed.setDescription(
+                    serverEntry!.lyricsFragments[serverEntry!.page - 1]
+                  );
+                  message.channel.send("Cant go further back");
+                }
+              } else if (reaction.emoji.name === "▶") {
+                if (serverEntry!.page !== serverEntry!.lyricsFragments.length) {
+                  serverEntry!.page += 1;
+                  embed.setDescription(
+                    serverEntry!.lyricsFragments[serverEntry!.page - 1]
+                  );
+                } else {
+                  embed.setDescription(
+                    serverEntry!.lyricsFragments[serverEntry!.page - 1]
+                  );
+                  message.channel.send("Cant go further forward");
+                }
+              }
+              reaction.remove(reaction.users.lastKey());
+              embed.setFooter(
+                `Page ${serverEntry!.page} of ${
+                  serverEntry!.lyricsFragments.length
+                }`
+              );
+              message.edit(embed);
+            }
+          });
+        }
+      }
+    }
   }
 }
