@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import { QueueContract } from "./QueueContract";
-import { ServerQueue } from "../classes/ServerQueue";
+import { ServerQueueController } from "../classes/ServerQueueController";
 
 export interface Command {
-  execute(msg: Message, args: string[], serverEntry?: QueueContract): void;
+  execute(msg: Message, args: string[], serverQueue?: QueueContract): void;
 }

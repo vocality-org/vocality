@@ -12,6 +12,4 @@ export interface QueueContract {
   voiceChannel: VoiceChannel;
   connection: VoiceConnection | null;
   songs: Song[];
-  page: number;
-  lyricsFragments: string[];
 }

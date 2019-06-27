@@ -1,4 +1,3 @@
-import { MessageEmbedAuthor } from "discord.js";
 import { Author } from "./Author";
 
 export interface Song {
