@@ -2,8 +2,8 @@ import { Message } from "discord.js";
 import ytdl, { videoInfo } from "ytdl-core";
 import { Command } from "../interfaces/Command";
 import { QueueContract } from "../interfaces/QueueContract";
-import { ServerQueue } from "../classes/ServerQueue";
 import { Song } from "../interfaces/Song";
+import { ServerQueueController } from "../classes/ServerQueueController";
 /**
  *The Play Class is used to Play Music with the Bot
  *
@@ -12,8 +12,10 @@ import { Song } from "../interfaces/Song";
  * @implements {Command}
  */
 export class Play implements Command {
-  execute(msg: Message, args: string[], serverEntry: QueueContract): void {
+
+  execute(msg: Message, args: string[]): void {
     if (msg.member.voiceChannel) {
+      const serverEntry = this.getSongQueue(msg);
       msg.member.voiceChannel.join().then(async connection => {
         serverEntry.connection = connection;
         const video: videoInfo = await ytdl.getInfo(args[0]);
@@ -45,7 +47,8 @@ export class Play implements Command {
       });
     }
   }
-  play(msg: Message, serverEntry: QueueContract) {
+
+  private play(msg: Message, serverEntry: QueueContract) {
     const song = serverEntry.songs[0];
     if (!song) {
       serverEntry.voiceChannel.leave();
@@ -59,5 +62,21 @@ export class Play implements Command {
         serverEntry.songs.shift();
         this.play(msg, serverEntry);
       });
+  }
+
+  private getSongQueue(message: Message): QueueContract {
+    const contract = ServerQueueController.getInstance().find(message.guild.id);
+
+    if (contract) return contract;
+
+    const entry = {
+      connection: null,
+      songs: [],
+      textChannel: message.channel,
+      voiceChannel: message.member.voiceChannel,
+    };
+
+    ServerQueueController.getInstance().add(message.guild.id, entry);
+    return entry;
   }
 }
