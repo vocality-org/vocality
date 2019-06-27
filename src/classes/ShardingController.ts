@@ -1,13 +1,13 @@
 import { ShardingManager } from 'discord.js';
-import { config } from '../config';
+import { Bot } from '../config';
 
 export class ShardingController {
   shardingManager: ShardingManager;
 
   constructor () {
     this.shardingManager = new ShardingManager(__dirname + '/../bot.ts', {
-      totalShards: config.SHARDS,
-      token: config.TOKEN
+      totalShards: Bot.SHARDS,
+      token: Bot.TOKEN
     });
   }
 
