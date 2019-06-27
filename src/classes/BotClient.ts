@@ -1,5 +1,5 @@
 import { Client as DiscordClient, Collection, ClientOptions } from "discord.js";
-import { config } from "../config";
+import { Bot } from "../config";
 import { Command } from "../interfaces/Command";
 import * as commandDefs from "../commands";
 
@@ -14,10 +14,8 @@ export class BotClient extends DiscordClient {
 
     this.once("ready", () => {
       this.user
-        .setActivity(`${config.PREFIX}help`, { type: "LISTENING" })
-        .catch(err => console.log(err));
       this.guilds.tap(guild => {
-        config.SERVERPREFIXES[guild.id] = config.PREFIX;
+        Bot.SERVERPREFIXES[guild.id] = Bot.PREFIX;
       });
     });
   }
@@ -44,7 +42,7 @@ export class BotClient extends DiscordClient {
    * @memberof BotClient
    */
   async init() {
-    await this.login(config.TOKEN);
+    await this.login(Bot.TOKEN);
   }
 }
 
