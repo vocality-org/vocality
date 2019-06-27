@@ -116,15 +116,15 @@ export class Lyrics implements Command {
     });
   }
 
-/**
- * Returns the zero based `lyricsList` index based on the current pageChange.
- * Allows for the pages to circle.
- * 
- * @private
- * @returns {number}
- * @memberof Lyrics
- */
-private getPageIndex() {
+  /**
+   * Returns the zero based `lyricsList` index based on the current pageChange.
+   * Allows for the pages to circle.
+   * 
+   * @private
+   * @returns {number}
+   * @memberof Lyrics
+   */
+  private getPageIndex() {
     return this.pageChanges % this.lyricsList.length;
   }
 }
