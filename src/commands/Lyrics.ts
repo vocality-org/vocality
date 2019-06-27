@@ -6,6 +6,7 @@ import { Genius, Emoji } from "../config";
 import cheerio from "cheerio";
 import fetch from "node-fetch";
 import queryString from "query-string";
+import { ServerQueueController } from "../classes/ServerQueueController";
 
 export class Lyrics implements Command {
 
@@ -17,12 +18,14 @@ export class Lyrics implements Command {
     this.pageChanges = 0;
   }
 
-  execute(msg: Message, args: string[], serverEntry: QueueContract): void {
-    if (serverEntry.songs.length === 0) msg.channel.send("No Song in Queue");
+  execute(msg: Message, args: string[]): void {
+    const songs = ServerQueueController.getInstance().find(msg.guild.id)!.songs;
+
+    if (songs.length === 0) msg.channel.send("No Song in Queue");
     else {
-      var auth: AuthOptions = { bearer: "Bearer " + Genius.GENIUS_API_TOKEN };
-      var song = serverEntry.songs[0];
-      var searchString: any = { q: "" };
+      const song = songs[0];
+      const searchString = { q: "" };
+
       if (song.interpreters && song.songName) {
         searchString.q = `${song.songName} by ${song.interpreters}`;
       } else if (song.interpreters && !song.songName) {
@@ -33,6 +36,7 @@ export class Lyrics implements Command {
         msg.channel.send("No lyrics found");
         return;
       }
+
       fetch(
         Genius.GENIUS_API_URI +
         "/search?" +
@@ -58,7 +62,7 @@ export class Lyrics implements Command {
             `Page 1 of ${this.lyricsList.length}`,
           );
         msg.channel.send(embed)
-          .then(msg => this.handleReactions(msg as Message, serverEntry.songs[0].length_ms));
+          .then(msg => this.handleReactions(msg as Message, song.length_ms));
       });
     }
   }
