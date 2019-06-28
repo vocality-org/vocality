@@ -26,18 +26,26 @@ export class MessageHandler {
     const args = ArgumentParser.parse(content);
 
     if (args instanceof BotError) {
-      message.reply(args.errorMessage);
+      message.reply(args.message);
     } else {
-      const command = args.shift()!.toLowerCase();
+      const commandtext = args.shift()!.toLowerCase();
 
-      if (!this.bot.commands.has(command)) {
+      if (!this.bot.commands.has(commandtext)) {
         message.reply("Unknown command!");
       }
-
-      try {
-        this.bot.commands.get(command)!.execute(message, args);
-      } catch (error) {
-        console.log(error);
+      else {
+        const command = this.bot.commands.get(commandtext)!;
+        const error = ArgumentParser.validateArguments(command, args);
+        if (error) {
+          message.reply(error.message);
+        }
+        else {
+          try {
+            this.bot.commands.get(commandtext)!.execute(message, args);
+          } catch (error) {
+            console.log(error);
+          }
+        }
       }
     }
   }

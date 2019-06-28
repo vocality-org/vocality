@@ -1,12 +1,11 @@
 import { Message } from 'discord.js';
 import { Command } from '../interfaces/Command';
 import { Bot } from '../config';
-import { CommandData } from '../decorators/CommandData';
+import { InitCommand } from '../decorators/InitCommand';
 
-@CommandData({
-  name: 'ChangePrefix',
-  description: '',
-  cooldown: 10,
+@InitCommand({
+  name: 'changePrefix',
+  description: 'Change the bots prefix',
   hasArguments: true
 })
 export class ChangePrefix implements Command {
