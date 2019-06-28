@@ -1,6 +1,6 @@
 export class BotError {
-  errorMessage: string;
+  message: string;
   constructor (error: string) {
-    this.errorMessage = error;
+    this.message = error;
   }
 }
