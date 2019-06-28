@@ -1,4 +1,5 @@
 import { QueueContract } from "../interfaces/QueueContract";
+import { Message } from "discord.js";
 
 export class ServerQueueController {
   private static instance: ServerQueueController;
@@ -25,6 +26,21 @@ export class ServerQueueController {
 
   find(id: string): QueueContract | undefined {
     return this.serverQueues.get(id);
+  }
+
+  findOrCreateFromMessage(msg: Message): QueueContract {
+    const existingEntry = this.find(msg.guild.id);
+    if (existingEntry) return existingEntry;
+
+    const newEntry: QueueContract = {
+      connection: null,
+      songs: [],
+      textChannel: msg.channel,
+      voiceChannel: msg.member.voiceChannel,
+    }
+    
+    this.add(msg.guild.id, newEntry);
+    return newEntry;
   }
 
   remove(id: string): void {
