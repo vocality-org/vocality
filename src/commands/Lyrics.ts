@@ -1,5 +1,11 @@
 import { Command } from "../interfaces/Command";
-import { Message, RichEmbed, MessageReaction, MessageEmbedFooter, MessageEmbed } from "discord.js";
+import {
+  Message,
+  RichEmbed,
+  MessageReaction,
+  MessageEmbedFooter,
+  MessageEmbed
+} from "discord.js";
 import { QueueContract } from "../interfaces/QueueContract";
 import { AuthOptions } from "request";
 import { Genius, Emoji } from "../config";
@@ -9,7 +15,6 @@ import queryString from "query-string";
 import { ServerQueueController } from "../classes/ServerQueueController";
 
 export class Lyrics implements Command {
-
   lyricsList: string[];
   pageChanges: number;
 
@@ -36,13 +41,14 @@ export class Lyrics implements Command {
         msg.channel.send("No lyrics found");
         return;
       }
+      console.log(song);
 
       fetch(
         Genius.GENIUS_API_URI +
-        "/search?" +
-        queryString.stringify(searchString) +
-        "&access_token=" +
-        Genius.GENIUS_API_TOKEN,
+          "/search?" +
+          queryString.stringify(searchString) +
+          "&access_token=" +
+          Genius.GENIUS_API_TOKEN,
         { headers: { "content-type": "application/json" }, method: "GET" }
       ).then(async response => {
         const data = await response.json();
@@ -58,10 +64,9 @@ export class Lyrics implements Command {
           .setURL(data.response.hits[0].result.url)
           .setDescription(this.lyricsList[0])
           .setColor("#00e773")
-          .setFooter(
-            `Page 1 of ${this.lyricsList.length}`,
-          );
-        msg.channel.send(embed)
+          .setFooter(`Page 1 of ${this.lyricsList.length}`);
+        msg.channel
+          .send(embed)
           .then(msg => this.handleReactions(msg as Message, song.length_ms));
       });
     }
@@ -84,17 +89,21 @@ export class Lyrics implements Command {
     const filter = (reaction: MessageReaction, user: any) => {
       return (
         message.author.id !== user.id &&
-        [Emoji.ARROW_BACKWARD, Emoji.ARROW_FORWARD].includes(reaction.emoji.name)
-      )
-    }
+        [Emoji.ARROW_BACKWARD, Emoji.ARROW_FORWARD].includes(
+          reaction.emoji.name
+        )
+      );
+    };
 
-    const collector = message.createReactionCollector(filter, { time: songDuration });
+    const collector = message.createReactionCollector(filter, {
+      time: songDuration
+    });
 
     collector.on("collect", (reaction, collector) => {
       const embed = new RichEmbed({
         title: message.embeds[0].title,
         url: message.embeds[0].url,
-        color: message.embeds[0].color,
+        color: message.embeds[0].color
       });
 
       if (reaction.emoji.name === Emoji.ARROW_BACKWARD) {
@@ -103,8 +112,7 @@ export class Lyrics implements Command {
         embed.setFooter(
           `Page ${1 + this.getPageIndex()} of ${this.lyricsList.length}`
         );
-      }
-      else {
+      } else {
         this.pageChanges++;
         embed.setDescription(this.lyricsList[this.getPageIndex()]);
         embed.setFooter(
@@ -113,7 +121,7 @@ export class Lyrics implements Command {
       }
       message.edit(embed);
       reaction.remove(reaction.users.lastKey());
-    })
+    });
 
     collector.on("end", collected => {
       collected.forEach(r => r.remove());
@@ -123,7 +131,7 @@ export class Lyrics implements Command {
   /**
    * Returns the zero based `lyricsList` index based on the current pageChange.
    * Allows for the pages to circle.
-   * 
+   *
    * @private
    * @returns {number}
    * @memberof Lyrics
