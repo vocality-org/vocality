@@ -25,6 +25,7 @@ const Color = {
 const Emoji = {
   ARROW_BACKWARD: "◀",
   ARROW_FORWARD: "▶",
+  WARNING: "⚠",
   DIGITS: [
     ":zero:",
     ":one:",
