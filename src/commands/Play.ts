@@ -24,7 +24,6 @@ export class Play implements Command {
       msg.member.voiceChannel.join().then(async connection => {
         serverEntry.connection = connection;
         let url: string;
-        console.log(isUrl(args[0]));
         if (isUrl(args[0])) {
           url = args[0];
         } else {
@@ -35,13 +34,11 @@ export class Play implements Command {
             }`
           );
           let data = await response.json();
-          console.log(data.items);
           let videoId = data.items[0].id.videoId;
           url = `https://www.youtube.com/watch?v=${videoId}`;
         }
         const video: videoInfo = await ytdl.getInfo(url);
         const video_length = Number(video.length_seconds);
-        console.log(video);
         const song: Song = {
           title: video.title,
           songName: video.media.song,
@@ -59,11 +56,33 @@ export class Play implements Command {
             channelUrl: video.author.channel_url
           }
         };
-        if (song.songName == undefined && song.interpreters == undefined) {
-          const songInfo = song.title.split("-");
-          song.interpreters = songInfo[0];
-          song.songName = songInfo[1].slice(0, songInfo.indexOf("("));
+        const songInfo = song.title.split("-");
+        if (songInfo.length !== 1) {
+          if (song.songName == undefined && song.interpreters == undefined) {
+            song.interpreters = songInfo[0];
+            song.songName = songInfo[1].slice(
+              0,
+              songInfo[1].indexOf("(") != -1
+                ? songInfo[1].indexOf("(")
+                : undefined
+            );
+          }
+          if (!song.title.includes(song.songName!)) {
+            song.songName = songInfo[1].slice(
+              0,
+              songInfo[1].indexOf("(") != -1
+                ? songInfo[1].indexOf("(")
+                : undefined
+            );
+          }
+          if (!song.title.includes(song.interpreters!)) {
+            song.interpreters = songInfo[0];
+          }
         }
+        song.interpreters = song.interpreters!.trim().toLocaleLowerCase();
+        song.songName = song.songName!.trim().toLocaleLowerCase();
+        console.log(song.songName);
+        console.log(song.interpreters);
         if (serverEntry.songs.length == 0) {
           serverEntry.songs.push(song);
           this.play(msg, serverEntry);
