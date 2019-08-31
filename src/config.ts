@@ -48,5 +48,10 @@ const Genius = {
 const Youtube = {
   YOUTUBE_API_TOKEN: "AIzaSyB5ZJwINSfiQZ1tVD-gdhbsFgINT4QJ_8E"
 };
+const Sptfy = {
+  SPOTIFY_ClIENT_ID: "53b09c59939a4ede99893a1f49e58c3f",
+  SPOTIFY_CLIENT_SECRET: "17e2484828914e5ab5cb14a9150e368a",
+  SPOTIFY_ACCESS_TOKEN: ""
+};
 
-export { Bot, Color, Emoji, Genius, Youtube };
+export { Bot, Color, Emoji, Genius, Youtube, Sptfy };

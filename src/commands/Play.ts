@@ -7,6 +7,7 @@ import { ServerQueueController } from "../classes/ServerQueueController";
 import { Youtube } from "../config";
 import isUrl from "is-url";
 import fetch from "node-fetch";
+import { YouTube } from "../musicAPIs/YouTube";
 
 /**
  *The Play Class is used to Play Music with the Bot
@@ -28,67 +29,15 @@ export class Play implements Command {
           url = args[0];
         } else {
           const searchParam: string = args.join("%20");
-          const response = await fetch(
-            `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${searchParam}&key=${
-              Youtube.YOUTUBE_API_TOKEN
-            }`
-          );
-          let data = await response.json();
-          let videoId = data.items[0].id.videoId;
-          url = `https://www.youtube.com/watch?v=${videoId}`;
-        }
-        const video: videoInfo = await ytdl.getInfo(url);
-        const video_length = Number(video.length_seconds);
-        const song: Song = {
-          title: video.title,
-          songName: video.media.song,
-          interpreters: video.media.artist,
-          length_ms: video_length * 1000,
-          url: video.video_url,
-          length: new Date(video_length * 1000).toISOString().substr(11, 8),
-          thumbnail_url:
-            video.player_response.videoDetails.thumbnail.thumbnails[
-              video.player_response.videoDetails.thumbnail.thumbnails.length - 1
-            ].url,
-          author: {
-            name: video.author.name,
-            avatarURL: video.author.avatar,
-            channelUrl: video.author.channel_url
+          const yt = new YouTube();
+          const song: Song = await yt.search(searchParam);
+          if (serverEntry.songs.length == 0) {
+            serverEntry.songs.push(song);
+            this.play(msg, serverEntry);
+          } else {
+            serverEntry.songs.push(song);
+            msg.channel.send(`${song.title} has been added to the queue!`);
           }
-        };
-        const songInfo = song.title.split("-");
-        if (songInfo.length !== 1) {
-          if (song.songName == undefined && song.interpreters == undefined) {
-            song.interpreters = songInfo[0];
-            song.songName = songInfo[1].slice(
-              0,
-              songInfo[1].indexOf("(") != -1
-                ? songInfo[1].indexOf("(")
-                : undefined
-            );
-          }
-          if (!song.title.includes(song.songName!)) {
-            song.songName = songInfo[1].slice(
-              0,
-              songInfo[1].indexOf("(") != -1
-                ? songInfo[1].indexOf("(")
-                : undefined
-            );
-          }
-          if (!song.title.includes(song.interpreters!)) {
-            song.interpreters = songInfo[0];
-          }
-        }
-        song.interpreters = song.interpreters!.trim().toLocaleLowerCase();
-        song.songName = song.songName!.trim().toLocaleLowerCase();
-        console.log(song.songName);
-        console.log(song.interpreters);
-        if (serverEntry.songs.length == 0) {
-          serverEntry.songs.push(song);
-          this.play(msg, serverEntry);
-        } else {
-          serverEntry.songs.push(song);
-          msg.channel.send(`${song.title} has been added to the queue!`);
         }
       });
     }
