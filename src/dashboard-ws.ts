@@ -9,4 +9,4 @@ socketio.use(async (socket) => {
     }
 })
 socketio.on('connection', client => { console.log("connected") });
-socketio.listen(3000);
+socketio.listen(process.env.PORT || 3000);
