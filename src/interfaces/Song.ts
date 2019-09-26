@@ -9,4 +9,5 @@ export interface Song {
   author: Author;
   interpreters: string | undefined;
   songName: string | undefined;
+  requested_by: string;
 }

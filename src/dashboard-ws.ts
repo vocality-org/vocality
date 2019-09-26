@@ -1,12 +1,37 @@
 import io from 'socket.io';
 import fetch from 'node-fetch';
-const socketio = io();
+import { ServerQueueController } from './classes/ServerQueueController';
+import { BotClient } from './classes/BotClient';
+import { MessageHandler } from './classes/MessageHandler';
+import { bot } from './bot';
+const socketio = io.listen(process.env.PORT || 3000);
 socketio.origins('*:*');
-socketio.use(async (socket) => {
-    const response = await fetch('https://www.discordapp.com/api/users/@me', { headers: {'Authorization': `Bearer ${socket.handshake.query.discordKey}`}})
-    if(response.status != 200) {
-        socket.disconnect();
+socketio.use((socket, next) => {
+    fetch('https://www.discordapp.com/api/users/@me', { headers: {'Authorization': `Bearer ${socket.handshake.query.discordKey}`}}).then((response) => {
+        if(response.status != 200) {
+            socket.disconnect();
+        } else {
+            next();
+        }
+    })
+ })
+socketio.on("connection", function(socket) {
+    if(bot.user) {
+        socketio.emit('botid', bot.user.id);
     }
+    
+    socketio.on('currentGuild', (guildId: string) => {
+        const serverEntry = ServerQueueController.getInstance().find(guildId)!!;
+        if(serverEntry) {
+            const currentSong = serverEntry.songs[0];
+            socketio.emit('currentQueue', serverEntry.songs);
+            socketio.emit('currentSong', {title: currentSong.title, thumbnail_url: currentSong.thumbnail_url, requested_by: currentSong.requested_by, max_time_ms: currentSong.length_ms, current_time_ms: serverEntry.connection!!.dispatcher.time})
+        }
+        
+        
+    })
+  });
+
+socketio.on('disconnect', (socket: io.Socket) => {
+    console.log('socket disconnected');
 })
-socketio.on('connection', client => { console.log("connected") });
-socketio.listen(process.env.PORT || 3000);
