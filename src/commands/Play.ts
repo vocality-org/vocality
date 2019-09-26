@@ -31,6 +31,7 @@ export class Play implements Command {
           const searchParam: string = args.join("%20");
           const yt = new YouTube();
           const song: Song = await yt.search(searchParam);
+          song.requested_by = msg.author.username;
           if (serverEntry.songs.length == 0) {
             serverEntry.songs.push(song);
             this.play(msg, serverEntry);

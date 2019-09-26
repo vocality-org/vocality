@@ -3,7 +3,7 @@ import {
   VoiceChannel,
   VoiceConnection,
   DMChannel,
-  GroupDMChannel
+  GroupDMChannel,
 } from "discord.js";
 import { Song } from "./Song";
 

@@ -1,2 +1,7 @@
-import io from 'socket.io-client'
-const socket = io('https://bass-bot-app.herokuapp.com/', {query: 'discordKey=asdfasdf'});
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:3000', {query: 'discordKey=NxkaCnQWCKqAXNiARcmfGMikeVHSvJ'});
+socket.on('botid', (data: any) => {
+    console.log(data);
+})
+//socket.disconnect();

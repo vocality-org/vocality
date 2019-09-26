@@ -72,8 +72,10 @@ export class YouTube {
       author: {
         name: video.author.name,
         avatarURL: video.author.avatar,
-        channelUrl: video.author.channel_url
-      }
+        channelUrl: video.author.channel_url,
+       
+      },
+      requested_by: ''
     };
     return song;
   }
