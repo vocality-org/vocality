@@ -27,6 +27,9 @@ export class ServerQueueController {
   find(id: string): QueueContract | undefined {
     return this.serverQueues.get(id);
   }
+  getAll(): Map<string, QueueContract> {
+    return this.serverQueues
+  }
 
   findOrCreateFromMessage(msg: Message): QueueContract {
     const existingEntry = this.find(msg.guild.id);
