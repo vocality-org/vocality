@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, VoiceChannel } from "discord.js";
 import ytdl, { videoInfo } from "ytdl-core";
 import { Command } from "../interfaces/Command";
 import { QueueContract } from "../interfaces/QueueContract";
@@ -17,12 +17,30 @@ import { YouTube } from "../musicAPIs/YouTube";
  * @implements {Command}
  */
 export class Play implements Command {
-  execute(msg: Message, args: string[]): void {
+  async execute(msg: Message, args: string[]): Promise<void> {
     if (msg.member.voiceChannel) {
       const serverEntry = ServerQueueController.getInstance().findOrCreateFromMessage(
         msg
       );
-      msg.member.voiceChannel.join().then(async connection => {
+      let connection;
+      if(args[1]) {
+        let channel = msg.guild.channels.get(args[1]) as VoiceChannel;
+        if(channel) {
+          if(channel!.type === 'voice') {
+            connection = await channel.join();
+          } else {
+            msg.channel.send("Channel is not a voice channel")
+            return;
+          }
+        } else {
+          msg.channel.send("Channel is not valid")
+          return;
+        }
+       
+      } else {
+        connection = await msg.member.voiceChannel.join();
+      }
+      
         serverEntry.connection = connection;
         let url: string;
         if (isUrl(args[0])) {
@@ -40,7 +58,6 @@ export class Play implements Command {
             msg.channel.send(`${song.title} has been added to the queue!`);
           }
         }
-      });
     }
   }
 
