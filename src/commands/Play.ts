@@ -23,7 +23,7 @@ export class Play implements Command {
         msg
       );
       let connection;
-      if(args[1]) {
+      if(args[1] && isUrl(args[0])) {
         let channel = msg.guild.channels.get(args[1]) as VoiceChannel;
         if(channel) {
           if(channel!.type === 'voice') {
