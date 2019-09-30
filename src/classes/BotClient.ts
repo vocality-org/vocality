@@ -2,6 +2,7 @@ import { Client as DiscordClient, Collection, ClientOptions } from "discord.js";
 import { Bot } from "../config";
 import { Command } from "../interfaces/Command";
 import * as commandDefs from "../commands";
+import { ServerQueueController } from "./ServerQueueController";
 
 export class BotClient extends DiscordClient {
   initTime: number;
@@ -13,9 +14,9 @@ export class BotClient extends DiscordClient {
     this.commands = this.loadCommands();
 
     this.once("ready", () => {
-      this.user
       this.guilds.tap(guild => {
         Bot.SERVERPREFIXES[guild.id] = Bot.PREFIX;
+        ServerQueueController.getInstance().add(guild.id, {songs: [], textChannel: null, voiceChannel: null, connection: null})
       });
     });
   }

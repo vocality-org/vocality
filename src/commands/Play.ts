@@ -64,7 +64,7 @@ export class Play implements Command {
   private play(msg: Message, serverEntry: QueueContract) {
     const song = serverEntry.songs[0];
     if (!song) {
-      serverEntry.voiceChannel.leave();
+      serverEntry.voiceChannel!.leave();
       serverEntry.songs = [];
       return;
     }
