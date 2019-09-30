@@ -1,3 +1,4 @@
+//@ts-ignore
 import io from 'socket.io';
 import fetch from 'node-fetch';
 import { ServerQueueController } from '../src/classes/ServerQueueController';
