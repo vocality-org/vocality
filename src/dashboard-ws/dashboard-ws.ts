@@ -1,11 +1,12 @@
 //@ts-ignore
 import io from 'socket.io';
-import fetch from 'node-fetch';
+//@ts-ignore
+import fetch, { Response } from 'node-fetch';
 import { ServerQueueController } from '../bot/classes/ServerQueueController';
 const socketio = io.listen(process.env.PORT || 3000);
 socketio.origins('*:*');
-socketio.use((socket, next) => {
-    fetch('https://www.discordapp.com/api/users/@me', { headers: {'Authorization': `Bearer ${socket.handshake.query.discordKey}`}}).then((response) => {
+socketio.use((socket: io.Socket, next: any) => {
+    fetch('https://www.discordapp.com/api/users/@me', { headers: {'Authorization': `Bearer ${socket.handshake.query.discordKey}`}}).then((response: Response) => {
         if(response.status != 200) {
             socket.disconnect();
         } else {
@@ -13,7 +14,7 @@ socketio.use((socket, next) => {
         }
     })
  })
-socketio.on("connection", function(socket) {
+socketio.on("connection", function(socket: io.Socket) {
     socket.on('userGuilds', (guilds: string[]) => {
         let serverEntries = ServerQueueController.getInstance().getAll();
         let ids = Array.from(serverEntries.keys())
