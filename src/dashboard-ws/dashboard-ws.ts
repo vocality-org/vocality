@@ -1,7 +1,7 @@
 //@ts-ignore
 import io from 'socket.io';
 import fetch from 'node-fetch';
-import { ServerQueueController } from '../src/classes/ServerQueueController';
+import { ServerQueueController } from '../bot/classes/ServerQueueController';
 const socketio = io.listen(process.env.PORT || 3000);
 socketio.origins('*:*');
 socketio.use((socket, next) => {
