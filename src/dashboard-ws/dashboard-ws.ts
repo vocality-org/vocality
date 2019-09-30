@@ -17,6 +17,7 @@ socketio.use((socket: io.Socket, next: any) => {
 socketio.on("connection", function(socket: io.Socket) {
     socket.on('userGuilds', (guilds: string[]) => {
         let serverEntries = ServerQueueController.getInstance().getAll();
+        console.log(serverEntries);
         let ids = Array.from(serverEntries.keys())
         let sameIds = guilds.filter(gId => ids.includes(gId));
         socket.emit('botGuilds', sameIds);
