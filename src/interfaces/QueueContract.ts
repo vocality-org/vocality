@@ -8,8 +8,8 @@ import {
 import { Song } from "./Song";
 
 export interface QueueContract {
-  textChannel: TextChannel | DMChannel | GroupDMChannel;
-  voiceChannel: VoiceChannel;
+  textChannel: TextChannel | DMChannel | GroupDMChannel | null;
+  voiceChannel: VoiceChannel | null;
   connection: VoiceConnection | null;
   songs: Song[];
 }

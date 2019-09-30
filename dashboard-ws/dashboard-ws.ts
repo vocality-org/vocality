@@ -1,10 +1,6 @@
 import io from 'socket.io';
 import fetch from 'node-fetch';
-import { ServerQueueController } from './classes/ServerQueueController';
-import { BotClient } from './classes/BotClient';
-import { MessageHandler } from './classes/MessageHandler';
-import { bot } from './bot';
-import { Guild } from 'discord.js';
+import { ServerQueueController } from '../src/classes/ServerQueueController';
 const socketio = io.listen(process.env.PORT || 3000);
 socketio.origins('*:*');
 socketio.use((socket, next) => {
