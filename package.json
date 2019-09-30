@@ -4,12 +4,12 @@
   "description": "Music Bot for Discord",
   "main": "server.ts",
   "scripts": {
-    "start": "ts-node dashboard-ws/dashboard-ws.ts",
+    "start": "ts-node src/dashboard-ws/dashboard-ws.ts",
     "build": "tsc -p .",
     "build:live": "nodemon --watch src --exec ts-node src/server.ts",
     "tsc": "tsc --init",
-    "bot": "tsc src/server.ts",
-    "socketTest": "ts-node src/testclient.ts"
+    "bot": "ts-node src/bot/server.ts",
+    "socketTest": "ts-node src/bot/testclient.ts"
   },
   "repository": {
     "type": "git",
