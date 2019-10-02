@@ -4,7 +4,7 @@
   "description": "Music Bot for Discord",
   "main": "server.ts",
   "scripts": {
-    "start": "ts-node src/dashboard-ws/dashboard-ws.ts",
+    "start": "ts-node src/bot/server.ts",
     "build": "tsc -p .",
     "build:live": "nodemon --watch src --exec ts-node src/server.ts",
     "tsc": "tsc --init",
