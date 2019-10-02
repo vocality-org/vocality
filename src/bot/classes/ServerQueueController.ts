@@ -1,5 +1,6 @@
 import { QueueContract } from "../interfaces/QueueContract";
 import { Message } from "discord.js";
+import * as fs from 'fs';
 
 export class ServerQueueController {
   private static instance: ServerQueueController;

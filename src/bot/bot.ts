@@ -1,6 +1,7 @@
 import { BotClient } from "./classes/BotClient";
 import { MessageHandler } from "./classes/MessageHandler";
 import { Spotify } from "./musicAPIs/Spoitfy";
+import './dashboard-ws/dashboard-ws.ts';
 
 export const bot = new BotClient({
   messageCacheMaxSize: 100,
