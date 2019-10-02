@@ -17,12 +17,12 @@ socketio.use((socket: io.Socket, next: any) => {
 socketio.on("connection", function(socket: io.Socket) {
     socket.on('userGuilds', (guilds: string[]) => {
         let serverEntries = ServerQueueController.getInstance().getAll();
-        console.log(serverEntries);
         let ids = Array.from(serverEntries.keys())
         let sameIds = guilds.filter(gId => ids.includes(gId));
         socket.emit('botGuilds', sameIds);
     })
     socket.on('currentGuild', (guildId: string) => {
+        console.log(guildId);
         const serverEntry = ServerQueueController.getInstance().find(guildId)!!;
         if(serverEntry) {
             const currentSong = serverEntry.songs[0];
