@@ -27,7 +27,9 @@ socketio.on("connection", function(socket: io.Socket) {
         if(serverEntry) {
             const currentSong = serverEntry.songs[0];
             socket.emit('currentQueue', serverEntry.songs);
-            socket.emit('currentSong', {title: currentSong.title, thumbnail_url: currentSong.thumbnail_url, requested_by: currentSong.requested_by, max_time_ms: currentSong.length_ms, current_time_ms: serverEntry.connection!!.dispatcher.time})
+            if(currentSong) {
+                socket.emit('currentSong', {title: currentSong.title, thumbnail_url: currentSong.thumbnail_url, requested_by: currentSong.requested_by, max_time_ms: currentSong.length_ms, current_time_ms: serverEntry.connection!!.dispatcher.time})
+            }
         }
         
         
