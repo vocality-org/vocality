@@ -44,7 +44,11 @@ socketio.on('connection', function(socket: io.Socket) {
         }
     });
     socket.on('command', (command: SocketCommand) => {
-        bot.socketHandler!.handleSocketCommand(command);
+        try {
+            bot.socketHandler!.handleSocketCommand(command);
+        } catch (error) {
+            socket.emit('commandError', error);
+        }
     });
 });
 
