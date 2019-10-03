@@ -23,30 +23,23 @@ export class Play implements Command {
     };
 
     async execute(msg: Message, args: string[]): Promise<void> {
-        if (msg.member.voiceChannel) {
+        if (msg.member.voiceChannel || msg.member.user.bot) {
             const serverEntry = ServerQueueController.getInstance().findOrCreateFromMessage(msg);
-            let connection;
-            if (args[1] && isUrl(args[0])) {
-                let channel = msg.guild.channels.get(args[1]) as VoiceChannel;
-                if (channel) {
-                    if (channel!.type === 'voice') {
-                        connection = await channel.join();
-                    } else {
-                        msg.channel.send('Channel is not a voice channel');
-                        return;
-                    }
-                } else {
-                    msg.channel.send('Channel is not valid');
-                    return;
-                }
-            } else {
+            let connection = null;
+
+            if (msg.member.voiceChannel) {
                 connection = await msg.member.voiceChannel.join();
+            } else if (msg.member.user.bot) {
+                const voiceChannel = msg.guild.channels.filter(g => g.type === 'voice').first() as VoiceChannel;
+                connection = await voiceChannel.join();
+                console.log(connection);
             }
 
             serverEntry.connection = connection;
             let url: string;
             if (isUrl(args[0])) {
                 url = args[0];
+                this.play;
             } else {
                 const searchParam: string = args.join('%20');
                 const yt = new YouTube();
@@ -60,16 +53,22 @@ export class Play implements Command {
                     msg.channel.send(`${song.title} has been added to the queue!`);
                 }
             }
+        } else {
+            msg.channel.send('Please join a voice channel');
         }
     }
 
     private play(msg: Message, serverEntry: QueueContract) {
         const song = serverEntry.songs[0];
+        console.log(serverEntry);
+
         if (!song) {
             serverEntry.voiceChannel!.leave();
             serverEntry.songs = [];
             return;
         }
+        console.log(song);
+
         msg.channel.send(`Now playing ${song.title}`);
         const dispatcher = serverEntry.connection!.playStream(ytdl(song.url, { filter: 'audioonly' })).on('end', () => {
             serverEntry.songs.shift();
