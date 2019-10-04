@@ -43,12 +43,11 @@ export class YouTube {
     /**
      * is used to get Information for a YouTube song
      *
-     * @private
      * @param {string} url
      * @returns Promise<Song>
      * @memberof YouTube
      */
-    private async getInformation(url: string) {
+    async getInformation(url: string) {
         const video: videoInfo = await ytdl.getInfo(url);
         const video_length = Number(video.player_response.videoDetails.lengthSeconds);
         const song: Song = {
