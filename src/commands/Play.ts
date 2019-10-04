@@ -36,22 +36,29 @@ export class Play implements Command {
             }
 
             serverEntry.connection = connection;
-            let url: string;
+            const yt = new YouTube();
+            let song: Song;
+
             if (isUrl(args[0])) {
-                url = args[0];
-                this.play;
+                const url = args[0];
+                song = await yt.getInformation(url);
             } else {
                 const searchParam: string = args.join('%20');
-                const yt = new YouTube();
-                const song: Song = await yt.search(searchParam);
+                song = await yt.search(searchParam);
+            }
+
+            if (!msg.author.bot) {
                 song.requested_by = msg.author.username;
-                if (serverEntry.songs.length == 0) {
-                    serverEntry.songs.push(song);
-                    this.play(msg, serverEntry);
-                } else {
-                    serverEntry.songs.push(song);
-                    msg.channel.send(`${song.title} has been added to the queue!`);
-                }
+            } else {
+                song.requested_by = 'Vocality Dashboard'; // man könnt bei messageData im socket event den user mitgeben
+            }
+
+            if (serverEntry.songs.length == 0) {
+                serverEntry.songs.push(song);
+                this.play(msg, serverEntry);
+            } else {
+                serverEntry.songs.push(song);
+                msg.channel.send(`${song.title} has been added to the queue!`);
             }
         } else {
             msg.channel.send('Please join a voice channel');
