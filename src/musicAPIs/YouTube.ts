@@ -35,8 +35,12 @@ export class YouTube {
                 song.interpreters = songInfo[0];
             }
         }
-        song.interpreters = song.interpreters!.trim().toLocaleLowerCase();
-        song.songName = song.songName!.trim().toLocaleLowerCase();
+        if (song.interpreters) {
+            song.interpreters = song.interpreters!.trim().toLocaleLowerCase();
+        }
+        if (song.songName) {
+            song.songName = song.songName!.trim().toLocaleLowerCase();
+        }
         return song;
     }
 

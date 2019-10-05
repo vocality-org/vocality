@@ -33,7 +33,7 @@ export class Play implements Command {
             } else if (msg.member.user.bot) {
                 const voiceChannel = msg.guild.channels.filter(g => g.type === 'voice').first() as VoiceChannel;
                 connection = await voiceChannel.join();
-                console.log(connection);
+                // console.log(connection);
             }
 
             serverEntry.connection = connection;
@@ -54,10 +54,9 @@ export class Play implements Command {
                 song.requested_by = 'Vocality Dashboard'; // man könnt bei messageData im socket event den user mitgeben
             }
 
-            if (serverEntry.songs.length == 0) {
+            if (serverEntry.songs.length === 0) {
                 serverEntry.songs.push(song);
                 this.play(msg, serverEntry);
-                onCurrentSongChange(serverEntry);
             } else {
                 serverEntry.songs.push(song);
                 msg.channel.send(`${song.title} has been added to the queue!`);
@@ -70,19 +69,22 @@ export class Play implements Command {
 
     private play(msg: Message, serverEntry: QueueContract) {
         const song = serverEntry.songs[0];
-        console.log(serverEntry);
 
         if (!song) {
             serverEntry.voiceChannel!.leave();
             serverEntry.songs = [];
             return;
         }
-        console.log(song);
 
         msg.channel.send(`Now playing ${song.title}`);
+
         const dispatcher = serverEntry.connection!.playStream(ytdl(song.url, { filter: 'audioonly' })).on('end', () => {
+            console.log('end');
             serverEntry.songs.shift();
             this.play(msg, serverEntry);
+            onQueueChange(serverEntry);
         });
+
+        onCurrentSongChange(serverEntry);
     }
 }
