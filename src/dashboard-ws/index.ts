@@ -1,3 +1,5 @@
+import { QueueContract } from './../interfaces/QueueContract';
+import { Song } from './../interfaces/Song';
 import { bot } from './../bot';
 import io from 'socket.io';
 import fetch, { Response } from 'node-fetch';
@@ -27,21 +29,8 @@ socketio.on('connection', function(socket: io.Socket) {
     });
     socket.on('currentGuild', (guildId: string) => {
         console.log(guildId);
-        const serverEntry = ServerQueueController.getInstance().find(guildId)!!;
-        if (serverEntry) {
-            const currentSong = serverEntry.songs[0];
-            socket.emit('currentQueue', serverEntry.songs);
-            if (currentSong) {
-                socket.emit('currentSong', {
-                    title: currentSong.title,
-                    url: currentSong.url,
-                    thumbnail_url: currentSong.thumbnail_url,
-                    requested_by: currentSong.requested_by,
-                    max_time_ms: currentSong.length_ms,
-                    current_time_ms: serverEntry.connection!!.dispatcher.time,
-                });
-            }
-        }
+        onQueueChange(undefined, guildId);
+        onCurrentSongChange(undefined, guildId);
     });
     socket.on('command', (command: SocketCommand) => {
         try {
@@ -51,6 +40,46 @@ socketio.on('connection', function(socket: io.Socket) {
         }
     });
 });
+
+// Um auch von den commands aus emiten zu können hab i mal auf schnell de 2 functions gmacht
+// Schaut halt ned schön aus wegn dem ServerQueueController des müsst man bei gelegenheit mal umbauen glaub i
+// spätest beim sharding, wenn man nimmer alle guilds in einm array speichern kann wird der als erstes probleme machn
+
+export function onQueueChange(serverEntry?: QueueContract, guildId?: string) {
+    if (!serverEntry && !guildId) return;
+
+    let queue: QueueContract = serverEntry!;
+    if (!serverEntry) {
+        queue = ServerQueueController.getInstance().find(guildId!)!!;
+    }
+
+    if (queue) {
+        socketio.emit('currentQueue', queue.songs);
+    }
+}
+
+export function onCurrentSongChange(serverEntry?: QueueContract, guildId?: string) {
+    if (!serverEntry && !guildId) return;
+
+    let queue: QueueContract = serverEntry!;
+    if (!serverEntry) {
+        queue = ServerQueueController.getInstance().find(guildId!)!!;
+    }
+
+    if (queue) {
+        const currentSong = queue.songs[0];
+        const currentTimeMs = queue.connection!!.dispatcher.time;
+
+        socketio.emit('currentSong', {
+            title: currentSong.title,
+            url: currentSong.url,
+            thumbnail_url: currentSong.thumbnail_url,
+            requested_by: currentSong.requested_by,
+            max_time_ms: currentSong.length_ms,
+            current_time_ms: currentTimeMs,
+        });
+    }
+}
 
 socketio.on('disconnect', (socket: io.Socket) => {
     console.log('socket disconnected');
