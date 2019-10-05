@@ -6,6 +6,7 @@ import { Song } from '../interfaces/Song';
 import { ServerQueueController } from '../core/ServerQueueController';
 import isUrl from 'is-url';
 import { YouTube } from '../musicAPIs/YouTube';
+import { onCurrentSongChange, onQueueChange } from '../dashboard-ws';
 
 /**
  *The Play Class is used to Play Music with the Bot
@@ -56,9 +57,11 @@ export class Play implements Command {
             if (serverEntry.songs.length == 0) {
                 serverEntry.songs.push(song);
                 this.play(msg, serverEntry);
+                onCurrentSongChange(serverEntry);
             } else {
                 serverEntry.songs.push(song);
                 msg.channel.send(`${song.title} has been added to the queue!`);
+                onQueueChange(serverEntry);
             }
         } else {
             msg.channel.send('Please join a voice channel');
