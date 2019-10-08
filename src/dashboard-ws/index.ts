@@ -53,7 +53,7 @@ export function onQueueChange(serverEntry?: QueueContract, guildId?: string) {
         queue = ServerQueueController.getInstance().find(guildId!)!;
     }
 
-    if (queue.songs) {
+    if (queue && queue.songs) {
         socketio.emit('currentQueue', queue.songs.slice(1));
     }
 }
@@ -66,7 +66,7 @@ export function onCurrentSongChange(serverEntry?: QueueContract, guildId?: strin
         queue = ServerQueueController.getInstance().find(guildId!)!;
     }
 
-    if (queue.connection) {
+    if (queue && queue.connection) {
         const currentSong = queue.songs[0];
 
         const currentTimeMs = queue.connection!!.dispatcher.time;
