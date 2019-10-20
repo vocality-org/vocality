@@ -1,5 +1,5 @@
 import { Command } from '../interfaces/Command';
-import { Message, RichEmbed, MessageReaction, MessageEmbedFooter, MessageEmbed } from 'discord.js';
+import { Message, RichEmbed, MessageReaction } from 'discord.js';
 import { Genius, Emoji, Bot } from '../config';
 import cheerio from 'cheerio';
 import fetch from 'node-fetch';
@@ -10,7 +10,7 @@ export class Lyrics implements Command {
     options = {
         name: 'lyrics',
         description: 'Display the lyrics',
-        hasArguments: true,
+        hasArguments: false,
         socketEnabled: false,
     };
 
@@ -46,8 +46,6 @@ export class Lyrics implements Command {
             } else {
                 searchString.q = args.join(' ');
             }
-            console.log(args.join(' '));
-            console.log(searchString.q);
             fetch(
                 Genius.GENIUS_API_URI +
                     '/search?' +
@@ -57,12 +55,10 @@ export class Lyrics implements Command {
                 { headers: { 'content-type': 'application/json' }, method: 'GET' },
             ).then(async response => {
                 const data = await response.json();
-                console.log(data.response.hits);
                 if (data.response.hits.length === 0)
                     return msg.channel.send(
                         `No Lyrics found consider using \`\`${Bot.SERVERPREFIXES[msg.guild.id]}lyrics <searchstring>\`\``,
                     );
-                console.log(data.response.hits);
                 var WebsiteData = await fetch(data.response.hits[0].result.url);
                 var website = await WebsiteData.text();
                 const $ = cheerio.load(website as any);

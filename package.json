@@ -48,6 +48,7 @@
         "socket.io": "^2.3.0",
         "ts-node": "^8.3.0",
         "typescript": "^3.5.2",
+        "youtube-playlist": "^1.0.2",
         "ytdl-core": "^0.29.2"
     }
 }
