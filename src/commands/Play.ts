@@ -26,7 +26,7 @@ export class Play implements Command {
     async execute(msg: Message, args: string[]): Promise<void> {
         if (msg.member.voiceChannel || msg.member.user.bot) {
             const serverEntry = ServerQueueController.getInstance().findOrCreateFromMessage(msg);
-            let connection = null;
+            let connection;
 
             if (msg.member.voiceChannel) {
                 connection = await msg.member.voiceChannel.join();
@@ -38,30 +38,30 @@ export class Play implements Command {
 
             serverEntry.connection = connection;
             const yt = new YouTube();
-            let song: Song;
+            let song: Song | null;
 
             if (isUrl(args[0])) {
-                const url = args[0];
-                song = await yt.getInformation(url);
+                if(yt.parseYoutubeUrl(args[0])) {
+                    if(args[0].includes('playlist')) {
+                        let songs = await yt.getYtPlaylist(args[0]);
+                        songs = songs.filter(songs => songs != null);
+                        this.addPlaylist(songs as Song[], serverEntry, msg)
+                    } else {
+                        const url = args[0];
+                        song = await yt.getInformation(url);
+                        if(song)
+                        this.addSong(song, serverEntry, msg);
+                    }
+                }
+                
             } else {
                 const searchParam: string = args.join('%20');
                 song = await yt.search(searchParam);
+                if(song)
+                this.addSong(song, serverEntry, msg);
             }
 
-            if (!msg.author.bot) {
-                song.requested_by = msg.author.username;
-            } else {
-                song.requested_by = 'Vocality Dashboard'; // man könnt bei messageData im socket event den user mitgeben
-            }
-
-            if (serverEntry.songs.length === 0) {
-                serverEntry.songs.push(song);
-                this.play(msg, serverEntry);
-            } else {
-                serverEntry.songs.push(song);
-                msg.channel.send(`${song.title} has been added to the queue!`);
-                onQueueChange(serverEntry);
-            }
+            
         } else {
             msg.channel.send('Please join a voice channel');
         }
@@ -86,5 +86,42 @@ export class Play implements Command {
         });
 
         onCurrentSongChange(serverEntry);
+    }
+    private addSong(song: Song, serverEntry: QueueContract, msg: Message) {
+        if (!msg.author.bot) {
+            song.requested_by = msg.author.username;
+        } else {
+            song.requested_by = 'Vocality Dashboard'; // man könnt bei messageData im socket event den user mitgeben
+        }
+
+        if (serverEntry.songs.length === 0) {
+            serverEntry.songs.push(song);
+            this.play(msg, serverEntry);
+        } else {
+            serverEntry.songs.push(song);
+            msg.channel.send(`${song.title} has been added to the queue!`);
+            onQueueChange(serverEntry);
+        }
+    }
+    private addPlaylist(songs: Song[], serverEntry: QueueContract, msg : Message) {
+        if (!msg.author.bot) {
+            songs.forEach(song => {
+                 song.requested_by = msg.author.username;
+            })
+        } else {
+            songs.forEach(song => {
+                song.requested_by = 'Vocality Dashboard';
+           })
+        }
+        if (serverEntry.songs.length === 0) {
+            serverEntry.songs = songs;
+            msg.channel.send(`${songs.length} Songs have been added to the Queue`);
+            this.play(msg, serverEntry);
+        } else {
+            serverEntry.songs.push(...songs);
+            msg.channel.send(`${songs.length} Songs have been added to the Queue`);
+            onQueueChange(serverEntry);
+        }
+        
     }
 }
