@@ -6,6 +6,7 @@ import { Song } from '../interfaces/Song';
 import { ServerQueueController } from '../core/ServerQueueController';
 import isUrl from 'is-url';
 import { YouTube } from '../musicAPIs/YouTube';
+import ytList from 'youtube-playlist';
 import { onCurrentSongChange, onQueueChange } from '../dashboard-ws';
 
 /**
@@ -43,9 +44,16 @@ export class Play implements Command {
             if (isUrl(args[0])) {
                 if(yt.parseYoutubeUrl(args[0])) {
                     if(args[0].includes('playlist')) {
-                        let songs = await yt.getYtPlaylist(args[0]);
-                        songs = songs.filter(songs => songs != null);
-                        this.addPlaylist(songs as Song[], serverEntry, msg)
+                        const result = await ytList(args[0], 'url');
+                        const maxLength: number = result.data.playlist.length;
+                        const batchSize: number = 5;
+                        const playListLinks: string[] = result.data.playlist
+                        msg.channel.send(`${maxLength} Songs have been added to the Queue`);
+                        for(let i = 0; i <= maxLength; i += batchSize) {
+                            let songs = await yt.getYtPlaylist(playListLinks.slice(i, i+batchSize > maxLength ? maxLength : i+batchSize));
+                            songs = songs.filter(songs => songs != null);
+                            this.addPlaylist(songs as Song[], serverEntry, msg)
+                        } 
                     } else {
                         const url = args[0];
                         song = await yt.getInformation(url);
@@ -55,7 +63,7 @@ export class Play implements Command {
                 }
                 
             } else {
-                const searchParam: string = args.join('%20');
+                const searchParam: string = args.join('+');
                 song = await yt.search(searchParam);
                 if(song)
                 this.addSong(song, serverEntry, msg);
@@ -69,7 +77,7 @@ export class Play implements Command {
 
     private play(msg: Message, serverEntry: QueueContract) {
         const song = serverEntry.songs[0];
-
+        console.log(song);
         if (!song) {
             serverEntry.voiceChannel!.leave();
             serverEntry.songs = [];
@@ -79,7 +87,6 @@ export class Play implements Command {
         msg.channel.send(`Now playing ${song.title}`);
 
         const dispatcher = serverEntry.connection!.playStream(ytdl(song.url, { filter: 'audioonly' })).on('end', () => {
-            console.log('end');
             serverEntry.songs.shift();
             this.play(msg, serverEntry);
             onQueueChange(serverEntry);
@@ -115,11 +122,9 @@ export class Play implements Command {
         }
         if (serverEntry.songs.length === 0) {
             serverEntry.songs = songs;
-            msg.channel.send(`${songs.length} Songs have been added to the Queue`);
             this.play(msg, serverEntry);
         } else {
             serverEntry.songs.push(...songs);
-            msg.channel.send(`${songs.length} Songs have been added to the Queue`);
             onQueueChange(serverEntry);
         }
         
