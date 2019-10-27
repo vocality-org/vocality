@@ -1,6 +1,6 @@
 import { BotHandler } from './BotHandler';
 import { Message } from 'discord.js';
-import { BotClient } from '../BotClient';
+import  BotClient  from '../BotClient';
 import { Bot } from '../../config';
 import { ArgumentParser } from '../ArgumentParser';
 import { BotError } from '../BotError';

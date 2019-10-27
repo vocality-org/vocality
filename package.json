@@ -5,7 +5,7 @@
     "main": "server.ts",
     "scripts": {
         "start": "ts-node src/server.ts",
-        "start:production": "node src/server.js",
+        "start:production": "PRODUCTION=true node build/server.js ",
         "build": "tsc -p .",
         "build:live": "nodemon --watch src --exec ts-node src/server.ts",
         "tsc": "tsc --init",
