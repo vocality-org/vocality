@@ -1,7 +1,6 @@
-import { Youtube } from '../config';
-
+import cheerio from 'cheerio';
 import ytdl, { videoInfo } from 'ytdl-core';
-import ytList from 'youtube-playlist';
+
 
 import { Song } from '../interfaces/Song';
 import fetch from 'node-fetch';
@@ -16,14 +15,18 @@ export class YouTube {
      */
     public async search(searchParam: string) {
         console.log(searchParam);
-        const response = await fetch(
-            `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${searchParam}&key=${Youtube.YOUTUBE_API_TOKEN}`,
-        );
-        let data = await response.json();
-        console.log(data);
-        let videoId = data.items[0].id.videoId;
-        let url = `https://www.youtube.com/watch?v=${videoId}`;
-
+        var WebsiteData = await fetch(`https://www.youtube.com/results?search_query=${searchParam}`);
+                var website = await WebsiteData.text();
+                const $ = cheerio.load(website);
+                var url = '';
+                const result = $('a')
+                for(const element of result.toArray()) {
+                    if(element.attribs['href'].includes('watch') && !element.attribs['href'].includes('googleadservices')) {
+                        url = `https://www.youtube.com${element.attribs['href']}`;
+                        break;
+                    }
+                    
+                }
         const song: Song | null = await this.getInformation(url);
         if(song) {
             const songInfo = song.title.split('-');
@@ -95,18 +98,15 @@ export class YouTube {
       
         return match != null ? true : false;
     }
-    public getYtPlaylist(url: string) {
+    public getYtPlaylist(urls: string[]) {
         return new Promise<(Song | null)[]>((resolve, rej) => {
-            ytList(url, 'url').then((res: any) => {
-                let linkArray = res.data.playlist;
-                let songArray: Promise<Song | null>[] = [];
-                linkArray.forEach( (link) => {
+                let songArray: (Promise<Song | null>)[] = [];
+                urls.forEach((link) => {
                     songArray.push(this.getInformation(link))
                 });
                 Promise.all(songArray).then(songs => {
                     resolve(songs)
                 })
-            })
         })
         
     }

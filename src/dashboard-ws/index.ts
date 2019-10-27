@@ -71,14 +71,7 @@ export function onCurrentSongChange(serverEntry?: QueueContract, guildId?: strin
 
         const currentTimeMs = queue.connection!!.dispatcher.time;
 
-        socketio.emit('currentSong', {
-            title: currentSong.title,
-            url: currentSong.url,
-            thumbnail_url: currentSong.thumbnail_url,
-            requested_by: currentSong.requested_by,
-            max_time_ms: currentSong.length_ms,
-            current_time_ms: currentTimeMs,
-        });
+        socketio.emit('currentSong', {current_time_ms: currentTimeMs, song: currentSong});
     }
 }
 
