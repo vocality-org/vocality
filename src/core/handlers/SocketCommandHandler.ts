@@ -1,5 +1,5 @@
 import { Message, TextChannel } from 'discord.js';
-import { BotClient } from '../BotClient';
+import  BotClient  from '../BotClient';
 import { ArgumentParser } from '../ArgumentParser';
 import { BotError } from '../BotError';
 import { SocketCommand } from '../../dashboard-ws';

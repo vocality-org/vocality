@@ -1,5 +1,4 @@
 import { QueueContract } from './../interfaces/QueueContract';
-import { Song } from './../interfaces/Song';
 import { bot } from './../bot';
 import io from 'socket.io';
 import fetch, { Response } from 'node-fetch';

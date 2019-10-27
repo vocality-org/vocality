@@ -1,4 +1,4 @@
-import  {BotClient}  from './core/BotClient';
+import   BotClient   from './core/BotClient';
 import { MessageHandler } from './core/handlers/MessageHandler';
 import { SocketCommandHandler } from './core/handlers/SocketCommandHandler';
 import { Spotify } from './musicAPIs/Spoitfy';

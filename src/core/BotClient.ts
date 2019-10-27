@@ -6,7 +6,7 @@ import { ServerQueueController } from './ServerQueueController';
 import { Command } from '../interfaces/Command';
 import * as commandDefs from '../commands';
 
-export class BotClient extends DiscordClient {
+export default class BotClient extends DiscordClient {
     initTime: number;
     commands: Collection<string, Command>;
     // maybe theres a better way but undefined will do for now (i tried some stuff with Array<BotHandler> and a register method)
