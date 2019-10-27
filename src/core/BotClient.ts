@@ -13,7 +13,7 @@ export class BotClient extends DiscordClient {
     socketHandler: SocketCommandHandler | undefined;
     messageHandler: MessageHandler | undefined;
 
-    constructor(options?: ClientOptions | undefined) {
+    constructor(options?: ClientOptions) {
         super(options);
         this.initTime = Date.now();
         this.commands = this.loadCommands();
