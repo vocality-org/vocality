@@ -1,9 +1,9 @@
-import  BotClient  from '../BotClient';
+import { BotClient } from '../BotClient';
 
 export class BotHandler {
-    protected bot: BotClient;
+  protected bot: BotClient;
 
-    constructor(bot: BotClient) {
-        this.bot = bot;
-    }
+  constructor(bot: BotClient) {
+    this.bot = bot;
+  }
 }

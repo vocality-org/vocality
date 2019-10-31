@@ -1,9 +1,15 @@
-import { TextChannel, VoiceChannel, VoiceConnection, DMChannel, GroupDMChannel } from 'discord.js';
+import {
+  TextChannel,
+  VoiceChannel,
+  VoiceConnection,
+  DMChannel,
+  GroupDMChannel,
+} from 'discord.js';
 import { Song } from './Song';
 
 export interface QueueContract {
-    textChannel: TextChannel | DMChannel | GroupDMChannel | null;
-    voiceChannel: VoiceChannel | null;
-    connection: VoiceConnection | null;
-    songs: Song[];
+  textChannel: TextChannel | DMChannel | GroupDMChannel | null;
+  voiceChannel: VoiceChannel | null;
+  connection: VoiceConnection | null;
+  songs: Song[];
 }

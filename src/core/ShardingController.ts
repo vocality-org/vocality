@@ -1,28 +1,31 @@
 import { ShardingManager } from 'discord.js';
-import { Bot } from '../config';
-import path from 'path'
+import { BOT } from '../config';
+import * as path from 'path';
 
 export class ShardingController {
-    shardingManager: ShardingManager;
+  shardingManager: ShardingManager;
 
-    constructor() {
-        if(process.env.PRODUCTION) {
-            this.shardingManager = new ShardingManager(path.join(__dirname, '..', 'bot.js'), {
-                totalShards: Bot.SHARDS,
-                token: Bot.TOKEN,
-            });
-        } else {
-            this.shardingManager = new ShardingManager(path.join(__dirname, '..', 'bot.ts'), {
-                totalShards: Bot.SHARDS,
-                token: Bot.TOKEN,
-            });
+  constructor() {
+    if (process.env.NODE_ENV === 'production') {
+      this.shardingManager = new ShardingManager(
+        path.join(__dirname, '..', 'bot.js'),
+        {
+          totalShards: BOT.SHARDS,
+          token: BOT.TOKEN,
         }
-        
+      );
+    } else {
+      this.shardingManager = new ShardingManager(
+        path.join(__dirname, '..', 'bot.ts'),
+        {
+          totalShards: BOT.SHARDS,
+          token: BOT.TOKEN,
+        }
+      );
     }
+  }
 
-    start() {
-        this.shardingManager.spawn();
-    }
+  start() {
+    this.shardingManager.spawn();
+  }
 }
-
-// ? https://github.com/discordjs/guide/tree/master/guide/sharding
