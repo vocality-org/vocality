@@ -1,6 +1,6 @@
-export class BotError {
-  message: string;
+export class BotError extends Error {
   constructor(error: string) {
-    this.message = error;
+    super(error);
+    this.name = BotError.name;
   }
 }
