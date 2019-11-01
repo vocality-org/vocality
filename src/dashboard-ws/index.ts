@@ -3,6 +3,9 @@ import { bot } from './../bot';
 import io from 'socket.io';
 import fetch, { Response } from 'node-fetch';
 import { ServerQueueController } from '../core/ServerQueueController';
+import { Song } from '../interfaces/Song';
+import { Play } from '../commands';
+import { Message } from 'discord.js';
 
 const socketio = io.listen(process.env.PORT || 3000);
 socketio.origins('*:*');
@@ -31,6 +34,12 @@ socketio.on('connection', (socket: io.Socket) => {
     onQueueChange(undefined, guildId);
     onCurrentSongChange(undefined, guildId);
   });
+  socket.on('addPlaylist', (playlistToAdd: PlayList) => {
+    const serverEntry = ServerQueueController.getInstance().find(playlistToAdd.guildId);
+    const play = new Play();
+      const message = bot.socketHandler!.createMessage(playlistToAdd.guildId);
+    play.addPlaylist(playlistToAdd.songs, serverEntry, message);
+  })
   socket.on('command', (command: SocketCommand) => {
     try {
       bot.socketHandler!.handleSocketCommand(command);
@@ -88,4 +97,8 @@ export interface SocketCommand {
   name: string;
   args: string[];
   messageData;
+}
+export interface PlayList {
+    songs: Song[];
+    guildId: string;
 }

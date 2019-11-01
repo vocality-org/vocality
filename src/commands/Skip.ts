@@ -5,9 +5,9 @@ import { ServerQueueController } from '../core/ServerQueueController';
 
 export class Skip implements Command {
   options = {
-    name: 'skip',
+    name: 'skip (<optional amount of songs to skip>)',
     description: 'Skip the current song',
-    hasArguments: false,
+    hasArguments: true,
     socketEnabled: true,
   };
 

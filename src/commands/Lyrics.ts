@@ -8,7 +8,7 @@ import { ServerQueueController } from '../core/ServerQueueController';
 
 export class Lyrics implements Command {
   options = {
-    name: 'lyrics',
+    name: 'lyrics (<optional searchstring>)',
     description: 'Display the lyrics',
     hasArguments: false,
     socketEnabled: false,
