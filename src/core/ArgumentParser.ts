@@ -4,9 +4,9 @@ import { Command } from '../interfaces/Command';
 const seperator = ' ';
 
 export class ArgumentParser {
-  static parse(msg: string): string[] | BotError {
+  static parse(msg: string): string[] {
     if (msg.length === 0) {
-      return new BotError('Empty command!');
+      throw new BotError('Empty command!');
     } else {
       return msg.split(seperator);
     }
@@ -15,7 +15,7 @@ export class ArgumentParser {
   static validateArguments(command: Command, args: string[]): BotError | void {
     if (!command.options) return;
     if (command.options.hasArguments && args.length === 0) {
-      return new BotError("You didn't provide any arguments!");
+      throw new BotError("You didn't provide any arguments!");
     }
   }
 }

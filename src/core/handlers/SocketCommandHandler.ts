@@ -17,9 +17,9 @@ export class SocketCommandHandler extends BotHandler {
       throw new BotError('Command not enabled for websockets');
     }
 
-    const error = ArgumentParser.validateArguments(command, socketCommand.args);
-
-    if (error) {
+    try {
+      ArgumentParser.validateArguments(command, socketCommand.args);
+    } catch (error) {
       throw error;
     }
 
