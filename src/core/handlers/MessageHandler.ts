@@ -4,6 +4,7 @@ import { BotClient } from '../BotClient';
 import { BOT } from '../../config';
 import { ArgumentParser } from '../ArgumentParser';
 import { BotError } from '../BotError';
+import { Command } from '../../interfaces/Command';
 
 export class MessageHandler extends BotHandler {
   constructor(bot: BotClient) {
@@ -22,28 +23,15 @@ export class MessageHandler extends BotHandler {
     const content = message.content.slice(
       BOT.SERVERPREFIXES[message.guild.id].length
     );
-    const args = ArgumentParser.parse(content);
 
-    if (args instanceof BotError) {
-      message.reply(args.message);
-    } else {
+    try {
+      const args = ArgumentParser.parse(content);
       const commandtext = args.shift()!.toLowerCase();
-
-      if (!this.bot.commands.has(commandtext)) {
-        message.reply('Unknown command!');
-      } else {
-        const command = this.bot.commands.get(commandtext)!;
-        const error = ArgumentParser.validateArguments(command, args);
-        if (error) {
-          message.reply(error.message);
-        } else {
-          try {
-            this.bot.commands.get(commandtext)!.execute(message, args);
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      }
+      const command = this.getCommandFromMessage(commandtext);
+      ArgumentParser.validateArguments(command, args);
+      command.execute(message, args);
+    } catch (e) {
+      message.reply(e.message);
     }
   }
 
@@ -54,5 +42,13 @@ export class MessageHandler extends BotHandler {
       !message.author.bot &&
       message.content.startsWith(BOT.SERVERPREFIXES[message.guild.id])
     );
+  }
+
+  private getCommandFromMessage(commandText: string): Command {
+    if (this.bot.commands.has(commandText)) {
+      return this.bot.commands.get(commandText)!;
+    } else {
+      throw new BotError('Unknown Command!');
+    }
   }
 }
