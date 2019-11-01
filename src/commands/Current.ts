@@ -1,5 +1,4 @@
 import { Command } from '../interfaces/Command';
-import { QueueContract } from '../interfaces/QueueContract';
 import { Message, RichEmbed } from 'discord.js';
 import { Song } from '../interfaces/Song';
 import { ServerQueueController } from '../core/ServerQueueController';

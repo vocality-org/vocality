@@ -1,6 +1,7 @@
 import { Message, RichEmbed } from 'discord.js';
 import { Command } from '../interfaces/Command';
 import { BOT } from '../config';
+import { bot } from '../bot';
 
 export class Help implements Command {
   options = {
@@ -11,6 +12,10 @@ export class Help implements Command {
   };
 
   execute(msg: Message, args: string[]): void {
+    let helpString = ''; 
+    bot.commands.forEach(command => {
+      helpString += `\`\`${BOT.SERVERPREFIXES[msg.guild.id]}${command.options.name} - ${command.options.description}\`\` \n`;
+    })
     const embed = new RichEmbed()
       .setTitle('Available Commands')
       .setColor('#00e773')
@@ -18,15 +23,7 @@ export class Help implements Command {
       .addBlankField()
       .addField(
         'Commands',
-        `\`\`${BOT.SERVERPREFIXES[msg.guild.id]}play <url>\`\` \n \`\`${
-          BOT.SERVERPREFIXES[msg.guild.id]
-        }skip <number>\`\` \n \`\`${
-          BOT.SERVERPREFIXES[msg.guild.id]
-        }pause\`\` \n \`\`${
-          BOT.SERVERPREFIXES[msg.guild.id]
-        }resume\`\` \n \`\`${BOT.SERVERPREFIXES[msg.guild.id]}stop\`\` \n \`\`${
-          BOT.SERVERPREFIXES[msg.guild.id]
-        }remove <number>\`\``
+        helpString
       );
     msg.channel.send(embed);
   }

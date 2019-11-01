@@ -5,7 +5,7 @@ import { CommandOptions } from '../interfaces/CommandOptions';
 
 export class ChangePrefix implements Command {
   options: CommandOptions = {
-    name: 'changePrefix',
+    name: 'changePrefix <new Prefix>',
     description: 'Change the bots prefix',
     hasArguments: true,
     socketEnabled: false,

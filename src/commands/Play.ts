@@ -18,7 +18,7 @@ import { onCurrentSongChange, onQueueChange } from '../dashboard-ws';
  */
 export class Play implements Command {
   options = {
-    name: 'pause',
+    name: 'play <link or searchstring>',
     description: 'Play a song',
     hasArguments: true,
     socketEnabled: true,
@@ -116,7 +116,7 @@ export class Play implements Command {
       onQueueChange(serverEntry);
     }
   }
-  private addPlaylist(songs: Song[], serverEntry: QueueContract, msg: Message) {
+  addPlaylist(songs: Song[], serverEntry: QueueContract, msg: Message) {
     if (!msg.author.bot) {
       songs.forEach(song => {
         song.requested_by = msg.author.username;
