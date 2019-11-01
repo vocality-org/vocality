@@ -25,7 +25,7 @@ export class MessageHandler extends BotHandler {
     );
 
     try {
-      const args = ArgumentParser.parse(content);
+      const args = ArgumentParser.parseInput(content);
       const commandtext = args.shift()!.toLowerCase();
       const command = this.getCommandFromMessage(commandtext);
       ArgumentParser.validateArguments(command, args);
