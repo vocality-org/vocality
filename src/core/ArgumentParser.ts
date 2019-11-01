@@ -4,7 +4,7 @@ import { Command } from '../interfaces/Command';
 const seperator = ' ';
 
 export class ArgumentParser {
-  static parse(msg: string): string[] {
+  static parseInput(msg: string): string[] {
     if (msg.length === 0) {
       throw new BotError('Empty command!');
     } else {
@@ -12,7 +12,7 @@ export class ArgumentParser {
     }
   }
 
-  static validateArguments(command: Command, args: string[]): BotError | void {
+  static validateArguments(command: Command, args: string[]) {
     if (!command.options) return;
     if (command.options.hasArguments && args.length === 0) {
       throw new BotError("You didn't provide any arguments!");
