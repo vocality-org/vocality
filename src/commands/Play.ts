@@ -116,7 +116,11 @@ export class Play implements Command {
       onQueueChange(serverEntry);
     }
   }
-  addPlaylist(songs: Song[], serverEntry: QueueContract, msg: Message) {
+  addPlaylist(
+    songs: Song[],
+    serverEntry: QueueContract | undefined,
+    msg: Message
+  ) {
     if (!msg.author.bot) {
       songs.forEach(song => {
         song.requested_by = msg.author.username;
@@ -126,11 +130,11 @@ export class Play implements Command {
         song.requested_by = 'Vocality Dashboard';
       });
     }
-    if (serverEntry.songs.length === 0) {
-      serverEntry.songs = songs;
-      this.play(msg, serverEntry);
+    if (serverEntry!.songs.length === 0) {
+      serverEntry!.songs = songs;
+      this.play(msg, serverEntry!);
     } else {
-      serverEntry.songs.push(...songs);
+      serverEntry!.songs.push(...songs);
       onQueueChange(serverEntry);
     }
   }
