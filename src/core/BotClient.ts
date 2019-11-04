@@ -10,13 +10,16 @@ export class BotClient extends DiscordClient {
   initTime: number;
   commands: Collection<string, Command>;
   // maybe theres a better way but undefined will do for now (i tried some stuff with Array<BotHandler> and a register method)
-  socketHandler: SocketCommandHandler | undefined;
-  messageHandler: MessageHandler | undefined;
+  socketHandler: SocketCommandHandler;
+  messageHandler: MessageHandler;
 
   constructor(options?: ClientOptions) {
     super(options);
     this.initTime = Date.now();
     this.commands = this.loadCommands();
+
+    this.messageHandler = new MessageHandler(this);
+    this.socketHandler = new SocketCommandHandler(this);
 
     this.once('ready', () => {
       this.guilds.tap(guild => {
