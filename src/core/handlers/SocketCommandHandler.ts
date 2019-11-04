@@ -11,6 +11,10 @@ export class SocketCommandHandler extends BotHandler {
   }
 
   handleSocketCommand(socketCommand: SocketCommand) {
+    if (!('name' in socketCommand)) {
+      throw new BotError('Command must have a name');
+    }
+
     const command = this.bot.commands.get(socketCommand.name)!;
 
     if (!command.options.socketEnabled) {
@@ -34,19 +38,17 @@ export class SocketCommandHandler extends BotHandler {
     }
   }
   createMessage(guildId: string) {
-    const guild = this.bot.guilds
-    .filter(g => g.id === guildId)
-    .first();
-  const textChannel = guild.channels
-    .filter(c => {
-      return c.type === 'text';
-    })
-    .first() as TextChannel;
-  const message = new Message(
-    textChannel,
-    { author: this.bot.user, embeds: [], attachments: [] },
-    this.bot
-  );
-  return message;
+    const guild = this.bot.guilds.filter(g => g.id === guildId).first();
+    const textChannel = guild.channels
+      .filter(c => {
+        return c.type === 'text';
+      })
+      .first() as TextChannel;
+    const message = new Message(
+      textChannel,
+      { author: this.bot.user, embeds: [], attachments: [] },
+      this.bot
+    );
+    return message;
   }
 }
