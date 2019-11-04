@@ -1,9 +1,7 @@
-import { ServerQueueController } from './../../src/core/ServerQueueController';
 import io from 'socket.io-client';
 import * as assert from 'assert';
-
 import { socketio as server } from '../../src/dashboard-ws/index';
-import { Song } from '../../src/interfaces/Song';
+import { ServerQueueController } from '../../src/core/ServerQueueController';
 
 const socketUrl = 'http://0.0.0.0:3000';
 const options: SocketIOClient.ConnectOpts = {
@@ -11,8 +9,6 @@ const options: SocketIOClient.ConnectOpts = {
   reconnection: false,
   forceNew: true,
 };
-
-console.log(server);
 
 let client: SocketIOClient.Socket;
 
@@ -59,7 +55,7 @@ describe('dashboard-ws', () => {
 
   describe('.on(command)', () => {
     it('should return error if command is empty', done => {
-      client.on('commandError', data => {
+      client.on('commandError', (data: string) => {
         assert.equal(data, 'Command must have a name');
         done();
       });
@@ -68,7 +64,7 @@ describe('dashboard-ws', () => {
     });
 
     it('should return error if command is not enabled for socket', done => {
-      client.on('commandError', data => {
+      client.on('commandError', (data: string) => {
         assert.equal(data, 'Command not enabled for websockets');
         done();
       });
