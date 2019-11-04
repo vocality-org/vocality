@@ -9,7 +9,8 @@
     "build": "npm run compile",
     "build:live": "nodemon --watch src --exec ts-node src/server.ts",
     "compile": "tsc -p .",
-    "test": "nyc ts-mocha -p tsconfig.json test/**/*.ts",
+    "test": "ts-mocha --exit -p tsconfig.json test/**/*.ts",
+    "test:coverage": "nyc ts-mocha --exit -p tsconfig.json test/**/*.ts",
     "check": "gts check",
     "clean": "gts clean",
     "fix": "gts fix"

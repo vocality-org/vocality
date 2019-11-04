@@ -1,0 +1,12 @@
+ {
+  "extension": [
+    ".ts"
+  ],
+  "exclude": [
+    "**/*.d.ts",
+    "build",
+    "prettier.config.js",
+    "src/commands/*.ts"
+  ],
+  "all": true
+}
