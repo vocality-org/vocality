@@ -44,6 +44,7 @@ export class SocketCommandHandler extends BotHandler {
         return c.type === 'text';
       })
       .first() as TextChannel;
+
     const message = new Message(
       textChannel,
       { author: this.bot.user, embeds: [], attachments: [] },
