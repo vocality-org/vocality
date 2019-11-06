@@ -41,7 +41,8 @@ export class MessageHandler extends BotHandler {
     return (
       (!message.author.bot &&
         message.content.startsWith(BOT.SERVERPREFIXES[message.guild.id])) ||
-      message.author.username === 'Vocality Tester'
+      (process.env.NODE_ENV !== 'production' &&
+        message.author.username === 'Vocality Tester')
     );
   }
 
