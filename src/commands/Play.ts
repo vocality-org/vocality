@@ -20,7 +20,7 @@ export class Play implements Command {
   options = {
     name: 'play <link or searchstring>',
     description: 'Play a song',
-    hasArguments: true,
+    minArguments: 1,
     socketEnabled: true,
   };
 

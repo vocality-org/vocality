@@ -13,9 +13,11 @@ export class ArgumentParser {
   }
 
   static validateArguments(command: Command, args: string[]) {
-    if (!command.options) return;
-    if (command.options.hasArguments && args.length === 0) {
-      throw new BotError("You didn't provide any arguments!");
+    if (
+      command.options.minArguments &&
+      command.options.minArguments > args.length
+    ) {
+      throw new BotError(`Expected ${command.options.minArguments} arguments.`);
     }
   }
 }
