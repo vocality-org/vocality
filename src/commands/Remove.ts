@@ -6,7 +6,7 @@ export class Remove implements Command {
   options = {
     name: 'remove <id of song>',
     description: 'Remove an item from the queue starting at 1',
-    hasArguments: true,
+    minArguments: 1,
     socketEnabled: true,
   };
 
@@ -23,14 +23,13 @@ export class Remove implements Command {
           msg.channel.send('The number is too big');
         } else {
           serverEntry.songs.splice(idToRemove - 1, 1);
-          if(idToRemove === 1) {
+          if (idToRemove === 1) {
             serverEntry.connection!.dispatcher.end();
           }
-          
         }
       } else {
         msg.channel.send('The Argument is not a number');
       }
-  }
+    }
   }
 }

@@ -5,7 +5,6 @@ export class Disconnect implements Command {
   options = {
     name: 'disconnect',
     description: 'Disconnect the bot',
-    hasArguments: false,
     socketEnabled: true,
   };
 

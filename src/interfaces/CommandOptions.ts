@@ -15,11 +15,11 @@ export interface CommandOptions {
   description: string;
 
   /**
-   * Shows if the command __needs__ at least one Argument to execute
+   * The minimum amount of arguments the command expects
    */
-  hasArguments: boolean;
+  minArguments?: number;
 
   cooldown?: number;
 
-  socketEnabled: boolean;
+  socketEnabled?: boolean;
 }

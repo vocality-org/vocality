@@ -7,12 +7,13 @@ export class Skip implements Command {
   options = {
     name: 'skip (<optional amount of songs to skip>)',
     description: 'Skip the current song',
-    hasArguments: true,
+    minArguments: 0,
     socketEnabled: true,
   };
 
   execute(msg: Message, args: string[]): void {
     const serverEntry = ServerQueueController.getInstance().find(msg.guild.id)!;
+
     if (!msg.member.voiceChannel) {
       msg.channel.send('You have to be in a voice channel to stop the music!');
     } else if (!serverEntry) {

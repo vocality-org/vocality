@@ -6,7 +6,6 @@ export class Stop implements Command {
   options = {
     name: 'stop',
     description: 'Stop the bot',
-    hasArguments: false,
     socketEnabled: true,
   };
 

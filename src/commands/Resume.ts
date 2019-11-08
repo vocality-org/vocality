@@ -6,7 +6,6 @@ export class Resume implements Command {
   options = {
     name: 'resume',
     description: 'Resume the bot',
-    hasArguments: false,
     socketEnabled: true,
   };
 

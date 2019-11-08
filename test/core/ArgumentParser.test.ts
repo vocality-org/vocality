@@ -23,7 +23,7 @@ describe('ArgumentParser', () => {
           name: '',
           description: '',
           socketEnabled: false,
-          hasArguments: true,
+          minArguments: 1,
         },
         execute: () => {},
       };
@@ -33,18 +33,19 @@ describe('ArgumentParser', () => {
       );
     });
 
-    it('should not throw error when command has arguments and at least one is provided', () => {
+    it('should not throw error when correct amount of arguments are provided', () => {
       const commandWithArgs: Command = {
         options: {
           name: '',
           description: '',
           socketEnabled: false,
-          hasArguments: true,
+          minArguments: 2,
         },
         execute: () => {},
       };
       assert.doesNotThrow(
-        () => ArgumentParser.validateArguments(commandWithArgs, ['arg1']),
+        () =>
+          ArgumentParser.validateArguments(commandWithArgs, ['arg1', 'arg2']),
         BotError
       );
     });
@@ -55,7 +56,7 @@ describe('ArgumentParser', () => {
           name: '',
           description: '',
           socketEnabled: false,
-          hasArguments: false,
+          minArguments: 0,
         },
         execute: () => {},
       };
