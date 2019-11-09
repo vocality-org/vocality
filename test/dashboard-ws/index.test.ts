@@ -74,9 +74,9 @@ describe('dashboard-ws', () => {
       });
     });
   });
-});
 
-after(() => {
-  server.close();
-  client.close();
+  after(() => {
+    server.close();
+    client.close();
+  });
 });
