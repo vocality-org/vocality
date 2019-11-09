@@ -5,6 +5,7 @@
   "exclude": [
     "**/*.d.ts",
     "build",
+    "test",
     "prettier.config.js",
     "src/commands/*.ts"
   ],
