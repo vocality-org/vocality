@@ -15,7 +15,7 @@ export class Skip implements Command {
     const serverEntry = ServerQueueController.getInstance().find(msg.guild.id)!;
 
     if (!msg.member.voiceChannel) {
-      msg.channel.send('You have to be in a voice channel to stop the music!');
+      msg.channel.send('You have to be in a voice channel to skip!');
     } else if (!serverEntry) {
       msg.channel.send('There is no song that I could skip!');
     } else if (args[0]) {

@@ -1,16 +1,16 @@
 export interface CommandOptions {
   /**
-   * Name of the Command in client format
+   * Name of the Command in client format with arguments
    *
    * @example
-   *  "changePrefix",
-   *  "play",
-   *  "skip"
+   *  "help",
+   *  "play <url or query>",
+   *  "skip (<amount>)"
    */
   name: string;
 
   /**
-   * A short imperative description about the command.
+   * A short description about the command.
    */
   description: string;
 
