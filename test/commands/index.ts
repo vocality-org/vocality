@@ -5,6 +5,7 @@ import { DISCORD_TEST } from './config';
 import { current } from './Current.test';
 import { lyrics } from './Lyrics.test';
 import { skip } from './Skip.test';
+import { loop } from './Loop.test';
 
 const options: ResponseClientOptions = {
   channelId: DISCORD_TEST.TEST_CHANNEL_ID,
@@ -32,6 +33,9 @@ describe('commands', function() {
 
   describe('skip', () => {
     skip.call(null, client);
+  });
+  describe('loop', () => {
+    loop.call(null, client);
   });
 
   after(async () => {
