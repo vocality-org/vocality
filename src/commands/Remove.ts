@@ -1,6 +1,7 @@
 import { Command } from '../interfaces/Command';
 import { Message } from 'discord.js';
 import { ServerQueueController } from '../core/ServerQueueController';
+import { onQueueChange } from '../dashboard-ws';
 
 export class Remove implements Command {
   options = {
@@ -26,6 +27,7 @@ export class Remove implements Command {
           if(idToRemove === 1) {
             serverEntry.connection!.dispatcher.end();
           }
+          onQueueChange(serverEntry, msg.guild.id);
           
         }
       } else {
