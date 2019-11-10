@@ -61,6 +61,7 @@ help: |
   `lyrics`
   `pause`
   `play`
+  `loop`
   `remove`
   `resume`
   `skip`

@@ -10,3 +10,4 @@ export * from './Stop';
 export * from './Current';
 export * from './Lyrics';
 export * from './Disconnect';
+export * from './Loop';

@@ -6,7 +6,6 @@ export class Pause implements Command {
   options = {
     name: 'pause',
     description: 'Pause the bot',
-    hasArguments: false,
     socketEnabled: true,
   };
 

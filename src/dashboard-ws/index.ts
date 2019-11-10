@@ -5,22 +5,23 @@ import fetch, { Response } from 'node-fetch';
 import { ServerQueueController } from '../core/ServerQueueController';
 import { Song } from '../interfaces/Song';
 import { Play } from '../commands';
-import { Message } from 'discord.js';
 
-const socketio = io.listen(process.env.PORT || 3000);
+export let socketio = io.listen(process.env.PORT || 3000);
 socketio.origins('*:*');
 
-socketio.use((socket: io.Socket, next) => {
-  fetch('https://www.discordapp.com/api/users/@me', {
-    headers: { Authorization: `Bearer ${socket.handshake.query.discordKey}` },
-  }).then((response: Response) => {
-    if (response.status !== 200) {
-      socket.disconnect();
-    } else {
-      next();
-    }
+if (process.env.NODE_ENV === 'production') {
+  socketio.use((socket: io.Socket, next) => {
+    fetch('https://www.discordapp.com/api/users/@me', {
+      headers: { Authorization: `Bearer ${socket.handshake.query.discordKey}` },
+    }).then((response: Response) => {
+      if (response.status !== 200) {
+        socket.disconnect();
+      } else {
+        next();
+      }
+    });
   });
-});
+}
 
 socketio.on('connection', (socket: io.Socket) => {
   socket.on('userGuilds', (guilds: string[]) => {
@@ -35,16 +36,18 @@ socketio.on('connection', (socket: io.Socket) => {
     onCurrentSongChange(undefined, guildId);
   });
   socket.on('addPlaylist', (playlistToAdd: PlayList) => {
-    const serverEntry = ServerQueueController.getInstance().find(playlistToAdd.guildId);
+    const serverEntry = ServerQueueController.getInstance().find(
+      playlistToAdd.guildId
+    );
     const play = new Play();
-      const message = bot.socketHandler!.createMessage(playlistToAdd.guildId);
+    const message = bot.socketHandler!.createMessage(playlistToAdd.guildId);
     play.addPlaylist(playlistToAdd.songs, serverEntry, message);
-  })
+  });
   socket.on('command', (command: SocketCommand) => {
     try {
       bot.socketHandler!.handleSocketCommand(command);
     } catch (error) {
-      socket.emit('commandError', error);
+      socket.emit('commandError', error.message);
     }
   });
 });
@@ -99,6 +102,6 @@ export interface SocketCommand {
   messageData;
 }
 export interface PlayList {
-    songs: Song[];
-    guildId: string;
+  songs: Song[];
+  guildId: string;
 }
