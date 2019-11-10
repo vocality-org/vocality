@@ -14,7 +14,7 @@ export class Current implements Command {
     const serverEntry = ServerQueueController.getInstance().find(msg.guild.id)!;
     if (serverEntry.songs.length === 0) msg.channel.send('No song is playing');
     else {
-      const song: Song = serverEntry.songs[0];
+      const song: Song = serverEntry.songs[serverEntry.currentlyPlaying];
       const ss = serverEntry.connection!.dispatcher.time / 1000;
 
       console.log(song.thumbnail_url);

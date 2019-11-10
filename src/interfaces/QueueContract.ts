@@ -13,4 +13,6 @@ export interface QueueContract {
   connection: VoiceConnection | null;
   songs: Song[];
   isLooping: boolean;
+  shuffleEnabled: boolean;
+  currentlyPlaying: number;
 }

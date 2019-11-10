@@ -80,7 +80,17 @@ export class Play implements Command {
   }
 
   private play(msg: Message, serverEntry: QueueContract) {
-    const song = serverEntry.songs[0];
+    let song: Song | undefined = undefined;
+    console.log(serverEntry.songs.length)
+    if(serverEntry.shuffleEnabled) {
+      const randomSong = Math.floor(Math.random() * serverEntry.songs.length + 1)
+      song = serverEntry.songs[randomSong];
+      serverEntry.currentlyPlaying = randomSong;
+    } else {
+      song = serverEntry.songs[0];
+      serverEntry.currentlyPlaying = 0;
+    }
+    
     console.log(song);
     if (!song) {
       serverEntry.voiceChannel!.leave();
@@ -93,8 +103,12 @@ export class Play implements Command {
     const dispatcher = serverEntry
       .connection!.playStream(ytdl(song.url, { filter: 'audioonly' }))
       .on('end', () => {
-        if(!serverEntry.isLooping) {
+        if(!serverEntry.isLooping && !serverEntry.shuffleEnabled) {
           serverEntry.songs.shift();
+        } else if(serverEntry.isLooping) {
+
+        } else if(serverEntry.shuffleEnabled) {
+          serverEntry.songs.splice(serverEntry.currentlyPlaying, 1);
         }
         this.play(msg, serverEntry);
         onQueueChange(serverEntry);
