@@ -20,7 +20,10 @@ describe('commands', function() {
   this.timeout(options.responseTimeout!);
 
   before(async () => {
-    client = await client.setup(DISCORD_TEST.BOT_TOKEN, DISCORD_TEST.GUILD_ID);
+    client = await client.connect(
+      DISCORD_TEST.BOT_TOKEN,
+      DISCORD_TEST.GUILD_ID
+    );
   });
 
   describe('current', () => {
