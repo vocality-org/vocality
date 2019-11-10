@@ -33,6 +33,7 @@ rules:
       - resume
       - skip
       - stop
+      - loop
   subject-case:
     - 2
     - always
@@ -66,5 +67,6 @@ help: |
   `resume`
   `skip`
   `stop`
+  `loop`
   **sentence Case Example**
   `This is a sentence`
