@@ -12,4 +12,5 @@ export interface QueueContract {
   voiceChannel: VoiceChannel | null;
   connection: VoiceConnection | null;
   songs: Song[];
+  isLooping: boolean;
 }

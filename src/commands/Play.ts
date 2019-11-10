@@ -20,7 +20,7 @@ export class Play implements Command {
   options = {
     name: 'play <link or searchstring>',
     description: 'Play a song',
-    hasArguments: true,
+    minArguments: 1,
     socketEnabled: true,
   };
 
@@ -93,7 +93,9 @@ export class Play implements Command {
     const dispatcher = serverEntry
       .connection!.playStream(ytdl(song.url, { filter: 'audioonly' }))
       .on('end', () => {
-        serverEntry.songs.shift();
+        if(!serverEntry.isLooping) {
+          serverEntry.songs.shift();
+        }
         this.play(msg, serverEntry);
         onQueueChange(serverEntry);
       });
@@ -116,7 +118,11 @@ export class Play implements Command {
       onQueueChange(serverEntry);
     }
   }
-  addPlaylist(songs: Song[], serverEntry: QueueContract, msg: Message) {
+  addPlaylist(
+    songs: Song[],
+    serverEntry: QueueContract | undefined,
+    msg: Message
+  ) {
     if (!msg.author.bot) {
       songs.forEach(song => {
         song.requested_by = msg.author.username;
@@ -126,11 +132,11 @@ export class Play implements Command {
         song.requested_by = 'Vocality Dashboard';
       });
     }
-    if (serverEntry.songs.length === 0) {
-      serverEntry.songs = songs;
-      this.play(msg, serverEntry);
+    if (serverEntry!.songs.length === 0) {
+      serverEntry!.songs = songs;
+      this.play(msg, serverEntry!);
     } else {
-      serverEntry.songs.push(...songs);
+      serverEntry!.songs.push(...songs);
       onQueueChange(serverEntry);
     }
   }

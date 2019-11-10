@@ -7,7 +7,7 @@ export class ChangePrefix implements Command {
   options: CommandOptions = {
     name: 'changePrefix <new Prefix>',
     description: 'Change the bots prefix',
-    hasArguments: true,
+    minArguments: 1,
     socketEnabled: false,
   };
 

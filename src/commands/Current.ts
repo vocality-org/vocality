@@ -7,7 +7,6 @@ export class Current implements Command {
   options = {
     name: 'current',
     description: 'Display the current song',
-    hasArguments: false,
     socketEnabled: false,
   };
 

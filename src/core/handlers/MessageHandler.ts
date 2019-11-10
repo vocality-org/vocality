@@ -39,8 +39,10 @@ export class MessageHandler extends BotHandler {
 
   private validateMessage(message: Message): boolean {
     return (
-      !message.author.bot &&
-      message.content.startsWith(BOT.SERVERPREFIXES[message.guild.id])
+      (!message.author.bot &&
+        message.content.startsWith(BOT.SERVERPREFIXES[message.guild.id])) ||
+      (process.env.NODE_ENV !== 'production' &&
+        message.author.username === 'Vocality Tester')
     );
   }
 
