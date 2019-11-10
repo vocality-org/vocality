@@ -34,6 +34,7 @@ rules:
       - skip
       - stop
       - loop
+      - shuffle
   subject-case:
     - 2
     - always
