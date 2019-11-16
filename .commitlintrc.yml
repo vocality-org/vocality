@@ -1,74 +1,76 @@
 extends:
-  - '@commitlint/config-conventional'
+    - '@commitlint/config-conventional'
 rules:
-  header-max-length: [1, 'always', 72]
-  type-enum:
-    - 2
-    - always
-    - - ci
-      - feat
-      - fix
-      - docs
-      - style
-      - refactor
-      - perf
-      - test
-      - revert
-      - chore
-  scope-enum:
-    - 2
-    - always
-    - - general
-      - core
-      - socket
-      - types
-      - changePrefix
-      - current
-      - disconnect
-      - help
-      - lyrics
-      - pause
-      - play
-      - remove
-      - resume
-      - skip
-      - stop
-      - loop
-      - shuffle
-  subject-case:
-    - 2
-    - always
-    - 'sentence-case'
+    header-max-length: [1, 'always', 72]
+    type-enum:
+        - 2
+        - always
+        - - ci
+          - feat
+          - fix
+          - docs
+          - style
+          - refactor
+          - perf
+          - test
+          - revert
+          - chore
+    scope-enum:
+        - 2
+        - always
+        - - general
+          - core
+          - socket
+          - types
+          - changePrefix
+          - current
+          - disconnect
+          - help
+          - lyrics
+          - pause
+          - play
+          - remove
+          - resume
+          - skip
+          - stop
+          - loop
+          - shuffle
+          - autoplay
+    subject-case:
+        - 2
+        - always
+        - 'sentence-case'
 help: |
-  **Possible types**:
-  `ci`:       Changes to CI configuration files and scripts (example scopes: Travis, Circle CI, BrowserStack, SauceLabs)
-  `feat`:     Adds a new feature.
-  `fix`:      Solves a bug.
-  `docs`:     Adds or alters documentation. (example scopes: readme, comments, code_of_conduct, contributors)
-  `style`:    Improves formatting, white-space.
-  `refactor`: Rewrites code without feature, performance or bug changes.
-  `perf`:     Improves performance.
-  `test`:     Adds or modifies tests. (example scopes: functionals, unit-tests)
-  `revert`:   Changes that reverting other changes
-  `chore`:    No production code change. Updating grunt tasks etc;
-  **Possible scopes**:
-  `general`:  If other scopes don't apply.
-  `core`
-  `socket`
-  `types`
-  `autoplay`
-  `changePrefix`
-  `current`
-  `disconnect`
-  `help`
-  `lyrics`
-  `pause`
-  `play`
-  `loop`
-  `remove`
-  `resume`
-  `skip`
-  `stop`
-  `loop`
-  **sentence Case Example**
-  `This is a sentence`
+    **Possible types**:
+    `ci`:       Changes to CI configuration files and scripts (example scopes: Travis, Circle CI, BrowserStack, SauceLabs)
+    `feat`:     Adds a new feature.
+    `fix`:      Solves a bug.
+    `docs`:     Adds or alters documentation. (example scopes: readme, comments, code_of_conduct, contributors)
+    `style`:    Improves formatting, white-space.
+    `refactor`: Rewrites code without feature, performance or bug changes.
+    `perf`:     Improves performance.
+    `test`:     Adds or modifies tests. (example scopes: functionals, unit-tests)
+    `revert`:   Changes that reverting other changes
+    `chore`:    No production code change. Updating grunt tasks etc;
+    **Possible scopes**:
+    `general`:  If other scopes don't apply.
+    `core`
+    `socket`
+    `types`
+    `autoplay`
+    `changePrefix`
+    `current`
+    `disconnect`
+    `help`
+    `lyrics`
+    `pause`
+    `play`
+    `loop`
+    `remove`
+    `resume`
+    `skip`
+    `stop`
+    `loop`
+    `autoplay`
+    **sentence Case Example**
+    `This is a sentence`
