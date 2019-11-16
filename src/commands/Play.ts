@@ -8,6 +8,7 @@ import isUrl from 'is-url';
 import { YouTube } from '../musicAPIs/YouTube';
 import ytList from 'youtube-playlist';
 import { onCurrentSongChange, onQueueChange } from '../dashboard-ws';
+import { Spotify } from '../musicAPIs/Spoitfy';
 
 /**
  * The Play Class is used to Play Music with the Bot
@@ -79,9 +80,8 @@ export class Play implements Command {
     }
   }
 
-  private play(msg: Message, serverEntry: QueueContract) {
-    let song: Song | undefined = undefined;
-    console.log(serverEntry.songs.length)
+  private async play(msg: Message, serverEntry: QueueContract, lastSong: Song) {
+    let song: Song | null = null;
     if(serverEntry.shuffleEnabled) {
       const randomSong = Math.floor(Math.random() * serverEntry.songs.length + 1)
       song = serverEntry.songs[randomSong];
@@ -91,26 +91,32 @@ export class Play implements Command {
       serverEntry.currentlyPlaying = 0;
     }
     
-    console.log(song);
-    if (!song) {
+    if (!song && !serverEntry.autoplay) {
       serverEntry.voiceChannel!.leave();
       serverEntry.songs = [];
       return;
+    } else if(!song && serverEntry.autoplay) {
+      console.log(lastSong)
+      const yt = new YouTube();
+      song = await yt.autoplay(lastSong);
+      serverEntry.songs.push(song as Song);
     }
 
-    msg.channel.send(`Now playing ${song.title}`);
+    msg.channel.send(`Now playing ${song!.title}`);
 
     const dispatcher = serverEntry
-      .connection!.playStream(ytdl(song.url, { filter: 'audioonly' }))
+      .connection!.playStream(ytdl(song!.url, { filter: 'audioonly' }))
       .on('end', () => {
+        let lastSong: Song | undefined;
         if(!serverEntry.isLooping && !serverEntry.shuffleEnabled) {
-          serverEntry.songs.shift();
+          lastSong = serverEntry.songs.shift();
         } else if(serverEntry.isLooping) {
 
         } else if(serverEntry.shuffleEnabled) {
-          serverEntry.songs.splice(serverEntry.currentlyPlaying, 1);
+            lastSong = serverEntry.songs.splice(serverEntry.currentlyPlaying, 1)[0];
+          
         }
-        this.play(msg, serverEntry);
+        this.play(msg, serverEntry, lastSong as Song);
         onQueueChange(serverEntry);
       });
 
@@ -125,7 +131,7 @@ export class Play implements Command {
 
     if (serverEntry.songs.length === 0) {
       serverEntry.songs.push(song);
-      this.play(msg, serverEntry);
+      this.play(msg, serverEntry, song);
     } else {
       serverEntry.songs.push(song);
       msg.channel.send(`${song.title} has been added to the queue!`);
@@ -148,7 +154,7 @@ export class Play implements Command {
     }
     if (serverEntry!.songs.length === 0) {
       serverEntry!.songs = songs;
-      this.play(msg, serverEntry!);
+      this.play(msg, serverEntry!, serverEntry!.songs[0]);
     } else {
       serverEntry!.songs.push(...songs);
       onQueueChange(serverEntry);

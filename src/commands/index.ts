@@ -12,3 +12,4 @@ export * from './Lyrics';
 export * from './Disconnect';
 export * from './Loop';
 export * from './Shuffle';
+export * from './AutoPlay';

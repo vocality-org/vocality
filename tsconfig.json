@@ -6,5 +6,5 @@
     "esModuleInterop": true,
     "noImplicitAny": false
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "cheerioTest.ts"]
 }

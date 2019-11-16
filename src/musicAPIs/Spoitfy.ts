@@ -1,6 +1,8 @@
 import Request from 'request';
 import { SPOTIFY } from '../config';
 
+const SPOTIFY_API_URI = 'https://api.spotify.com/v1/search'
+
 export class Spotify {
   /**
    * get an access token for the Spotify API
