@@ -15,4 +15,5 @@ export interface QueueContract {
   isLooping: boolean;
   shuffleEnabled: boolean;
   currentlyPlaying: number;
+  autoplay: boolean;
 }

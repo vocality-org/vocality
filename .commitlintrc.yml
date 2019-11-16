@@ -56,6 +56,7 @@ help: |
   `core`
   `socket`
   `types`
+  `autoplay`
   `changePrefix`
   `current`
   `disconnect`
