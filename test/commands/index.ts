@@ -8,40 +8,37 @@ import { skip } from './Skip.test';
 import { loop } from './Loop.test';
 
 const options: ResponseClientOptions = {
-  channelId: DISCORD_TEST.TEST_CHANNEL_ID,
-  messagePrefix: BOT.PREFIX,
-  specificUserId: '589595189631385602', // vocality bot id
-  responseTimeout: 4000,
+    channelId: DISCORD_TEST.TEST_CHANNEL_ID,
+    messagePrefix: BOT.PREFIX,
+    specificUserId: '589595189631385602', // vocality bot id
+    responseTimeout: 4000,
 };
 
 export let client = new ResponseClient(options);
 
 describe('commands', function() {
-  this.timeout(options.responseTimeout!);
+    this.timeout(options.responseTimeout!);
 
-  before(async () => {
-    client = await client.setup(
-      DISCORD_TEST.BOT_TOKEN,
-      DISCORD_TEST.GUILD_ID
-    );
-  });
+    before(async () => {
+        client = await client.connect(DISCORD_TEST.BOT_TOKEN, DISCORD_TEST.GUILD_ID);
+    });
 
-  describe('current', () => {
-    current.call(null, client);
-  });
+    describe('current', () => {
+        current(client);
+    });
 
-  describe('lyrics', () => {
-    lyrics.call(null, client);
-  });
+    describe('lyrics', () => {
+        lyrics(client);
+    });
 
-  describe('skip', () => {
-    skip.call(null, client);
-  });
-  describe('loop', () => {
-    loop.call(null, client);
-  });
+    describe('skip', () => {
+        skip(client);
+    });
+    describe('loop', () => {
+        loop(client);
+    });
 
-  after(async () => {
-    await client.cleanup();
-  });
+    after(async () => {
+        await client.cleanup();
+    });
 });
