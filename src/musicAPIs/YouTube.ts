@@ -124,16 +124,17 @@ export class YouTube {
   }
   async autoplay(song: Song) {
     return new Promise<Song | null>(async (res, rej) => {
-      const websiteData = await fetch(
-        song.url
-      );
+      const websiteData = await fetch(song.url);
       const website = await websiteData.text();
-        const $ = cheerio.load(website);
-        const result = $('body').find('#content').find('.related-list-item').find('a').attr('href');
-        const url = `https://www.youtube.com${result}`;
-        const nextSong = await this.getInformation(url);
-        res(nextSong);
-    })
-    
+      const $ = cheerio.load(website);
+      const result = $('body')
+        .find('#content')
+        .find('.related-list-item')
+        .find('a')
+        .attr('href');
+      const url = `https://www.youtube.com${result}`;
+      const nextSong = await this.getInformation(url);
+      res(nextSong);
+    });
   }
 }

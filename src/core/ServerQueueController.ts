@@ -49,7 +49,7 @@ export class ServerQueueController {
       isLooping: false,
       shuffleEnabled: false,
       currentlyPlaying: 0,
-      autoplay: false
+      autoplay: false,
     };
     if (
       existingEntry &&
