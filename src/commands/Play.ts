@@ -9,6 +9,7 @@ import { YouTube } from '../musicAPIs/YouTube';
 import ytList from 'youtube-playlist';
 import { onCurrentSongChange, onQueueChange } from '../dashboard-ws';
 import { Spotify } from '../musicAPIs/Spoitfy';
+import { SPOTIFY } from '../config';
 
 /**
  * The Play Class is used to Play Music with the Bot
@@ -39,36 +40,43 @@ export class Play implements Command {
           .filter(g => g.type === 'voice')
           .first() as VoiceChannel;
         connection = await voiceChannel.join();
-        // console.log(connection);
       }
 
       serverEntry.connection = connection;
       const yt = new YouTube();
       let song: Song | null;
-
-      if (isUrl(args[0])) {
-        if (yt.parseYoutubeUrl(args[0])) {
-          if (args[0].includes('playlist')) {
-            const result = await ytList(args[0], 'url');
-            const maxLength: number = result.data.playlist.length;
-            const batchSize = 5;
-            const playListLinks: string[] = result.data.playlist;
-            msg.channel.send(`${maxLength} Songs have been added to the Queue`);
-            for (let i = 0; i <= maxLength; i += batchSize) {
-              let songs = await yt.getYtPlaylist(
-                playListLinks.slice(
-                  i,
-                  i + batchSize > maxLength ? maxLength : i + batchSize
-                )
-              );
-              songs = songs.filter(songs => songs != null);
-              this.addPlaylist(songs as Song[], serverEntry, msg);
-            }
-          } else {
-            const url = args[0];
-            song = await yt.getInformation(url);
-            if (song) this.addSong(song, serverEntry, msg);
+      console.log(args[0]);
+      if (yt.parseYoutubeUrl(args[0])) {
+        if (args[0].includes('playlist')) {
+          const result = await ytList(args[0], 'url');
+          const maxLength: number = result.data.playlist.length;
+          const batchSize = 5;
+          const playListLinks: string[] = result.data.playlist;
+          msg.channel.send(`${maxLength} Songs have been added to the Queue`);
+          for (let i = 0; i <= maxLength; i += batchSize) {
+            let songs = await yt.getYtPlaylist(
+              playListLinks.slice(
+                i,
+                i + batchSize > maxLength ? maxLength : i + batchSize
+              )
+            );
+            songs = songs.filter(songs => songs != null);
+            this.addPlaylist(songs as Song[], serverEntry, msg);
           }
+        } else {
+          const url = args[0];
+          song = await yt.getInformation(url);
+          if (song) this.addSong(song, serverEntry, msg);
+        }
+      } else if (/^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/.test(args[0])) {
+        if (SPOTIFY.SPOTIFY_ACCESS_TOKEN) {
+          const sptfy = new Spotify();
+          const song = await sptfy.getSong(args[0]);
+          if (song) this.addSong(song, serverEntry, msg);
+        } else {
+          msg.channel.send(
+            'Spotify not supported for this bot please visit {url} for a tutorial on how to enable Spotify for the bot'
+          );
         }
       } else {
         const searchParam: string = args.join('+');
@@ -98,7 +106,6 @@ export class Play implements Command {
       serverEntry.songs = [];
       return;
     } else if (!song && serverEntry.autoplay) {
-      console.log(lastSong);
       const yt = new YouTube();
       song = await yt.autoplay(lastSong);
       serverEntry.songs.push(song as Song);
