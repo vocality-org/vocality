@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 import * as assert from 'assert';
 import { socketio as server } from '../../src/dashboard-ws/index';
 import { ServerQueueController } from '../../src/core/ServerQueueController';
+import { QueueContract } from '../../src/interfaces/QueueContract';
 
 const socketUrl = 'http://0.0.0.0:3000';
 const options: SocketIOClient.ConnectOpts = {
@@ -31,9 +32,9 @@ describe('dashboard-ws', () => {
     it('should return list of guildIds when matches exist', done => {
       const guildIds = ['000', '111', '222'];
 
-      ServerQueueController.getInstance().add(guildIds[0], {} as any);
-      ServerQueueController.getInstance().add(guildIds[1], {} as any);
-      ServerQueueController.getInstance().add(guildIds[2], {} as any);
+      ServerQueueController.getInstance().add(guildIds[0], {} as QueueContract);
+      ServerQueueController.getInstance().add(guildIds[1], {} as QueueContract);
+      ServerQueueController.getInstance().add(guildIds[2], {} as QueueContract);
 
       client.on('botGuilds', (data: string[]) => {
         assert.deepStrictEqual(data, guildIds);

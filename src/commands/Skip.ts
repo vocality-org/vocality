@@ -24,7 +24,10 @@ export class Skip implements Command {
         if (songsToSkip > serverEntry.songs.length) {
           msg.channel.send('The number is too big');
         } else {
-          serverEntry.songs.splice(serverEntry.currentlyPlaying, songsToSkip - 1);
+          serverEntry.songs.splice(
+            serverEntry.currentlyPlaying,
+            songsToSkip - 1
+          );
           serverEntry.connection!.dispatcher.end();
         }
       } else {

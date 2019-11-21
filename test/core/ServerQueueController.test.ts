@@ -1,6 +1,6 @@
+import { QueueContract } from './../../src/interfaces/QueueContract';
 import * as assert from 'assert';
 import { ServerQueueController } from '../../src/core/ServerQueueController';
-import { Message, TextChannel, Guild, Client } from 'discord.js';
 
 describe('ServerQueueController', () => {
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('ServerQueueController', () => {
   describe('.add()', () => {
     it('should increase the queues length by 1', () => {
       const testSq = ServerQueueController.getInstance();
-      testSq.add('test', {} as any);
+      testSq.add('test', {} as QueueContract);
       assert.strictEqual(testSq.getAll().size, 1);
     });
   });
@@ -26,9 +26,9 @@ describe('ServerQueueController', () => {
   describe('.remove()', () => {
     it('should decrease queue length by 1', () => {
       const testSq = ServerQueueController.getInstance();
-      testSq.add('test1', {} as any);
-      testSq.add('test2', {} as any);
-      testSq.add('test3', {} as any);
+      testSq.add('test1', {} as QueueContract);
+      testSq.add('test2', {} as QueueContract);
+      testSq.add('test3', {} as QueueContract);
       testSq.remove('test3');
       assert.strictEqual(testSq.getAll().size, 2);
     });
@@ -37,9 +37,9 @@ describe('ServerQueueController', () => {
   describe('.removeAll()', () => {
     it('should decrease the queues length to 0', () => {
       const testSq = ServerQueueController.getInstance();
-      testSq.add('test1', {} as any);
-      testSq.add('test2', {} as any);
-      testSq.add('test3', {} as any);
+      testSq.add('test1', {} as QueueContract);
+      testSq.add('test2', {} as QueueContract);
+      testSq.add('test3', {} as QueueContract);
       testSq.removeAll();
       assert.strictEqual(testSq.getAll().size, 0);
     });
@@ -48,9 +48,9 @@ describe('ServerQueueController', () => {
   describe('.find()', () => {
     it('should return correct QueueContract', () => {
       const testSq = ServerQueueController.getInstance();
-      testSq.add('test1', {} as any);
-      testSq.add('test2', {} as any);
-      testSq.add('test3', {} as any);
+      testSq.add('test1', {} as QueueContract);
+      testSq.add('test2', {} as QueueContract);
+      testSq.add('test3', {} as QueueContract);
       const testFound = testSq.find('test2');
       assert.deepStrictEqual(testFound, {});
     });
@@ -62,8 +62,8 @@ describe('ServerQueueController', () => {
 
     it('should return undefined if key is not in queue', () => {
       const testSq = ServerQueueController.getInstance();
-      testSq.add('test1', {} as any);
-      testSq.add('test2', {} as any);
+      testSq.add('test1', {} as QueueContract);
+      testSq.add('test2', {} as QueueContract);
       assert.strictEqual(testSq.find('test3'), undefined);
     });
   });
@@ -71,9 +71,9 @@ describe('ServerQueueController', () => {
   describe('.getAll()', () => {
     it('should return correct size after adding entries', () => {
       const testSq = ServerQueueController.getInstance();
-      testSq.add('test1', {} as any);
-      testSq.add('test2', {} as any);
-      testSq.add('test3', {} as any);
+      testSq.add('test1', {} as QueueContract);
+      testSq.add('test2', {} as QueueContract);
+      testSq.add('test3', {} as QueueContract);
       assert.strictEqual(testSq.getAll().size, 3);
     });
 

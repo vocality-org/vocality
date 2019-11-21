@@ -82,21 +82,23 @@ export class Play implements Command {
 
   private async play(msg: Message, serverEntry: QueueContract, lastSong: Song) {
     let song: Song | null = null;
-    if(serverEntry.shuffleEnabled) {
-      const randomSong = Math.floor(Math.random() * serverEntry.songs.length + 1)
+    if (serverEntry.shuffleEnabled) {
+      const randomSong = Math.floor(
+        Math.random() * serverEntry.songs.length + 1
+      );
       song = serverEntry.songs[randomSong];
       serverEntry.currentlyPlaying = randomSong;
     } else {
       song = serverEntry.songs[0];
       serverEntry.currentlyPlaying = 0;
     }
-    
+
     if (!song && !serverEntry.autoplay) {
       serverEntry.voiceChannel!.leave();
       serverEntry.songs = [];
       return;
-    } else if(!song && serverEntry.autoplay) {
-      console.log(lastSong)
+    } else if (!song && serverEntry.autoplay) {
+      console.log(lastSong);
       const yt = new YouTube();
       song = await yt.autoplay(lastSong);
       serverEntry.songs.push(song as Song);
@@ -108,13 +110,14 @@ export class Play implements Command {
       .connection!.playStream(ytdl(song!.url, { filter: 'audioonly' }))
       .on('end', () => {
         let lastSong: Song | undefined;
-        if(!serverEntry.isLooping && !serverEntry.shuffleEnabled) {
+        if (!serverEntry.isLooping && !serverEntry.shuffleEnabled) {
           lastSong = serverEntry.songs.shift();
-        } else if(serverEntry.isLooping) {
-
-        } else if(serverEntry.shuffleEnabled) {
-            lastSong = serverEntry.songs.splice(serverEntry.currentlyPlaying, 1)[0];
-          
+        } else if (serverEntry.isLooping) {
+        } else if (serverEntry.shuffleEnabled) {
+          lastSong = serverEntry.songs.splice(
+            serverEntry.currentlyPlaying,
+            1
+          )[0];
         }
         this.play(msg, serverEntry, lastSong as Song);
         onQueueChange(serverEntry);
