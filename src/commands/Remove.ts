@@ -27,7 +27,7 @@ export class Remove implements Command {
           if (idToRemove === 1) {
             serverEntry.connection!.dispatcher.end();
           } else {
-            onQueueChange(serverEntry, msg.guild.id);
+            onQueueChange(serverEntry);
           }
         }
       } else {

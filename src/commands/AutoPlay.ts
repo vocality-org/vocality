@@ -12,11 +12,11 @@ export class AutoPlay implements Command {
     const serverEntry = ServerQueueController.getInstance().findOrCreateFromMessage(
       msg
     );
-    if (serverEntry.autoplay) {
-      serverEntry.autoplay = false;
+    if (serverEntry.isAutoplaying) {
+      serverEntry.isAutoplaying = false;
       msg.channel.send('Autoplay is now `disabled`');
     } else {
-      serverEntry.autoplay = true;
+      serverEntry.isAutoplaying = true;
       msg.channel.send('Autoplay is now `enabled`');
     }
   }
