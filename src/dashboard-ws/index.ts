@@ -30,11 +30,21 @@ socketio.on('connection', (socket: io.Socket) => {
     const sameIds = guilds.filter(gId => ids.includes(gId));
     socket.emit('botGuilds', sameIds);
   });
+
   socket.on('currentGuild', (guildId: string) => {
     console.log(guildId);
-    onQueueChange(undefined, guildId);
-    onCurrentSongChange(undefined, guildId);
+    const queue = getServerEntryToGuildId(guildId);
+    if (queue) {
+      onQueueChange(queue);
+      onCurrentSongChange(queue);
+      socket.emit('currentState', {
+        autoplay: queue.isAutoplaying,
+        shuffle: queue.isShuffling,
+        loop: queue.isLooping,
+      });
+    }
   });
+
   socket.on('addPlaylist', (playlistToAdd: PlayList) => {
     const serverEntry = ServerQueueController.getInstance().find(
       playlistToAdd.guildId
@@ -43,6 +53,7 @@ socketio.on('connection', (socket: io.Socket) => {
     const message = bot.socketHandler!.createMessage(playlistToAdd.guildId);
     play.addPlaylist(playlistToAdd.songs, serverEntry, message);
   });
+
   socket.on('command', (command: SocketCommand) => {
     try {
       bot.socketHandler!.handleSocketCommand(command);
@@ -56,30 +67,13 @@ socketio.on('connection', (socket: io.Socket) => {
 // Schaut halt ned schön aus wegn dem ServerQueueController des müsst man bei gelegenheit mal umbauen glaub i
 // spätest beim sharding, wenn man nimmer alle guilds in einm array speichern kann wird der als erstes probleme machn
 
-export function onQueueChange(serverEntry?: QueueContract, guildId?: string) {
-  if (!serverEntry && !guildId) return;
-
-  let queue: QueueContract = serverEntry!;
-  if (!serverEntry) {
-    queue = ServerQueueController.getInstance().find(guildId!)!;
-  }
-
+export function onQueueChange(queue: QueueContract) {
   if (queue && queue.songs) {
     socketio.emit('currentQueue', queue.songs.slice(1));
   }
 }
 
-export function onCurrentSongChange(
-  serverEntry?: QueueContract,
-  guildId?: string
-) {
-  if (!serverEntry && !guildId) return;
-
-  let queue: QueueContract = serverEntry!;
-  if (!serverEntry) {
-    queue = ServerQueueController.getInstance().find(guildId!)!;
-  }
-
+export function onCurrentSongChange(queue: QueueContract) {
   if (queue && queue.connection) {
     const currentSong = queue.songs[0];
 
@@ -90,6 +84,28 @@ export function onCurrentSongChange(
       song: currentSong,
     });
   }
+}
+
+export function onLoopChange(state: boolean) {
+  socketio.emit('currentLoopState', {
+    state: state,
+  });
+}
+
+export function onAutoplayChange(state: boolean) {
+  socketio.emit('currentAutoplayState', {
+    state: state,
+  });
+}
+
+export function onShuffleChange(state: boolean) {
+  socketio.emit('currentShuffleState', {
+    state: state,
+  });
+}
+
+function getServerEntryToGuildId(guildId: string): QueueContract | undefined {
+  return ServerQueueController.getInstance().find(guildId);
 }
 
 socketio.on('disconnect', (socket: io.Socket) => {
