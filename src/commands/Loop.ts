@@ -17,9 +17,9 @@ export class Loop implements Command {
     if (serverEntry.isLooping) {
       serverEntry.isLooping = false;
       msg.channel.send('Repeating is now `disabled`');
-    } else if (!serverEntry.isLooping && serverEntry.shuffleEnabled) {
+    } else if (!serverEntry.isLooping && serverEntry.isShuffling) {
       serverEntry.isLooping = true;
-      serverEntry.shuffleEnabled = false;
+      serverEntry.isShuffling = false;
       msg.channel.send('Repeating is now `enabled`');
       msg.channel.send('Random play is now `disabled`');
     } else {
