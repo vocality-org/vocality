@@ -15,16 +15,16 @@ export class Shuffle implements Command {
     const serverEntry = ServerQueueController.getInstance().findOrCreateFromMessage(
       msg
     );
-    if (serverEntry.shuffleEnabled) {
-      serverEntry.shuffleEnabled = false;
+    if (serverEntry.isShuffling) {
+      serverEntry.isShuffling = false;
       msg.channel.send('Random play is now `disabled`');
-    } else if (serverEntry.isLooping && !serverEntry.shuffleEnabled) {
+    } else if (serverEntry.isLooping && !serverEntry.isShuffling) {
       serverEntry.isLooping = false;
-      serverEntry.shuffleEnabled = true;
+      serverEntry.isShuffling = true;
       msg.channel.send('Random play is now `enabled`');
       msg.channel.send('Repeating is now `disabled`');
     } else {
-      serverEntry.shuffleEnabled = true;
+      serverEntry.isShuffling = true;
       msg.channel.send('Random play is now `enabled`');
     }
   }

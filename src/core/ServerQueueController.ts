@@ -47,9 +47,9 @@ export class ServerQueueController {
       textChannel: msg.channel,
       voiceChannel: msg.member.voiceChannel,
       isLooping: false,
-      shuffleEnabled: false,
+      isShuffling: false,
       currentlyPlaying: 0,
-      autoplay: false,
+      isAutoplaying: false,
     };
     if (
       existingEntry &&

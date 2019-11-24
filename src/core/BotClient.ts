@@ -30,9 +30,9 @@ export class BotClient extends DiscordClient {
           voiceChannel: null,
           connection: null,
           isLooping: false,
-          shuffleEnabled: false,
+          isShuffling: false,
           currentlyPlaying: 0,
-          autoplay: false,
+          isAutoplaying: false,
         });
       });
     });
