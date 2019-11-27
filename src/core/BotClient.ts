@@ -33,6 +33,7 @@ export class BotClient extends DiscordClient {
           isShuffling: false,
           currentlyPlaying: 0,
           isAutoplaying: false,
+          volume: 0.5
         });
       });
     });

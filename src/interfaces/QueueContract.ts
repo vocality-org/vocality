@@ -16,4 +16,5 @@ export interface QueueContract {
   isShuffling: boolean;
   isAutoplaying: boolean;
   currentlyPlaying: number;
+  volume: number;
 }

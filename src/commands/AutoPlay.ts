@@ -2,6 +2,7 @@ import { Command } from '../interfaces/Command';
 import { Message } from 'discord.js';
 import { CommandOptions } from '../interfaces/CommandOptions';
 import { ServerQueueController } from '../core/ServerQueueController';
+import { onAutoplayChange } from '../dashboard-ws';
 
 export class AutoPlay implements Command {
   options: CommandOptions = {
@@ -19,5 +20,6 @@ export class AutoPlay implements Command {
       serverEntry.isAutoplaying = true;
       msg.channel.send('Autoplay is now `enabled`');
     }
+    onAutoplayChange(serverEntry.isAutoplaying);
   }
 }

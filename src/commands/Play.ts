@@ -114,7 +114,7 @@ export class Play implements Command {
     msg.channel.send(`Now playing ${song!.title}`);
 
     const dispatcher = serverEntry
-      .connection!.playStream(ytdl(song!.url, { filter: 'audioonly' }))
+      .connection!.playStream(ytdl(song!.url, { filter: 'audioonly' }), {volume: serverEntry.volume})
       .on('end', () => {
         let lastSong: Song | undefined;
         if (!serverEntry.isLooping && !serverEntry.isShuffling) {

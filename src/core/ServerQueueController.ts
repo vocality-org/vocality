@@ -50,6 +50,7 @@ export class ServerQueueController {
       isShuffling: false,
       currentlyPlaying: 0,
       isAutoplaying: false,
+      volume: 0.5
     };
     if (
       existingEntry &&
