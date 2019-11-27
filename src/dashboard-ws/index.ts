@@ -88,20 +88,25 @@ export function onCurrentSongChange(queue: QueueContract) {
 
 export function onLoopChange(state: boolean) {
   socketio.emit('currentLoopState', {
-    state: state,
+    state,
   });
 }
 
 export function onAutoplayChange(state: boolean) {
   socketio.emit('currentAutoplayState', {
-    state: state,
+    state,
   });
 }
 
 export function onShuffleChange(state: boolean) {
   socketio.emit('currentShuffleState', {
-    state: state,
+    state,
   });
+}
+export function onVolumeChange(volume: number) {
+  socketio.emit('currentVolume', {
+    volume
+  })
 }
 
 function getServerEntryToGuildId(guildId: string): QueueContract | undefined {

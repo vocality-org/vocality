@@ -2,6 +2,7 @@ import { Command } from '../interfaces/Command';
 import { Message } from 'discord.js';
 import { CommandOptions } from '../interfaces/CommandOptions';
 import { ServerQueueController } from '../core/ServerQueueController';
+import { onShuffleChange, onLoopChange } from '../dashboard-ws';
 
 export class Shuffle implements Command {
   options: CommandOptions = {
@@ -23,9 +24,11 @@ export class Shuffle implements Command {
       serverEntry.isShuffling = true;
       msg.channel.send('Random play is now `enabled`');
       msg.channel.send('Repeating is now `disabled`');
+      onLoopChange(serverEntry.isLooping);
     } else {
       serverEntry.isShuffling = true;
       msg.channel.send('Random play is now `enabled`');
     }
+    onShuffleChange(serverEntry.isShuffling);
   }
 }
