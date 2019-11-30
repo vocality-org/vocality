@@ -5,7 +5,11 @@ import { onQueueChange } from '../dashboard-ws';
 
 export class Remove implements Command {
   options = {
-    name: 'remove <id of song>',
+    id: {
+      name: 'remove',
+      aliases: ['rem'],
+    },
+    displayName: 'remove <id of song>',
     description: 'Remove an item from the queue starting at 1',
     minArguments: 1,
     socketEnabled: true,

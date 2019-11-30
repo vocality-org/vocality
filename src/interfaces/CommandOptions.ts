@@ -1,4 +1,8 @@
+import { CommandIdentifier } from './CommandIdentifier';
+
 export interface CommandOptions {
+  id: CommandIdentifier;
+
   /**
    * Name of the Command in client format with arguments
    *
@@ -7,7 +11,7 @@ export interface CommandOptions {
    *  "play <url or query>",
    *  "skip (<amount>)"
    */
-  name: string;
+  displayName: string;
 
   /**
    * A short description about the command.
@@ -25,11 +29,6 @@ export interface CommandOptions {
    * If set to true the command can be executed from a websocket connection
    */
   socketEnabled?: boolean;
-
-  /**
-   * List of possible command aliases
-   */
-  aliases?: string[];
 
   /**
    * List of the sub commands which can be called like `[prefix]parent sub`.

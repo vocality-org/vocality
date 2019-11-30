@@ -6,8 +6,11 @@ import { onLoopChange, onShuffleChange } from '../dashboard-ws';
 
 export class Loop implements Command {
   options: CommandOptions = {
+    id: {
+      name: 'loop',
+    },
     description: 'If set to true it loops the current song',
-    name: 'Loop',
+    displayName: 'Loop',
     minArguments: 0,
     socketEnabled: true,
   };

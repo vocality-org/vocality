@@ -4,7 +4,10 @@ import { ServerQueueController } from '../core/ServerQueueController';
 
 export class Pause implements Command {
   options = {
-    name: 'pause',
+    id: {
+      name: 'pause',
+    },
+    displayName: 'pause',
     description: 'Pause the bot',
     socketEnabled: true,
   };

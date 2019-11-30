@@ -6,7 +6,10 @@ import { onShuffleChange, onLoopChange } from '../dashboard-ws';
 
 export class Shuffle implements Command {
   options: CommandOptions = {
-    name: 'shuffle',
+    id: {
+      name: 'shuffle',
+    },
+    displayName: 'shuffle',
     description: 'Shuffles the current queue',
     socketEnabled: true,
     minArguments: 0,

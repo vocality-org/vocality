@@ -57,9 +57,24 @@ export class MessageHandler extends BotHandler {
     );
   }
 
+  /**
+   * Returns the command if found. Also checks for aliases
+   */
   private getCommandFromMessage(commandText: string): Command | undefined {
     if (this.bot.commands.has(commandText)) {
-      return this.bot.commands.get(commandText);
+      // get key / command name via CommandIdentifier from options
+      const key = this.bot.commands.findKey(c => {
+        if (c.options.id.aliases) {
+          return (
+            c.options.id.name === commandText ||
+            c.options.id.aliases?.includes(commandText)
+          );
+        } else {
+          return c.options.id.name === commandText;
+        }
+      });
+
+      return this.bot.commands.get(key);
     } else {
       throw new BotError('Unknown Command!');
     }

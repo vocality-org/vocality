@@ -4,7 +4,10 @@ import { ServerQueueController } from '../core/ServerQueueController';
 
 export class Resume implements Command {
   options = {
-    name: 'resume',
+    id: {
+      name: 'resume',
+    },
+    displayName: 'resume',
     description: 'Resume the bot',
     socketEnabled: true,
   };

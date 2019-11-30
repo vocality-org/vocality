@@ -3,7 +3,11 @@ import { Command } from '../interfaces/Command';
 
 export class Disconnect implements Command {
   options = {
-    name: 'disconnect',
+    id: {
+      name: 'disconnect',
+      aliases: ['dc'],
+    },
+    displayName: 'disconnect',
     description: 'Disconnect the bot',
     socketEnabled: true,
   };

@@ -20,7 +20,10 @@ describe('ArgumentParser', () => {
     it('should throw error when command has arguments but none are provided', () => {
       const commandWithArgs: Command = {
         options: {
-          name: '',
+          id: {
+            name: '',
+          },
+          displayName: '',
           description: '',
           socketEnabled: false,
           minArguments: 1,
@@ -36,7 +39,10 @@ describe('ArgumentParser', () => {
     it('should not throw error when correct amount of arguments are provided', () => {
       const commandWithArgs: Command = {
         options: {
-          name: '',
+          id: {
+            name: '',
+          },
+          displayName: '',
           description: '',
           socketEnabled: false,
           minArguments: 2,
@@ -53,7 +59,10 @@ describe('ArgumentParser', () => {
     it('should ignore any arguments when command has no arguments', () => {
       const commandWithoutArgs: Command = {
         options: {
-          name: '',
+          id: {
+            name: '',
+          },
+          displayName: '',
           description: '',
           socketEnabled: false,
           minArguments: 0,
