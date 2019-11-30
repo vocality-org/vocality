@@ -8,7 +8,10 @@ import { ServerQueueController } from '../core/ServerQueueController';
 
 export class Lyrics implements Command {
   options = {
-    name: 'lyrics (<optional searchstring>)',
+    id: {
+      name: 'lyrics',
+    },
+    displayName: 'lyrics (<optional searchstring>)',
     description: 'Display the lyrics',
     socketEnabled: false,
   };
@@ -56,7 +59,10 @@ export class Lyrics implements Command {
           queryString.stringify(searchString) +
           '&access_token=' +
           GENIUS.GENIUS_API_TOKEN,
-        { headers: { 'content-type': 'application/json' }, method: 'GET' }
+        {
+          headers: { 'content-type': 'application/json' },
+          method: 'GET',
+        }
       ).then(async response => {
         const data = await response.json();
         if (data.response.hits.length === 0) {

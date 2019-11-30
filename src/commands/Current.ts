@@ -5,7 +5,10 @@ import { ServerQueueController } from '../core/ServerQueueController';
 
 export class Current implements Command {
   options = {
-    name: 'current',
+    id: {
+      name: 'current',
+    },
+    displayName: 'current',
     description: 'Display the current song',
     socketEnabled: false,
   };

@@ -4,12 +4,13 @@ import { MessageHandler } from './handlers/MessageHandler';
 import { SocketCommandHandler } from './handlers/SocketCommandHandler';
 import { ServerQueueController } from './ServerQueueController';
 import { Command } from '../interfaces/Command';
+
 import * as commandDefs from '../commands';
 
 export class BotClient extends DiscordClient {
   initTime: number;
   commands: Collection<string, Command>;
-  // maybe theres a better way but undefined will do for now (i tried some stuff with Array<BotHandler> and a register method)
+
   socketHandler: SocketCommandHandler;
   messageHandler: MessageHandler;
 
@@ -41,19 +42,22 @@ export class BotClient extends DiscordClient {
 
   /**
    * Uses the imported `commandDefs` to fill a collection with kv pairs.
-   * key: Lowercase class name
-   * value: An instance of the Class from calling the constructor
+   *
+   * key: Command `options.id.name`
+   * value: Command instance
    *
    * @returns {Collection<string, Command>}
    * @memberof BotClient
    */
   loadCommands(): Collection<string, Command> {
     const cmds = new Collection<string, Command>();
+
     Object.keys(commandDefs).forEach(name => {
       // tslint:disable-next-line: no-any
       const cmd: Command = new ((commandDefs as ConstructorMap)[name] as any)();
-      cmds.set(name.toLowerCase(), cmd);
+      cmds.set(cmd.options.id.name, cmd);
     });
+
     return cmds;
   }
 

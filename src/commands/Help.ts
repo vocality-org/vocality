@@ -5,7 +5,11 @@ import { bot } from '../bot';
 
 export class Help implements Command {
   options = {
-    name: 'help',
+    id: {
+      name: 'help',
+      aliases: ['h'],
+    },
+    displayName: 'help',
     description: 'Show help',
     socketEnabled: false,
   };
@@ -14,7 +18,7 @@ export class Help implements Command {
     let helpString = '';
     bot.commands.forEach(command => {
       helpString += `\`\`${BOT.SERVERPREFIXES[msg.guild.id]}${
-        command.options.name
+        command.options.displayName
       } - ${command.options.description}\`\` \n`;
     });
     const embed = new RichEmbed()

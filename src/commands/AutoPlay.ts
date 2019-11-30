@@ -6,7 +6,11 @@ import { onAutoplayChange } from '../dashboard-ws';
 
 export class AutoPlay implements Command {
   options: CommandOptions = {
-    name: 'autoplay',
+    id: {
+      name: 'autoplay',
+      aliases: ['auto'],
+    },
+    displayName: 'autoplay',
     description: 'bot plays continues playing songs after queue is finished',
   };
   execute(msg: Message, args: string[]): void {
