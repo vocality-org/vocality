@@ -33,7 +33,7 @@ export class BotClient extends DiscordClient {
           isShuffling: false,
           currentlyPlaying: 0,
           isAutoplaying: false,
-          volume: 0.5
+          volume: 0.5,
         });
       });
     });
@@ -41,7 +41,7 @@ export class BotClient extends DiscordClient {
 
   /**
    * Uses the imported `commandDefs` to fill a collection with kv pairs.
-   * key: Command name / class name
+   * key: Lowercase class name
    * value: An instance of the Class from calling the constructor
    *
    * @returns {Collection<string, Command>}
@@ -51,7 +51,7 @@ export class BotClient extends DiscordClient {
     const cmds = new Collection<string, Command>();
     Object.keys(commandDefs).forEach(name => {
       // tslint:disable-next-line: no-any
-      const cmd = new ((commandDefs as ConstructorMap)[name] as any)();
+      const cmd: Command = new ((commandDefs as ConstructorMap)[name] as any)();
       cmds.set(name.toLowerCase(), cmd);
     });
     return cmds;
