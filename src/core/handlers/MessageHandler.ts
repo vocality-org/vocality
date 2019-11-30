@@ -26,9 +26,20 @@ export class MessageHandler extends BotHandler {
 
     try {
       const args = ArgumentParser.parseInput(content);
-      const commandtext = args.shift()!.toLowerCase();
-      const command = this.getCommandFromMessage(commandtext);
+      let commandtext = args.shift()!.toLowerCase();
+      let command = this.getCommandFromMessage(commandtext)!;
+
+      // get deepest sub command
+      while (command.options.subCommands && commandtext) {
+        commandtext = args.shift()!.toLocaleLowerCase();
+        const sub = this.getCommandFromMessage(commandtext);
+        if (sub) {
+          command = sub;
+        }
+      }
+
       ArgumentParser.validateArguments(command, args);
+
       command.execute(message, args);
     } catch (e) {
       message.reply(e.message);
@@ -46,9 +57,9 @@ export class MessageHandler extends BotHandler {
     );
   }
 
-  private getCommandFromMessage(commandText: string): Command {
+  private getCommandFromMessage(commandText: string): Command | undefined {
     if (this.bot.commands.has(commandText)) {
-      return this.bot.commands.get(commandText)!;
+      return this.bot.commands.get(commandText);
     } else {
       throw new BotError('Unknown Command!');
     }
