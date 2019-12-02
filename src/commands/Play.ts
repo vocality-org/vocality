@@ -150,7 +150,7 @@ export class Play implements Command {
       this.play(msg, serverEntry, song);
     } else {
       serverEntry.songs.push(song);
-      msg.channel.send(`${song.title} has been added to the queue!`);
+      msg.channel.send(`**${song.title}** has been added to the queue!`);
       onQueueChange(serverEntry);
     }
   }

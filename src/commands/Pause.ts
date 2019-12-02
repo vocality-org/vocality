@@ -17,8 +17,13 @@ export class Pause implements Command {
       return;
     }
 
-    const connection = ServerQueueController.getInstance().find(msg.guild.id)!
-      .connection;
-    connection!.dispatcher.pause();
+    const serverEntry = ServerQueueController.getInstance().find(msg.guild.id)!;
+    const ss = serverEntry.connection!.dispatcher.time / 1000;
+    serverEntry.connection!.dispatcher.pause();
+    msg.channel.send(
+      `paused **${serverEntry.songs[0].title}** at \`${new Date(ss * 1000)
+        .toISOString()
+        .substr(11, 8)}\``
+    );
   }
 }
