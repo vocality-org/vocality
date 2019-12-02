@@ -107,7 +107,6 @@ export class YouTube {
   parseYoutubeUrl(url: string) {
     const regExp = /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/,
       match = url.match(regExp);
-      console.log(match);
 
     return match !== null ? true : false;
   }

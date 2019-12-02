@@ -29,6 +29,6 @@ export class Resume implements Command {
     }
 
     serverEntry.connection!.dispatcher.resume();
-    msg.channel.send(`${serverEntry.songs[0].title} resumed`);
+    msg.channel.send(`**${serverEntry.songs[0].title}** resumed`);
   }
 }

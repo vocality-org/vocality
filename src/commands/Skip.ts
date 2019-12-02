@@ -6,7 +6,7 @@ import { ServerQueueController } from '../core/ServerQueueController';
 export class Skip implements Command {
   options = {
     id: {
-      name: 'autoplay',
+      name: 'skip',
       aliases: ['next'],
     },
     displayName: 'skip (<optional amount of songs to skip>)',

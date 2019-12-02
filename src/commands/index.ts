@@ -14,3 +14,4 @@ export * from './Loop';
 export * from './Shuffle';
 export * from './AutoPlay';
 export * from './Volume';
+export * from './Move';
