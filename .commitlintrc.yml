@@ -38,7 +38,7 @@ rules:
       - autoplay
       - move
       - settings
-      - settings/dj
+      - dj
       - volume
       - queue
   subject-case:
