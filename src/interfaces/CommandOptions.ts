@@ -29,21 +29,4 @@ export interface CommandOptions {
    * If set to true the command can be executed from a websocket connection
    */
   socketEnabled?: boolean;
-
-  /**
-   * List of the sub commands which can be called like `[prefix]parent sub`.
-   * This just tells handler to treat the second argument as the command to actually execute.
-   *
-   * @example
-   * {
-   *   name: 'settings',
-   *   subCommands: [
-   *     'autoplay',
-   *     'shuffle',
-   *     ...
-   *   ],
-   *   ...
-   * }
-   */
-  subCommands?: string[];
 }

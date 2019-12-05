@@ -17,6 +17,9 @@ export class MessageHandler extends BotHandler {
     this.bot.on('messageUpdate', msg => this.handleMessageUpdate(msg));
   }
 
+  /**
+   * Processes every message sent on the server
+   */
   handleMessage(message: Message) {
     if (!this.validateMessage(message)) return;
 
@@ -27,14 +30,16 @@ export class MessageHandler extends BotHandler {
     try {
       const args = ArgumentParser.parseInput(content);
       let commandtext = args.shift()!.toLowerCase();
-      let command = this.getCommandFromMessage(commandtext)!;
+      let command = this.getCommandFromName(commandtext)!;
 
-      // get deepest sub command
-      while (command.options.subCommands && commandtext) {
+      // get subcommands
+      while (command.subCommands && args.length > 0) {
         commandtext = args.shift()!.toLocaleLowerCase();
-        const sub = this.getCommandFromMessage(commandtext);
+        const sub = this.getSubCommand(command, commandtext);
         if (sub) {
           command = sub;
+        } else {
+          args.splice(0, 0, commandtext); // argument was no subcommand so we add it back
         }
       }
 
@@ -46,6 +51,9 @@ export class MessageHandler extends BotHandler {
     }
   }
 
+  /**
+   * Processes updated messages
+   */
   handleMessageUpdate(msg: Message): void {}
 
   private validateMessage(message: Message): boolean {
@@ -60,7 +68,7 @@ export class MessageHandler extends BotHandler {
   /**
    * Returns the command if found. Also checks for aliases
    */
-  private getCommandFromMessage(commandText: string): Command | undefined {
+  private getCommandFromName(commandText: string): Command | undefined {
     if (this.bot.commands.has(commandText)) {
       // get key / command name via CommandIdentifier from options
       const key = this.bot.commands.findKey(c => {
@@ -76,7 +84,25 @@ export class MessageHandler extends BotHandler {
 
       return this.bot.commands.get(key);
     } else {
-      throw new BotError('Unknown Command!');
+      throw undefined;
     }
+  }
+
+  /**
+   * Returns the subcommand if found. Also checks for aliases.
+   * This is needed to limit the search to a commands list of subcommands
+   */
+  private getSubCommand(
+    command: Command,
+    commandText: string
+  ): Command | undefined {
+    if (command.subCommands) {
+      return command.subCommands.find(
+        s =>
+          s.options.id.name === commandText ||
+          s.options.id.aliases?.includes(commandText)
+      );
+    }
+    return undefined;
   }
 }

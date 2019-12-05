@@ -4,6 +4,9 @@ import { Command } from '../interfaces/Command';
 const seperator = ' ';
 
 export class ArgumentParser {
+  /**
+   * Checks if the input is empty and returns array of arguments
+   */
   static parseInput(msg: string): string[] {
     if (msg.length === 0) {
       throw new BotError('Empty command!');
