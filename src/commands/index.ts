@@ -15,3 +15,4 @@ export * from './Shuffle';
 export * from './AutoPlay';
 export * from './Volume';
 export * from './Move';
+export * from './Queue';
