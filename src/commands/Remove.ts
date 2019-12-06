@@ -7,7 +7,7 @@ export class Remove implements Command {
   options = {
     id: {
       name: 'remove',
-      aliases: ['rem'],
+      aliases: ['rm'],
     },
     displayName: 'remove <id of song>',
     description: 'Remove an item from the queue starting at 1',
