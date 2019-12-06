@@ -1,7 +1,7 @@
 import { Client as DiscordClient, Collection, ClientOptions } from 'discord.js';
 import { BOT } from '../config';
-import { MessageHandler } from './handlers/MessageHandler';
-import { SocketCommandHandler } from './handlers/SocketCommandHandler';
+import { MessageHandler } from './input-handlers/MessageHandler';
+import { SocketCommandHandler } from './input-handlers/SocketCommandHandler';
 import { ServerQueueController } from './ServerQueueController';
 import { Command } from '../interfaces/Command';
 

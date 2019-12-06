@@ -2,7 +2,7 @@ import { Command } from '../interfaces/Command';
 import { CommandOptions } from '../interfaces/CommandOptions';
 import { Message, RichEmbed, MessageEmbedField } from 'discord.js';
 import { ServerQueueController } from '../core/ServerQueueController';
-import { ReactionHandler } from '../core/handlers/ReactionHandler';
+import { ReactionHandler } from '../core/input-handlers/ReactionHandler';
 
 export class Queue implements Command {
   options: CommandOptions = {
@@ -15,11 +15,12 @@ export class Queue implements Command {
     minArguments: 0,
     socketEnabled: false,
   };
-  subCommands?: Command[] | undefined;
+
   execute(msg: Message, args: string[]): void {
     const serverEntry = ServerQueueController.getInstance().findOrCreateFromMessage(
       msg
     );
+
     if (serverEntry.songs.length === 0) msg.channel.send('The Queue is empty');
     else {
       const songList: string[] = [];
@@ -46,11 +47,14 @@ export class Queue implements Command {
         }
         songList.push(list.join('\n\n'));
       }
+
       console.log(songList);
+
       const nowPlaying: { name: string; value: string } = {
         name: 'Now Playing',
         value: `[${serverEntry.songs[0].title}](${serverEntry.songs[0].url}) | length: \`${serverEntry.songs[0].length}\` | requested by: \`${serverEntry.songs[0].requested_by}\``,
       };
+
       const queue = new RichEmbed()
         .setTitle('Current Song Queue')
         .addField(nowPlaying.name, nowPlaying.value)
@@ -58,13 +62,35 @@ export class Queue implements Command {
         .setColor('#00e773')
         .setFooter(`Page 1 of ${songList.length}`);
 
-      msg.channel.send(queue).then(msg => {
+      msg.channel.send(queue).then(async msg => {
+        const message = msg as Message;
         const rHandler = new ReactionHandler();
         rHandler.handleReactions(
           msg as Message,
           100000,
           songList,
           nowPlaying as MessageEmbedField
+        );
+
+        rHandler.addPagination(message);
+
+        rHandler.onReactionPagination(
+          message,
+          100000,
+          songList.length,
+          (reaction, index) => {
+            const embed = new RichEmbed({
+              title: message.embeds[0].title,
+              url: message.embeds[0].url,
+              color: message.embeds[0].color,
+              description: songList[index],
+            });
+            embed.setFooter(`Page ${1 + index} of ${songList.length}`);
+            embed.addField(nowPlaying.name, nowPlaying.value);
+
+            message.edit(embed);
+            reaction.remove(reaction.users.lastKey());
+          }
         );
       });
     }
