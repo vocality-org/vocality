@@ -65,12 +65,6 @@ export class Queue implements Command {
       msg.channel.send(queue).then(async msg => {
         const message = msg as Message;
         const rHandler = new ReactionHandler();
-        rHandler.handleReactions(
-          msg as Message,
-          100000,
-          songList,
-          nowPlaying as MessageEmbedField
-        );
 
         rHandler.addPagination(message);
 
