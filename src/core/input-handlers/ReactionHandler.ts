@@ -99,23 +99,7 @@ export class ReactionHandler {
   }
 
   /**
-   * Returns the zero based `lyricsList` index based on the current pageChange.
-   * Allows for the pages to circle.
-   *
-   * @private
-   * @returns {number}
-   * @memberof Lyrics
-   */
-  private getPageIndex(lyricsList: string[]): number {
-    return (
-      ((this.pageChanges % lyricsList.length) + lyricsList.length) %
-      lyricsList.length
-    );
-  }
-
-  /**
    * Returns the zero based list index from the current pageChange.
-   * Allows for the pages to circle.
    */
   private getPaginationIndex(listLength: number): number {
     return ((this.pageChanges % listLength) + listLength) % listLength;
