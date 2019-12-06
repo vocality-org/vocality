@@ -1,11 +1,11 @@
-import { Command } from '../interfaces/Command';
-import { Message, RichEmbed, MessageReaction, User } from 'discord.js';
-import { GENIUS, EMOJI, BOT } from '../config';
+import { Message, RichEmbed } from 'discord.js';
 import cheerio from 'cheerio';
 import fetch from 'node-fetch';
 import queryString from 'query-string';
+import { Command } from '../interfaces/Command';
+import { GENIUS, EMOJI, BOT } from '../config';
 import { ServerQueueController } from '../core/ServerQueueController';
-import { ReactionHandler } from '../core/handlers/ReactionHandler';
+import { ReactionHandler } from '../core/input-handlers/ReactionHandler';
 
 export class Lyrics implements Command {
   options = {
@@ -21,12 +21,14 @@ export class Lyrics implements Command {
     if (ServerQueueController.getInstance().find(msg.guild.id) === undefined) {
       return;
     }
+
     const songs = ServerQueueController.getInstance().find(msg.guild.id)!.songs;
 
     if (songs.length === 0 && args.length === 0) {
       msg.channel.send('No Song in Queue and no argument provided');
     } else {
       const searchString = { q: '' };
+
       if (args.length === 0) {
         const song = songs[0];
         if (song.interpreters && song.songName) {
@@ -46,6 +48,7 @@ export class Lyrics implements Command {
       } else {
         searchString.q = args.join(' ');
       }
+
       fetch(
         GENIUS.GENIUS_API_URI +
           '/search?' +
@@ -58,6 +61,7 @@ export class Lyrics implements Command {
         }
       ).then(async response => {
         const data = await response.json();
+
         if (data.response.hits.length === 0) {
           msg.channel.send(
             `No Lyrics found consider using \`\`${
@@ -70,8 +74,8 @@ export class Lyrics implements Command {
         const website = await websiteData.text();
         const $ = cheerio.load(website);
         const lyrics = $('.lyrics').text();
-
         const lyricsList = lyrics.match(/[\s\S]{1,2048}/g) as string[];
+
         const embed = new RichEmbed()
           .setTitle(
             `Lyrics for ${
@@ -84,17 +88,37 @@ export class Lyrics implements Command {
           .setDescription(lyricsList[0])
           .setColor('#00e773')
           .setFooter(`Page 1 of ${lyricsList.length}`);
+
         msg.channel.send(
           `${EMOJI.WARNING}if this is not the right lyrics consider \`\`${
             BOT.SERVERPREFIXES[msg.guild.id]
           }lyrics <searchstring>\`\``
         );
-        msg.channel.send(embed).then(msg => {
+
+        msg.channel.send(embed).then(async msg => {
+          const message = msg as Message;
+          const duration = args.length !== 0 ? 60000 : songs[0].length_ms;
+
           const rHandler = new ReactionHandler();
-          rHandler.handleReactions(
-            msg as Message,
-            args.length !== 0 ? 60000 : songs[0].length_ms,
-            lyricsList
+
+          await rHandler.addPagination(message);
+
+          rHandler.onReactionPagination(
+            message,
+            duration,
+            lyricsList.length,
+            (reaction, index) => {
+              const embed = new RichEmbed({
+                title: message.embeds[0].title,
+                url: message.embeds[0].url,
+                color: message.embeds[0].color,
+                description: lyricsList[index],
+              });
+              embed.setFooter(`Page ${1 + index} of ${lyricsList.length}`);
+
+              message.edit(embed);
+              reaction.remove(reaction.users.lastKey());
+            }
           );
         });
       });
