@@ -11,7 +11,7 @@ export class ShardingController {
         path.join(__dirname, '..', 'bot.js'),
         {
           totalShards: BOT.SHARDS,
-          token: BOT.TOKEN,
+          token: process.env.BOT_TOKEN,
         }
       );
     } else {
@@ -19,7 +19,7 @@ export class ShardingController {
         path.join(__dirname, '..', 'bot.ts'),
         {
           totalShards: BOT.SHARDS,
-          token: BOT.TOKEN,
+          token: process.env.BOT_TOKEN,
         }
       );
     }
