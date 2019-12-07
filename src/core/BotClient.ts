@@ -65,7 +65,7 @@ export class BotClient extends DiscordClient {
    * Used to login the Bot with the Discord Token
    */
   async init() {
-    await this.login(BOT.TOKEN);
+    await this.login(process.env.BOT_TOKEN);
   }
 }
 
