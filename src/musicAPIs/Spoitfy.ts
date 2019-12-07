@@ -1,5 +1,4 @@
 import Request from 'request';
-import { SPOTIFY } from '../config';
 import { Song } from '../interfaces/Song';
 import { YouTube } from './YouTube';
 
@@ -11,7 +10,7 @@ export class Spotify {
    */
   async init() {
     const b64 = Buffer.from(
-      `${SPOTIFY.SPOTIFY_ClIENT_ID}:${SPOTIFY.SPOTIFY_CLIENT_SECRET}`
+      `${process.env.SPOTIFY_ClIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
     ).toString('base64');
     const authOptions: Request.CoreOptions = {
       headers: {
@@ -27,7 +26,7 @@ export class Spotify {
       'https://accounts.spotify.com/api/token',
       authOptions,
       (error, response, body) => {
-        SPOTIFY.SPOTIFY_ACCESS_TOKEN = body.access_token;
+        process.env.SPOTIFY_ACCESS_TOKEN = body.access_token;
       }
     );
   }
@@ -40,7 +39,7 @@ export class Spotify {
         SPOTIFY_API_URI + 'tracks/' + songId,
         {
           headers: {
-            Authorization: 'Bearer ' + SPOTIFY.SPOTIFY_ACCESS_TOKEN,
+            Authorization: 'Bearer ' + process.env.SPOTIFY_ACCESS_TOKEN,
             'Content-type': 'application/json',
           },
         },

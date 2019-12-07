@@ -54,7 +54,7 @@ export class Lyrics implements Command {
           '/search?' +
           queryString.stringify(searchString) +
           '&access_token=' +
-          GENIUS.GENIUS_API_TOKEN,
+          process.env.GENIUS_API_TOKEN,
         {
           headers: { 'content-type': 'application/json' },
           method: 'GET',

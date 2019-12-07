@@ -9,7 +9,6 @@ import { YouTube } from '../musicAPIs/YouTube';
 import ytList from 'youtube-playlist';
 import { onCurrentSongChange, onQueueChange } from '../dashboard-ws';
 import { Spotify } from '../musicAPIs/Spoitfy';
-import { SPOTIFY } from '../config';
 
 /**
  * The Play Class is used to Play Music with the Bot
@@ -73,7 +72,7 @@ export class Play implements Command {
           if (song) this.addSong(song, serverEntry, msg);
         }
       } else if (/^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/.test(args[0])) {
-        if (SPOTIFY.SPOTIFY_ACCESS_TOKEN) {
+        if (process.env.SPOTIFY_ACCESS_TOKEN) {
           const sptfy = new Spotify();
           const song = await sptfy.getSong(args[0]);
           if (song) this.addSong(song, serverEntry, msg);
