@@ -12,10 +12,9 @@ interface GuildPrefixMap {
  * Colors for Embeds
  */
 const COLOR = {
-  PRIMARY: '#0c003f',
-  PRIMARY_VARIANT: '#29abe2',
-  SECONDARY: '#ff3f60',
-  BACKGROUND: '#121212',
+  CYAN: '#29abe2',
+  PINK: '#ff3f60',
+  GREY: '#121212',
 };
 
 /**
@@ -41,15 +40,7 @@ const EMOJI = {
 };
 
 const GENIUS = {
-  GENIUS_API_TOKEN:
-    'yVke9GpZpG1prMfz1g3TbFYeXZOmMRNRneGECQXmt5EWMD8cCo_o67577jkeVwUn',
   GENIUS_API_URI: 'https://api.genius.com',
 };
 
-const SPOTIFY = {
-  SPOTIFY_ClIENT_ID: '53b09c59939a4ede99893a1f49e58c3f',
-  SPOTIFY_CLIENT_SECRET: '17e2484828914e5ab5cb14a9150e368a',
-  SPOTIFY_ACCESS_TOKEN: '',
-};
-
-export { BOT, COLOR, EMOJI, GENIUS, SPOTIFY };
+export { BOT, COLOR, EMOJI, GENIUS };

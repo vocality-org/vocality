@@ -1,6 +1,7 @@
+import dotenv from 'dotenv';
 import { ShardingController } from './core/ShardingController';
 
-import './dashboard-ws/keep-alive';
+dotenv.config();
 
 const sharder = new ShardingController();
 sharder.start();
