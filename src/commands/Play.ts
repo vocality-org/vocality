@@ -9,10 +9,6 @@ import { YouTube } from '../musicAPIs/YouTube';
 import ytList from 'youtube-playlist';
 import { onCurrentSongChange, onQueueChange } from '../dashboard-ws';
 import { Spotify } from '../musicAPIs/Spoitfy';
-<<<<<<< HEAD
-=======
-import { SPOTIFY } from '../config';
->>>>>>> f5862c6461130b73bc8f697c04fc771b6ce03ca6
 
 /**
  * The Play Class is used to Play Music with the Bot
