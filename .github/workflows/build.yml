@@ -1,4 +1,4 @@
-name: npm run build
+name: build
 
 on: [push]
 
