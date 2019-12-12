@@ -1,32 +1,32 @@
 {
-  "name": "rythm-bot",
+  "name": "vocality",
   "version": "1.0.0",
-  "description": "Music Bot for Discord",
+  "description": "Selfhosted Discord Music Bot",
   "main": "server.ts",
   "scripts": {
     "start": "ts-node src/server.ts",
     "start:production": "NODE_ENV=production node build/src/server.js ",
+    "prebuild": "npm run clean",
     "build": "npm run compile",
     "build:live": "nodemon --watch src --exec ts-node src/server.ts",
     "compile": "tsc -p .",
     "test": "ts-mocha --exit --grep commands --invert -p tsconfig.json test/**/*.ts",
     "test:commands": "ts-mocha --exit --grep commands -p tsconfig.json test/**/*.ts",
-    "test:coverage": "nyc ts-mocha --exit --grep commands --invert -p tsconfig.json test/**/*.ts",
-    "check": "gts check",
+    "test:coverage": "nyc npm test",
     "clean": "gts clean",
-    "fix": "gts fix",
-    "cheerio": "ts-node src/cheerioTest.ts"
+    "check": "gts check",
+    "fix": "gts fix"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MatthiasHerzog2000/rythm-bot.git"
+    "url": "git+https://github.com/vocality-org/vocality.git"
   },
   "author": "Herzog Matthias, Kaindl Julian",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MatthiasHerzog2000/rythm-bot/issues"
+    "url": "https://github.com/vocality-org/vocality/issues"
   },
-  "homepage": "https://github.com/MatthiasHerzog2000/rythm-bot#readme",
+  "homepage": "https://github.com/vocality-org/vocality#readme",
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
