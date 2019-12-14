@@ -23,46 +23,66 @@ export class MessageHandler extends BotHandler {
   handleMessage(message: Message) {
     if (!this.validateMessage(message)) return;
 
-    const content = message.content.slice(
-      BOT.SERVERPREFIXES[message.guild.id].length
-    );
-
     try {
-      const args = ArgumentParser.parseInput(content);
-      let commandtext = args.shift()!.toLowerCase();
-      let command = this.getCommandFromName(commandtext)!;
-
-      // get subcommands
-      while (command.subCommands && args.length > 0) {
-        commandtext = args.shift()!.toLocaleLowerCase();
-        const sub = this.getSubCommand(command, commandtext);
-        if (sub) {
-          command = sub;
-        } else {
-          args.splice(0, 0, commandtext); // argument was no subcommand so we add it back
-        }
-      }
-
-      ArgumentParser.validateArguments(command, args);
-
-      command.execute(message, args);
+      this.processMessage(message);
     } catch (e) {
       message.reply(e.message);
     }
   }
 
   /**
-   * Processes updated messages
+   * Processes edited messages
    */
-  handleMessageUpdate(msg: Message): void {}
+  handleMessageUpdate(message: Message): void {
+    if (!this.validateMessage(message)) return;
 
+    try {
+      this.processMessage(message);
+    } catch (e) {
+      message.reply(e.message);
+    }
+  }
+
+  /**
+   * Checks that the processed message does not come from a bot user and
+   * starts with the correct prefix
+   */
   private validateMessage(message: Message): boolean {
     return (
       (!message.author.bot &&
         message.content.startsWith(BOT.SERVERPREFIXES[message.guild.id])) ||
+      // if we're not on production we also react to messages from the test bot
       (process.env.NODE_ENV !== 'production' &&
         message.author.username === 'Vocality Tester')
     );
+  }
+
+  /**
+   * Tries to find and execute a command
+   */
+  private processMessage(message: Message) {
+    const content = message.content.slice(
+      BOT.SERVERPREFIXES[message.guild.id].length
+    );
+
+    const args = ArgumentParser.parseInput(content);
+
+    let commandtext = args.shift()!.toLowerCase();
+    let command = this.getCommandFromName(commandtext)!;
+
+    while (command.subCommands && args.length > 0) {
+      commandtext = args.shift()!.toLocaleLowerCase(); // assume the argument is a subcommand
+      const sub = this.getSubCommand(command, commandtext);
+      if (sub) {
+        command = sub;
+      } else {
+        args.splice(0, 0, commandtext); // argument was no subcommand so we add it back
+      }
+    }
+
+    ArgumentParser.validateArguments(command, args);
+
+    command.execute(message, args);
   }
 
   /**
