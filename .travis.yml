@@ -14,4 +14,4 @@ deploy:
     secure: $HEROKU_KEY
   app: bass-bot-app
   on:
-    repo: herzogmatthias/rythm-bot
+    repo: vocality-org/vocality
