@@ -62,6 +62,20 @@ export class BotClient extends DiscordClient {
   }
 
   /**
+   * Provides a utility to for semantic command search. Returns first command
+   * that has a match in either name or aliases
+   */
+  findCommand(search: string): Command | undefined {
+    return this.commands.find((command, name) => {
+      if (name === search || command.options.id.aliases?.includes(search)) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+
+  /**
    * Used to login the Bot with the Discord Token
    */
   async init() {
