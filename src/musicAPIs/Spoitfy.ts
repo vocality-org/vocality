@@ -34,7 +34,6 @@ export class Spotify {
   getSong(url: string) {
     return new Promise<Song | null>(async (res, rej) => {
       const songId = url.split('/')[url.split('/').length - 1];
-      console.log('Spotify 38 ' + url);
       Request.get(
         SPOTIFY_API_URI + 'tracks/' + songId,
         {

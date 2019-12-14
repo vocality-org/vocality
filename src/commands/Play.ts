@@ -48,7 +48,6 @@ export class Play implements Command {
       serverEntry.connection = connection;
       const yt = new YouTube();
       let song: Song | null;
-      console.log(args[0]);
       if (yt.parseYoutubeUrl(args[0])) {
         if (args[0].includes('playlist')) {
           const result = await ytList(args[0], 'url');

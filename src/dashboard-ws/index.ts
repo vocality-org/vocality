@@ -32,7 +32,6 @@ socketio.on('connection', (socket: io.Socket) => {
   });
 
   socket.on('currentGuild', (guildId: string) => {
-    console.log(guildId);
     const queue = getServerEntryToGuildId(guildId);
     if (queue) {
       onQueueChange(queue);
@@ -105,17 +104,15 @@ export function onShuffleChange(state: boolean) {
 }
 export function onVolumeChange(volume: number) {
   socketio.emit('currentVolume', {
-    volume
-  })
+    volume,
+  });
 }
 
 function getServerEntryToGuildId(guildId: string): QueueContract | undefined {
   return ServerQueueController.getInstance().find(guildId);
 }
 
-socketio.on('disconnect', (socket: io.Socket) => {
-  console.log('socket disconnected');
-});
+socketio.on('disconnect', (socket: io.Socket) => {});
 
 export interface SocketCommand {
   name: string;

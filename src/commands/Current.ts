@@ -20,7 +20,6 @@ export class Current implements Command {
       const song: Song = serverEntry.songs[serverEntry.currentlyPlaying];
       const ss = serverEntry.connection!.dispatcher.time / 1000;
 
-      console.log(song.thumbnail_url);
       const embed = new RichEmbed()
         .setAuthor(
           song.author.name,
