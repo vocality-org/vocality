@@ -24,7 +24,6 @@ export class Move implements Command {
 
     const songIndex = +args[0];
     const futureSongIndex = +args[1];
-    console.log(serverEntry.songs[songIndex]);
     if (
       serverEntry.songs.length < songIndex ||
       serverEntry.songs.length < futureSongIndex

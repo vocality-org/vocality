@@ -25,7 +25,6 @@ export class Queue implements Command {
     else {
       const songList: string[] = [];
       const pages = Math.ceil(serverEntry.songs.length / 10);
-      console.log(serverEntry.songs.length);
       for (let i = 1; i <= pages; i++) {
         const list: string[] = [];
         for (
@@ -36,7 +35,6 @@ export class Queue implements Command {
             : i * 10);
           j++
         ) {
-          console.log(j);
           list.push(
             `**${j + 1}.Entry** [${serverEntry.songs[j + 1].title}](${
               serverEntry.songs[j + 1].url
@@ -47,8 +45,6 @@ export class Queue implements Command {
         }
         songList.push(list.join('\n\n'));
       }
-
-      console.log(songList);
 
       const nowPlaying: { name: string; value: string } = {
         name: 'Now Playing',

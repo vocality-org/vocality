@@ -3,3 +3,4 @@ build
 .vscode/*
 .nyc_output/*
 .env
+src/cheerioTest.ts
