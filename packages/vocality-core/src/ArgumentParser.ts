@@ -1,5 +1,5 @@
 import { BotError } from './BotError';
-import { Command } from '../interfaces/Command';
+import { Command } from '@vocality-org/types';
 
 const seperator = ' ';
 

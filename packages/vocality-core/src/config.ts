@@ -38,8 +38,4 @@ const EMOJI = {
   ],
 };
 
-const GENIUS = {
-  GENIUS_API_URI: 'https://api.genius.com',
-};
-
-export { BOT, COLOR, EMOJI, GENIUS };
+export { BOT, COLOR, EMOJI };

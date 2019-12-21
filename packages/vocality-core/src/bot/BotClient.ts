@@ -1,17 +1,12 @@
-import { Client as DiscordClient, Collection, ClientOptions } from 'discord.js';
+import { Collection, ClientOptions } from 'discord.js';
 import { BOT } from '../config';
 import { MessageHandler } from './input-handlers/MessageHandler';
-import { SocketCommandHandler } from './input-handlers/SocketCommandHandler';
-import { ServerQueueController } from './ServerQueueController';
-import { Command } from '../interfaces/Command';
+import { Client, Command } from '@vocality-org/types';
 
-import * as commandDefs from '../commands';
-
-export class BotClient extends DiscordClient {
+export class BotClient extends Client {
   initTime: number;
   commands: Collection<string, Command>;
 
-  socketHandler: SocketCommandHandler;
   messageHandler: MessageHandler;
 
   constructor(options?: ClientOptions) {
@@ -20,22 +15,10 @@ export class BotClient extends DiscordClient {
     this.commands = this.loadCommands();
 
     this.messageHandler = new MessageHandler(this);
-    this.socketHandler = new SocketCommandHandler(this);
 
     this.once('ready', () => {
       this.guilds.tap(guild => {
         BOT.SERVERPREFIXES[guild.id] = BOT.PREFIX;
-        ServerQueueController.getInstance().add(guild.id, {
-          songs: [],
-          textChannel: null,
-          voiceChannel: null,
-          connection: null,
-          isLooping: false,
-          isShuffling: false,
-          currentlyPlaying: 0,
-          isAutoplaying: false,
-          volume: 0.5,
-        });
       });
     });
   }
@@ -52,9 +35,9 @@ export class BotClient extends DiscordClient {
   loadCommands(): Collection<string, Command> {
     const cmds = new Collection<string, Command>();
 
-    Object.keys(commandDefs).forEach(name => {
+    Object.keys({}).forEach(name => {
       // tslint:disable-next-line: no-any
-      const cmd: Command = new ((commandDefs as ConstructorMap)[name] as any)();
+      const cmd: Command = new (({} as ConstructorMap)[name] as any)();
       cmds.set(cmd.options.id.name, cmd);
     });
 

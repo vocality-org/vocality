@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { ShardingController } from './core/ShardingController';
+import { ShardingController } from './ShardingController';
 
 dotenv.config();
 

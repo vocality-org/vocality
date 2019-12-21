@@ -2,9 +2,8 @@ import { BotHandler } from './BotHandler';
 import { Message } from 'discord.js';
 import { BotClient } from '../BotClient';
 import { BOT } from '../../config';
-import { ArgumentParser } from '../ArgumentParser';
-import { BotError } from '../BotError';
-import { Command } from '../../interfaces/Command';
+import { ArgumentParser } from '../../ArgumentParser';
+import { Command } from '@vocality-org/types';
 
 export class MessageHandler extends BotHandler {
   constructor(bot: BotClient) {

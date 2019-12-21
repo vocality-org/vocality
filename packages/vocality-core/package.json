@@ -34,12 +34,13 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "discord.js": "^11.5.1"
-  },
   "devDependencies": {
     "typescript": "^3.7.3",
-    "gts": "^1.1.2",
-    "@vocality-org/types": "^1.0.0"
+    "gts": "^1.1.2"
+  },
+  "dependencies": {
+    "@vocality-org/types": "^1.0.0",
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0"
   }
 }

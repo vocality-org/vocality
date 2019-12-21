@@ -22,25 +22,7 @@ rules:
       - core
       - socket
       - types
-      - changePrefix
-      - current
-      - disconnect
-      - help
-      - lyrics
-      - pause
-      - play
-      - remove
-      - resume
-      - skip
-      - stop
-      - loop
-      - shuffle
-      - autoplay
-      - move
-      - settings
-      - dj
-      - volume
-      - queue
+      - music
   subject-case:
     - 2
     - always
