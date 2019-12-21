@@ -1,0 +1,45 @@
+{
+  "name": "@vocality-org/core",
+  "version": "1.0.0",
+  "description": "core functionalities for Vocality",
+  "main": "build/src/index.js",
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "npm run compile",
+    "compile": "tsc -p .",
+    "clean": "gts clean",
+    "check": "gts check",
+    "fix": "gts fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vocality-org/vocality.git"
+  },
+  "author": "Vocality Authors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vocality-org/vocality/issues"
+  },
+  "homepage": "https://github.com/vocality-org/vocality#readme",
+  "engines": {
+    "node": "=10.x.x",
+    "npm": "=6.x.x"
+  },
+  "files": [
+    "build/src/**/*.js",
+    "build/src/**/*.d.ts",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  },
+  "devDependencies": {
+    "typescript": "^3.7.3",
+    "gts": "^1.1.2",
+    "@vocality-org/types": "^1.0.0"
+  }
+}
