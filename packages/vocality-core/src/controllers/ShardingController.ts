@@ -1,5 +1,5 @@
 import { ShardingManager } from 'discord.js';
-import { BOT } from './config';
+import { BOT } from '../config';
 import * as path from 'path';
 
 export class ShardingController {

@@ -1,27 +1,21 @@
 {
-  "name": "@vocality-org/core",
+  "name": "@vocality-org/music",
   "version": "1.0.0",
-  "description": "core functionalities for Vocality",
+  "description": "Music plugin for Vocality",
   "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "repository": "vocality-org/vocality",
   "scripts": {
-    "start": "NODE_ENV=production node build/src/server.js",
     "prebuild": "npm run clean",
     "build": "npm run compile",
+    "prepare": "npm run compile",
     "compile": "tsc -p .",
     "clean": "gts clean",
     "check": "gts check",
     "fix": "gts fix"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vocality-org/vocality.git"
-  },
   "author": "Vocality Authors",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/vocality-org/vocality/issues"
-  },
-  "homepage": "https://github.com/vocality-org/vocality#readme",
   "engines": {
     "node": "=10.x.x",
     "npm": "=6.x.x"
@@ -41,8 +35,8 @@
   },
   "dependencies": {
     "@vocality-org/types": "^1.0.0",
-    "@vocality-org/music": "^1.0.0",
+    "@vocality-org/core": "^1.0.0",
     "discord.js": "^11.5.1",
-    "dotenv": "^8.2.0"
+    "dotenv": "8.2.0"
   }
 }

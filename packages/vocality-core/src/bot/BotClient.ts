@@ -1,9 +1,9 @@
-import { Collection, ClientOptions } from 'discord.js';
+import { Client as DiscordClient, Collection, ClientOptions } from 'discord.js';
 import { BOT } from '../config';
 import { MessageHandler } from './input-handlers/MessageHandler';
 import { Client, Command } from '@vocality-org/types';
 
-export class BotClient extends Client {
+export class BotClient extends DiscordClient implements Client {
   initTime: number;
   commands: Collection<string, Command>;
 

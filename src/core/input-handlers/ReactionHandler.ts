@@ -1,10 +1,4 @@
-import {
-  Message,
-  MessageReaction,
-  User,
-  RichEmbed,
-  MessageEmbedField,
-} from 'discord.js';
+import { Message, MessageReaction, User } from 'discord.js';
 
 import { EMOJI } from '../../config';
 
