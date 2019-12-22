@@ -30,13 +30,21 @@
     "access": "public"
   },
   "devDependencies": {
-    "typescript": "^3.7.3",
-    "gts": "^1.1.2"
+    "@types/cheerio": "^0.22.15",
+    "@types/node-fetch": "^2.5.4",
+    "gts": "^1.1.2",
+    "typescript": "^3.7.3"
   },
   "dependencies": {
-    "@vocality-org/types": "^1.0.0",
     "@vocality-org/core": "^1.0.0",
+    "@vocality-org/types": "^1.0.0",
+    "cheerio": "^1.0.0-rc.3",
     "discord.js": "^11.5.1",
-    "dotenv": "8.2.0"
+    "dotenv": "8.2.0",
+    "node-fetch": "^2.6.0",
+    "query-string": "^6.9.0",
+    "request": "^2.88.0",
+    "youtube-playlist": "^1.0.2",
+    "ytdl-core": "^1.0.3"
   }
 }

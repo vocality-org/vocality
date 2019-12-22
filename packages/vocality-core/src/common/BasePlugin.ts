@@ -1,4 +1,7 @@
-import { Plugin, PluginConfig } from '@vocality-org/types';
+import {
+  Plugin,
+  PluginConfig,
+} from '@vocality-org/types/build/src/common/Plugin';
 
 export abstract class BasePlugin implements Plugin {
   protected _config!: PluginConfig;

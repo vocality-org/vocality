@@ -2,7 +2,8 @@
   "extends": "../tsconfig-vocality.json",
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "build"
+    "outDir": "build",
+    "esModuleInterop": true
   },
   "include": ["src/**/*.ts"]
 }

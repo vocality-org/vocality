@@ -3,4 +3,6 @@ build
 .vscode/*
 .nyc_output/*
 .env
+packages/vocality-core/.env
+packages/vocality-music/.env
 src/cheerioTest.ts

@@ -37,7 +37,7 @@ export class PluginController {
     }
   }
 
-  /**
+  /*
    *Unloads all plugins
    *
    * @memberof PluginLoader

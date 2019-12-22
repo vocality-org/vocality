@@ -1,4 +1,7 @@
-import { BasePlugin } from '@vocality-org/core';
+import { BasePlugin } from '@vocality-org/core/build/src/common/BasePlugin';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 export class MusicPlugin extends BasePlugin {
   initialize() {
