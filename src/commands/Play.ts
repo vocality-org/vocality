@@ -115,7 +115,7 @@ export class Play implements Command {
 
     msg.channel.send(`Now playing **${song!.title}**`);
 
-    const dispatcher = serverEntry
+    serverEntry
       .connection!.playStream(ytdl(song!.url, { filter: 'audioonly' }), {
         volume: serverEntry.volume,
       })

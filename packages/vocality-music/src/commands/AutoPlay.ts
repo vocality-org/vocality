@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { onAutoplayChange } from '../dashboard-ws';
+// import { onAutoplayChange } from '../dashboard-ws';
 import { ServerQueueController } from '../controller/ServerQueueController';
 import { Command, CommandOptions } from '../../../vocality-types/build/src';
 
@@ -8,7 +8,6 @@ export class AutoPlay implements Command {
     id: {
       name: 'autoplay',
       aliases: ['auto'],
-      id: 3
     },
     displayName: 'autoplay',
     description: 'bot plays continues playing songs after queue is finished',
@@ -24,6 +23,6 @@ export class AutoPlay implements Command {
       serverEntry.isAutoplaying = true;
       msg.channel.send('Autoplay is now `enabled`');
     }
-    onAutoplayChange(serverEntry.isAutoplaying);
+    // onAutoplayChange(serverEntry.isAutoplaying);
   }
 }

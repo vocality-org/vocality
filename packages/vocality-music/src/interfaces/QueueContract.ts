@@ -8,9 +8,9 @@ import {
 import { Song } from './Song';
 
 export interface QueueContract {
-  textChannel: TextChannel | DMChannel | GroupDMChannel | null;
-  voiceChannel: VoiceChannel | null;
-  connection: VoiceConnection | null;
+  textChannel: TextChannel | DMChannel | GroupDMChannel | undefined;
+  voiceChannel: VoiceChannel | undefined;
+  connection: VoiceConnection | undefined;
   songs: Song[];
   isLooping: boolean;
   isShuffling: boolean;

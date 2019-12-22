@@ -1,15 +1,12 @@
-
 import { Message } from 'discord.js';
 import { CommandOptions, Command } from '../../../vocality-types/build/src';
 import { ServerQueueController } from '../controller/ServerQueueController';
-
 
 export class Skip implements Command {
   options: CommandOptions = {
     id: {
       name: 'skip',
       aliases: ['next'],
-      id: 965
     },
     displayName: 'skip (<optional amount of songs to skip>)',
     description: 'Skip the current song',

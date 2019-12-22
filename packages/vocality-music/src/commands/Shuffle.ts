@@ -1,6 +1,5 @@
-
 import { Message } from 'discord.js';
-import { onShuffleChange, onLoopChange } from '../dashboard-ws';
+// import { onShuffleChange, onLoopChange } from '../dashboard-ws';
 import { Command, CommandOptions } from '../../../vocality-types/build/src';
 import { ServerQueueController } from '../controller/ServerQueueController';
 
@@ -8,7 +7,6 @@ export class Shuffle implements Command {
   options: CommandOptions = {
     id: {
       name: 'shuffle',
-      id: 678
     },
     displayName: 'shuffle',
     description: 'Shuffles the current queue',
@@ -28,11 +26,11 @@ export class Shuffle implements Command {
       serverEntry.isShuffling = true;
       msg.channel.send('Random play is now `enabled`');
       msg.channel.send('Repeating is now `disabled`');
-      onLoopChange(serverEntry.isLooping);
+      // onLoopChange(serverEntry.isLooping);
     } else {
       serverEntry.isShuffling = true;
       msg.channel.send('Random play is now `enabled`');
     }
-    onShuffleChange(serverEntry.isShuffling);
+    // onShuffleChange(serverEntry.isShuffling);
   }
 }

@@ -6,7 +6,6 @@
   "types": "build/src/index.d.ts",
   "repository": "vocality-org/vocality",
   "scripts": {
-    "prebuild": "npm run clean",
     "build": "npm run compile",
     "prepare": "npm run compile",
     "compile": "tsc -p .",
@@ -32,6 +31,7 @@
   "devDependencies": {
     "@types/cheerio": "^0.22.15",
     "@types/node-fetch": "^2.5.4",
+    "@types/request": "^2.48.4",
     "gts": "^1.1.2",
     "typescript": "^3.7.3"
   },
@@ -42,6 +42,7 @@
     "discord.js": "^11.5.1",
     "dotenv": "8.2.0",
     "node-fetch": "^2.6.0",
+    "node-opus": "^0.3.3",
     "query-string": "^6.9.0",
     "request": "^2.88.0",
     "youtube-playlist": "^1.0.2",

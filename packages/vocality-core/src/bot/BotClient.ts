@@ -1,20 +1,24 @@
-import { Client as DiscordClient, Collection, ClientOptions } from 'discord.js';
-import { BOT } from '../config';
+import { Client, Command, Handler, ClientOptions } from '@vocality-org/types';
+import { Client as DiscordClient } from 'discord.js';
+import { BOT, DEFAULT_PLUGINS } from '../config';
+import { PluginController } from './../controllers/PluginController';
 import { MessageHandler } from './input-handlers/MessageHandler';
-import { Client, Command } from '@vocality-org/types';
 
 export class BotClient extends DiscordClient implements Client {
   initTime: number;
-  commands: Collection<string, Command>;
+  handlers: Handler[] = [];
 
-  messageHandler: MessageHandler;
+  private pluginController: PluginController;
 
   constructor(options?: ClientOptions) {
     super(options);
     this.initTime = Date.now();
-    this.commands = this.loadCommands();
 
-    this.messageHandler = new MessageHandler(this);
+    this.handlers.push(new MessageHandler(this));
+
+    this.pluginController = new PluginController().load(
+      options?.plugins || DEFAULT_PLUGINS
+    );
 
     this.once('ready', () => {
       this.guilds.tap(guild => {
@@ -23,39 +27,29 @@ export class BotClient extends DiscordClient implements Client {
     });
   }
 
-  /**
-   * Uses the imported `commandDefs` to fill a collection with kv pairs.
-   *
-   * key: Command `options.id.name`
-   * value: Command instance
-   *
-   * @returns {Collection<string, Command>}
-   * @memberof BotClient
-   */
-  loadCommands(): Collection<string, Command> {
-    const cmds = new Collection<string, Command>();
+  findCommand(search: string): Command | Command[] | undefined {
+    const found: Command[] = [];
 
-    Object.keys({}).forEach(name => {
-      // tslint:disable-next-line: no-any
-      const cmd: Command = new (({} as ConstructorMap)[name] as any)();
-      cmds.set(cmd.options.id.name, cmd);
+    this.pluginController.plugins.forEach(p => {
+      p.commands?.forEach(c => {
+        if (
+          c.options.id.name === search ||
+          c.options.id.aliases?.includes(search)
+        ) {
+          found.push(c);
+        }
+      });
     });
 
-    return cmds;
-  }
+    if (found.length === 1) {
+      return found[0];
+    }
 
-  /**
-   * Provides a utility to for semantic command search. Returns first command
-   * that has a match in either name or aliases
-   */
-  findCommand(search: string): Command | undefined {
-    return this.commands.find((command, name) => {
-      if (name === search || command.options.id.aliases?.includes(search)) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    if (found.length >= 1) {
+      return found;
+    }
+
+    return undefined;
   }
 
   /**
@@ -64,8 +58,4 @@ export class BotClient extends DiscordClient implements Client {
   async init() {
     await this.login(process.env.BOT_TOKEN);
   }
-}
-
-interface ConstructorMap {
-  [key: string]: Function;
 }

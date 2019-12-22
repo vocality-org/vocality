@@ -42,7 +42,7 @@ export class ServerQueueController {
       return existingEntry;
     }
     const newEntry: QueueContract = {
-      connection: null,
+      connection: undefined,
       songs: [],
       textChannel: msg.channel,
       voiceChannel: msg.member.voiceChannel,
@@ -50,7 +50,7 @@ export class ServerQueueController {
       isShuffling: false,
       currentlyPlaying: 0,
       isAutoplaying: false,
-      volume: 0.5
+      volume: 0.5,
     };
     if (
       existingEntry &&

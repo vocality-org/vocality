@@ -1,11 +1,7 @@
-import { Plugin, PluginConfig } from '@vocality-org/types';
-
-export interface Plugins {
-  [pluginName: string]: PluginConfig;
-}
+import { Plugin, Plugins } from '@vocality-org/types';
 
 export class PluginController {
-  private _plugins: Plugin[] = [];
+  readonly plugins: Plugin[] = [];
 
   /**
    * Loads a list of plugins. Plugins are expected to extend the BasePlugin.
@@ -19,9 +15,11 @@ export class PluginController {
     Object.keys(toLoad).forEach(name => {
       const config = toLoad[name];
       import(config.path).then(module => {
-        this._plugins.push(module.plugin.enable(config));
+        this.plugins.push(module.plugin.enable(config));
       });
     });
+
+    return this;
   }
 
   /**
@@ -30,10 +28,10 @@ export class PluginController {
    * @param {Plugin} plugin The plugin to unload
    */
   unload(plugin: Plugin) {
-    const toUnload = this._plugins.find(p => p === plugin);
+    const toUnload = this.plugins.find(p => p === plugin);
     if (toUnload) {
       toUnload.disable();
-      this._plugins.splice(this._plugins.indexOf(toUnload), 1);
+      this.plugins.splice(this.plugins.indexOf(toUnload), 1);
     }
   }
 
@@ -43,7 +41,7 @@ export class PluginController {
    * @memberof PluginLoader
    */
   unloadAll() {
-    this._plugins.forEach(p => {
+    this.plugins.forEach(p => {
       this.unload(p);
     });
   }

@@ -1,12 +1,17 @@
-import { BasePlugin } from '@vocality-org/core/build/src/common/BasePlugin';
+import { BasePlugin, loadCommands } from '@vocality-org/core';
+import { Command } from '@vocality-org/types';
+
 import * as dotenv from 'dotenv';
+
+import * as commandDefs from './commands';
 
 dotenv.config();
 
 export class MusicPlugin extends BasePlugin {
-  initialize() {
-    console.log('music works!');
+  commands!: Command[];
 
+  initialize() {
+    this.commands = loadCommands(commandDefs);
     return this;
   }
 

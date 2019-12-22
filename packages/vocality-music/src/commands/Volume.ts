@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { onVolumeChange } from '../dashboard-ws';
+// import { onVolumeChange } from '../dashboard-ws';
 import { Command, CommandOptions } from '../../../vocality-types/build/src';
 import { ServerQueueController } from '../controller/ServerQueueController';
 
@@ -11,7 +11,6 @@ export class Volume implements Command {
     id: {
       name: 'volume',
       aliases: ['vol'],
-      id: 123
     },
     minArguments: 1,
     displayName: 'volume [number or up/down]',
@@ -33,7 +32,7 @@ export class Volume implements Command {
     }
 
     msg.reply(`Volume changed to ${vol}`);
-    onVolumeChange(vol);
+    // onVolumeChange(vol);
   }
 
   validateArguments(args: string[]): boolean {

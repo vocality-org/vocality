@@ -6,7 +6,6 @@ export class Disconnect implements Command {
     id: {
       name: 'disconnect',
       aliases: ['dc'],
-      id: 3
     },
     displayName: 'disconnect',
     description: 'Disconnect the bot',

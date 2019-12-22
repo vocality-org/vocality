@@ -6,7 +6,6 @@ export class Resume implements Command {
   options: CommandOptions = {
     id: {
       name: 'resume',
-      id: 453
     },
     displayName: 'resume',
     description: 'Resume the bot',

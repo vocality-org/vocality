@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { onQueueChange } from '../dashboard-ws';
+// import { onQueueChange } from '../dashboard-ws';
 import { CommandOptions, Command } from '../../../vocality-types/build/src';
 import { ServerQueueController } from '../controller/ServerQueueController';
 
@@ -8,7 +8,6 @@ export class Remove implements Command {
     id: {
       name: 'remove',
       aliases: ['rm'],
-      id: 67
     },
     displayName: 'remove <id of song>',
     description: 'Remove an item from the queue starting at 1',
@@ -32,7 +31,7 @@ export class Remove implements Command {
           if (idToRemove === 1) {
             serverEntry.connection!.dispatcher.end();
           } else {
-            onQueueChange(serverEntry);
+            // onQueueChange(serverEntry);
           }
         }
       } else {

@@ -1,4 +1,4 @@
-import { Message, RichEmbed } from 'discord.js';
+import { Message } from 'discord.js';
 import { Command, CommandOptions } from '../../../vocality-types/build/src';
 
 export class Help implements Command {
@@ -6,7 +6,6 @@ export class Help implements Command {
     id: {
       name: 'help',
       aliases: ['h'],
-      id: 4
     },
     displayName: 'help',
     description: 'Show help',
@@ -14,9 +13,8 @@ export class Help implements Command {
   };
 
   execute(msg: Message, args: string[]): void {
-    const embed = new RichEmbed().setColor(COLOR.CYAN);
-
-    if (args[0]) {
+    // const embed = new RichEmbed().setColor(COLOR.CYAN);
+    /*if (args[0]) {
       const command = bot.findCommand(args[0]);
 
       if (!command) {
@@ -78,6 +76,6 @@ export class Help implements Command {
         embed.fields = [];
         embedCount++;
       }
-    }
+    }*/
   }
 }

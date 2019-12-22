@@ -3,7 +3,7 @@ import ytdl from 'ytdl-core';
 import { QueueContract } from '../interfaces/QueueContract';
 import { Song } from '../interfaces/Song';
 import ytList from 'youtube-playlist';
-import { onCurrentSongChange, onQueueChange } from '../dashboard-ws';
+// import { onCurrentSongChange, onQueueChange } from '../dashboard-ws';
 import { CommandOptions, Command } from '../../../vocality-types/build/src';
 import { ServerQueueController } from '../controller/ServerQueueController';
 import { YouTube } from '../musicAPIs/YouTube';
@@ -21,7 +21,6 @@ export class Play implements Command {
     id: {
       name: 'play',
       aliases: ['p', 'pl'],
-      id: 23
     },
     displayName: 'play <link or searchstring>',
     description: 'Play a song',
@@ -115,7 +114,7 @@ export class Play implements Command {
 
     msg.channel.send(`Now playing **${song!.title}**`);
 
-    const dispatcher = serverEntry
+    serverEntry
       .connection!.playStream(ytdl(song!.url, { filter: 'audioonly' }), {
         volume: serverEntry.volume,
       })
@@ -131,10 +130,10 @@ export class Play implements Command {
           )[0];
         }
         this.play(msg, serverEntry, lastSong as Song);
-        onQueueChange(serverEntry);
+        // onQueueChange(serverEntry);
       });
 
-    onCurrentSongChange(serverEntry);
+    // onCurrentSongChange(serverEntry);
   }
   private addSong(song: Song, serverEntry: QueueContract, msg: Message) {
     if (!msg.author.bot) {
@@ -149,7 +148,7 @@ export class Play implements Command {
     } else {
       serverEntry.songs.push(song);
       msg.channel.send(`**${song.title}** has been added to the queue!`);
-      onQueueChange(serverEntry);
+      // onQueueChange(serverEntry);
     }
   }
   addPlaylist(
@@ -171,7 +170,7 @@ export class Play implements Command {
       this.play(msg, serverEntry!, serverEntry!.songs[0]);
     } else {
       serverEntry!.songs.push(...songs);
-      onQueueChange(serverEntry!);
+      // onQueueChange(serverEntry!);
     }
   }
 }

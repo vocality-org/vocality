@@ -1,7 +1,7 @@
 import { CommandIdentifier } from './CommandIdentifier';
 
 export interface CommandOptions {
-  id: CommandIdentifier;
+  readonly id: CommandIdentifier;
 
   /**
    * Name of the Command in client format with arguments

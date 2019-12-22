@@ -1,12 +1,12 @@
 import { Message } from 'discord.js';
 import { Command, CommandOptions } from '../../../vocality-types/build/src';
+import { BOT } from '@vocality-org/core';
 
 export class ChangePrefix implements Command {
   options: CommandOptions = {
     id: {
       name: 'changePrefix',
       aliases: ['cp'],
-      id: 1
     },
     displayName: 'changePrefix <new Prefix>',
     description: 'Change the bots prefix',

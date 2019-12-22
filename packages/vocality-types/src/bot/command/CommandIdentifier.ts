@@ -1,10 +1,5 @@
 export interface CommandIdentifier {
   /**
-   * Unique id
-   */
-  readonly id: number;
-
-  /**
    * Command name in camelCase
    *
    * @type {string}

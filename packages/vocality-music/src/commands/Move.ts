@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { onQueueChange } from '../dashboard-ws';
+// import { onQueueChange } from '../dashboard-ws';
 import { Command, CommandOptions } from '../../../vocality-types/build/src';
 import { ServerQueueController } from '../controller/ServerQueueController';
 
@@ -8,7 +8,6 @@ export class Move implements Command {
     id: {
       name: 'move',
       aliases: ['mv'],
-      id: 8
     },
     displayName: 'move x(songindex) y(new songindex)',
     description: 'moves a Song forward or backward in the queue',
@@ -40,7 +39,7 @@ export class Move implements Command {
     }
     const songs = serverEntry.songs;
     songs.splice(futureSongIndex, 0, songs.splice(songIndex, 1)[0]);
-    onQueueChange(serverEntry);
+    // onQueueChange(serverEntry);
     msg.channel.send(
       `Moved **${serverEntry.songs[futureSongIndex].title}** from position ${songIndex} to ${futureSongIndex}`
     );

@@ -7,7 +7,6 @@ export class Current implements Command {
   options: CommandOptions = {
     id: {
       name: 'current',
-      id: 0
     },
     displayName: 'current',
     description: 'Display the current song',

@@ -6,7 +6,6 @@ export class Stop implements Command {
   options: CommandOptions = {
     id: {
       name: 'stop',
-      id: 453
     },
     displayName: 'stop',
     description: 'Stop the bot',

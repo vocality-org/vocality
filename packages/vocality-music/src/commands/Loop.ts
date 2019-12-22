@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { onLoopChange, onShuffleChange } from '../dashboard-ws';
+// import { onLoopChange, onShuffleChange } from '../dashboard-ws';
 import { ServerQueueController } from '../controller/ServerQueueController';
 import { Command, CommandOptions } from '../../../vocality-types/build/src';
 
@@ -7,7 +7,6 @@ export class Loop implements Command {
   options: CommandOptions = {
     id: {
       name: 'loop',
-      id: 6
     },
     description: 'If set to true it loops the current song',
     displayName: 'Loop',
@@ -26,11 +25,11 @@ export class Loop implements Command {
       serverEntry.isShuffling = false;
       msg.channel.send('Repeating is now `enabled`');
       msg.channel.send('Random play is now `disabled`');
-      onShuffleChange(serverEntry.isShuffling);
+      // onShuffleChange(serverEntry.isShuffling);
     } else {
       serverEntry.isLooping = true;
       msg.channel.send('Repeating is now `enabled`');
     }
-    onLoopChange(serverEntry.isLooping);
+    // onLoopChange(serverEntry.isLooping);
   }
 }

@@ -1,15 +1,16 @@
 import { Message, RichEmbed } from 'discord.js';
-import  cheerio  from 'cheerio';
+import cheerio from 'cheerio';
 import fetch from 'node-fetch';
 import queryString from 'query-string';
 import { ServerQueueController } from '../controller/ServerQueueController';
 import { Command, CommandOptions } from '../../../vocality-types/build/src';
+import { BOT, EMOJI, ReactionHandler } from '@vocality-org/core';
+import { GENIUS } from '../config';
 
 export class Lyrics implements Command {
   options: CommandOptions = {
     id: {
       name: 'lyrics',
-      id: 7
     },
     displayName: 'lyrics (<optional searchstring>)',
     description: 'Display the lyrics',

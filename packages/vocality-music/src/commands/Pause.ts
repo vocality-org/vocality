@@ -6,7 +6,6 @@ export class Pause implements Command {
   options: CommandOptions = {
     id: {
       name: 'pause',
-      id: 10
     },
     displayName: 'pause',
     description: 'Pause the bot',

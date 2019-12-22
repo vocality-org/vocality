@@ -1,25 +1,31 @@
-import { Client as DiscordClient, Collection } from 'discord.js';
+import {
+  Client as DiscordClient,
+  ClientOptions as DiscordClientOptions,
+} from 'discord.js';
+import { Plugins } from '../common/Plugin';
 import { Command } from './command/Command';
 
 export interface Client extends DiscordClient {
   /**
    * Amount of milliseconds from UNIX epoch, when the bot was started
    */
-  initTime: number;
+  readonly initTime: number;
 
   /**
-   * Collection of all loaded commands
+   * Returns all Commands that match a search string in either name or aliases
    */
-  commands: Collection<string, Command>;
-
-  /**
-   * Provides a utility to for semantic command search. Returns first command
-   * that has a match in either name or aliases
-   */
-  findCommand(search: string): Command | undefined;
+  findCommand(search: string): Command | Command[] | undefined;
 
   /**
    * Used to login the Bot with the Discord Token
    */
   init(): Promise<void>;
+}
+
+export interface ClientOptions extends DiscordClientOptions {
+  /**
+   * List of Plugins to load.
+   * @default DEFAULT_PLUGINS
+   */
+  plugins?: Plugins;
 }

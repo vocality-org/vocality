@@ -1,11 +1,11 @@
-import { BotHandler } from './BotHandler';
+import { BaseHandler } from '../../common/BaseHandler';
 import { Message } from 'discord.js';
 import { BotClient } from '../BotClient';
 import { BOT } from '../../config';
 import { ArgumentParser } from '../../ArgumentParser';
 import { Command } from '@vocality-org/types';
 
-export class MessageHandler extends BotHandler {
+export class MessageHandler extends BaseHandler<Message> {
   constructor(bot: BotClient) {
     super(bot);
     this.addListeners();
@@ -59,7 +59,7 @@ export class MessageHandler extends BotHandler {
   /**
    * Tries to find and execute a command
    */
-  private processMessage(message: Message) {
+  processMessage(message: Message) {
     const content = message.content.slice(
       BOT.SERVERPREFIXES[message.guild.id].length
     );
@@ -79,6 +79,8 @@ export class MessageHandler extends BotHandler {
       }
     }
 
+    console.log(command);
+
     ArgumentParser.validateArguments(command, args);
 
     command.execute(message, args);
@@ -88,23 +90,14 @@ export class MessageHandler extends BotHandler {
    * Returns the command if found. Also checks for aliases
    */
   private getCommandFromName(commandText: string): Command | undefined {
-    if (this.bot.commands.has(commandText)) {
-      // get key / command name via CommandIdentifier from options
-      const key = this.bot.commands.findKey(c => {
-        if (c.options.id.aliases) {
-          return (
-            c.options.id.name === commandText ||
-            c.options.id.aliases?.includes(commandText)
-          );
-        } else {
-          return c.options.id.name === commandText;
-        }
-      });
+    const found = this.bot.findCommand(commandText);
 
-      return this.bot.commands.get(key);
-    } else {
-      throw undefined;
+    //! if we want to let users select which command to use, start here
+    if (!Array.isArray(found)) {
+      return found;
     }
+
+    return undefined;
   }
 
   /**

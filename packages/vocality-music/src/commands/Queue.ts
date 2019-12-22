@@ -1,14 +1,13 @@
 import { Message, RichEmbed } from 'discord.js';
 import { Command, CommandOptions } from '../../../vocality-types/build/src';
 import { ServerQueueController } from '../controller/ServerQueueController';
-
+import { ReactionHandler } from '@vocality-org/core';
 
 export class Queue implements Command {
   options: CommandOptions = {
     id: {
       name: 'queue',
       aliases: ['qu'],
-      id: 45
     },
     displayName: 'queue <optional amount of songs>',
     description: 'displays the current Song Queue',

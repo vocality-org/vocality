@@ -6,7 +6,6 @@
   "types": "build/src/index.d.ts",
   "repository": "vocality-org/vocality",
   "scripts": {
-    "prebuild": "npm run clean",
     "build": "npm run compile",
     "prepare": "npm run compile",
     "compile": "tsc -p .",
