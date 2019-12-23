@@ -1,17 +1,18 @@
-import { BaseHandler } from '../../common/BaseHandler';
 import { Message } from 'discord.js';
 import { BotClient } from '../BotClient';
 import { BOT } from '../../config';
-import { ArgumentParser } from '../../ArgumentParser';
+import { ArgumentParser } from '../../utils/ArgumentParser';
 import { Command } from '@vocality-org/types';
 
-export class MessageHandler extends BaseHandler<Message> {
+export class MessageHandler {
+  private bot: BotClient;
+
   constructor(bot: BotClient) {
-    super(bot);
+    this.bot = bot;
     this.addListeners();
   }
 
-  addListeners() {
+  private addListeners() {
     this.bot.on('message', msg => this.handleMessage(msg));
     this.bot.on('messageUpdate', msg => this.handleMessageUpdate(msg));
   }
@@ -32,7 +33,7 @@ export class MessageHandler extends BaseHandler<Message> {
   /**
    * Processes edited messages
    */
-  handleMessageUpdate(message: Message): void {
+  private handleMessageUpdate(message: Message): void {
     if (!this.validateMessage(message)) return;
 
     try {
@@ -59,7 +60,7 @@ export class MessageHandler extends BaseHandler<Message> {
   /**
    * Tries to find and execute a command
    */
-  processMessage(message: Message) {
+  private processMessage(message: Message) {
     const content = message.content.slice(
       BOT.SERVERPREFIXES[message.guild.id].length
     );

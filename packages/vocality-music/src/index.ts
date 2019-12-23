@@ -1,17 +1,14 @@
-import { BasePlugin, loadCommands } from '@vocality-org/core';
+import { BasePlugin, Exporter } from '@vocality-org/core';
 import { Command } from '@vocality-org/types';
 
-import * as dotenv from 'dotenv';
-
 import * as commandDefs from './commands';
+import { SocketCommandHandler } from './handlers/SocketCommandHandler';
 
-dotenv.config();
-
-export class MusicPlugin extends BasePlugin {
+class MusicPlugin extends BasePlugin {
   commands!: Command[];
 
   initialize() {
-    this.commands = loadCommands(commandDefs);
+    this.commands = Exporter.loadCommands(commandDefs);
     return this;
   }
 

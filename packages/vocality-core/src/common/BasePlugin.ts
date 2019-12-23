@@ -1,9 +1,7 @@
 import { Plugin, PluginConfig, Command } from '@vocality-org/types';
-import { BaseHandler } from './BaseHandler';
 
 export abstract class BasePlugin implements Plugin {
   protected _config!: PluginConfig;
-  protected handlers?: BaseHandler<any>[];
   abstract commands: Command[];
 
   enable(config: PluginConfig): Plugin {
