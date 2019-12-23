@@ -1,8 +1,8 @@
+import { Command } from '@vocality-org/types';
 import { Message } from 'discord.js';
 import { BotClient } from '../BotClient';
 import { BOT } from '../../config';
 import { ArgumentParser } from '../../utils/ArgumentParser';
-import { Command } from '@vocality-org/types';
 
 export class MessageHandler {
   private bot: BotClient;
@@ -68,7 +68,7 @@ export class MessageHandler {
     const args = ArgumentParser.parseInput(content);
 
     let commandtext = args.shift()!.toLowerCase();
-    let command = this.getCommandFromName(commandtext)!;
+    let command = this.getCommandFromName(message.guild.id, commandtext)!;
 
     while (command.subCommands && args.length > 0) {
       commandtext = args.shift()!.toLocaleLowerCase(); // assume the argument is a subcommand
@@ -90,8 +90,11 @@ export class MessageHandler {
   /**
    * Returns the command if found. Also checks for aliases
    */
-  private getCommandFromName(commandText: string): Command | undefined {
-    const found = this.bot.findCommand(commandText);
+  private getCommandFromName(
+    guildId: string,
+    commandText: string
+  ): Command | undefined {
+    const found = this.bot.findCommand(guildId, commandText);
 
     //! if we want to let users select which command to use, start here
     if (!Array.isArray(found)) {

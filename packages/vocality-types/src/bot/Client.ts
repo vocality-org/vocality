@@ -14,7 +14,7 @@ export interface Client extends DiscordClient {
   /**
    * Returns all Commands that match a search string in either name or aliases
    */
-  findCommand(search: string): Command | Command[] | undefined;
+  findCommand(guildId: string, search: string): Command | Command[] | undefined;
 
   /**
    * Used to login the Bot with the Discord Token

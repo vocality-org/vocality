@@ -16,9 +16,10 @@ export class BotClient extends DiscordClient implements Client {
 
     this.messageHandler = new MessageHandler(this);
 
-    this.pluginController = new PluginController().load(
-      options?.plugins || DEFAULT_PLUGINS
-    );
+    this.pluginController = new PluginController();
+    this.guilds.forEach(g => {
+      this.pluginController.load(g.id, options?.plugins || DEFAULT_PLUGINS);
+    });
 
     this.once('ready', () => {
       this.guilds.tap(guild => {
@@ -27,10 +28,13 @@ export class BotClient extends DiscordClient implements Client {
     });
   }
 
-  findCommand(search: string): Command | Command[] | undefined {
+  findCommand(
+    guildId: string,
+    search: string
+  ): Command | Command[] | undefined {
     const found: Command[] = [];
 
-    this.pluginController.plugins.forEach(p => {
+    this.pluginController.guildPlugins(guildId).forEach(p => {
       p.commands?.forEach(c => {
         if (
           c.options.id.name === search ||
