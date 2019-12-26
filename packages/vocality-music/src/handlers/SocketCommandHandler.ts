@@ -1,4 +1,4 @@
-import { BaseHandler, ArgumentParser, BotError } from '@vocality-org/core';
+import { BaseHandler, ArgumentParser, BotError, bot } from '@vocality-org/core';
 import { Message, TextChannel } from 'discord.js';
 import { SocketCommand } from './../interfaces/SocketCommand';
 import { plugin } from '..';
@@ -36,7 +36,7 @@ export class SocketCommandHandler extends BaseHandler<SocketCommand> {
   }
 
   createMessage(guildId: string) {
-    const guild = this.bot.guilds.filter(g => g.id === guildId).first();
+    const guild = bot.guilds.filter(g => g.id === guildId).first();
     const textChannel = guild.channels
       .filter(c => {
         return c.type === 'text';
@@ -45,8 +45,8 @@ export class SocketCommandHandler extends BaseHandler<SocketCommand> {
 
     const message = new Message(
       textChannel,
-      { author: this.bot.user, embeds: [], attachments: [] },
-      this.bot
+      { author: bot.user, embeds: [], attachments: [] },
+      bot
     );
     return message;
   }
