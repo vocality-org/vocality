@@ -1,10 +1,10 @@
-import { Message, RichEmbed } from 'discord.js';
-import { Command, CommandOptions } from '../../../vocality-types/build/src';
-import { ServerQueueController } from '../controller/ServerQueueController';
 import { ReactionHandler } from '@vocality-org/core';
+import { Message, RichEmbed } from 'discord.js';
+import { ServerQueueController } from '../controller/ServerQueueController';
+import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
-export class Queue implements Command {
-  options: CommandOptions = {
+export class Queue implements SocketCommand {
+  options: SocketCommandOptions = {
     id: {
       name: 'queue',
       aliases: ['qu'],
@@ -83,5 +83,9 @@ export class Queue implements Command {
         );
       });
     }
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    throw new Error('Method not implemented.');
   }
 }

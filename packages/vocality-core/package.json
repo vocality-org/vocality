@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "core functionalities for Vocality",
   "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
   "scripts": {
+    "prepare": "npm run compile",
     "start": "NODE_ENV=production node build/src/server.js",
     "build": "npm run compile",
     "compile": "tsc -p .",
@@ -41,7 +43,6 @@
   },
   "dependencies": {
     "@vocality-org/types": "^1.0.0",
-    "@vocality-org/music": "^1.0.0",
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0"
   }

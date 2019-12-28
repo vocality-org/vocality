@@ -1,25 +1,34 @@
-import { Client, Command, ClientOptions } from '@vocality-org/types';
+import {
+  Client,
+  Command,
+  ClientOptions,
+  CommandIdentifier,
+} from '@vocality-org/types';
 import { Client as DiscordClient, TextChannel, Message } from 'discord.js';
-import { BOT, DEFAULT_PLUGINS } from '../config';
+import { BOT } from '../config';
 import { PluginController } from './../controllers/PluginController';
 import { MessageHandler } from './input-handlers/MessageHandler';
 
 export class BotClient extends DiscordClient implements Client {
-  initTime: number;
-  private messageHandler: MessageHandler;
+  pluginController: PluginController;
 
-  private pluginController: PluginController;
+  private messageHandler: MessageHandler;
 
   constructor(options?: ClientOptions) {
     super(options);
-    this.initTime = Date.now();
+
+    if (options?.token) {
+      this.token = options.token;
+    }
 
     this.messageHandler = new MessageHandler(this);
 
     this.pluginController = new PluginController();
-    this.guilds.forEach(g => {
-      this.pluginController.load(g.id, options?.plugins || DEFAULT_PLUGINS);
-    });
+    if (options && options.plugins) {
+      this.guilds.forEach(g => {
+        this.pluginController.load(g.id, options.plugins!);
+      });
+    }
 
     this.once('ready', () => {
       this.guilds.tap(guild => {
@@ -56,6 +65,18 @@ export class BotClient extends DiscordClient implements Client {
     return undefined;
   }
 
+  addCommand(command: Command) {
+    throw new Error('Method not implemented.');
+  }
+
+  addCommands(command: Command[]) {
+    throw new Error('Method not implemented.');
+  }
+
+  removeCommand(command: Command | CommandIdentifier) {
+    throw new Error('Method not implemented.');
+  }
+
   /**
    * Process a input message and executes a command if found
    *
@@ -87,7 +108,7 @@ export class BotClient extends DiscordClient implements Client {
   /**
    * Used to login the Bot with the Discord Token
    */
-  async init() {
-    await this.login(process.env.BOT_TOKEN);
+  async init(token?: string) {
+    await this.login(token || this.token);
   }
 }

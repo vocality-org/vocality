@@ -1,9 +1,9 @@
-import { Message } from 'discord.js';
-import { Command, CommandOptions } from '../../../vocality-types/build/src';
 import { BOT } from '@vocality-org/core';
+import { Message } from 'discord.js';
+import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
-export class ChangePrefix implements Command {
-  options: CommandOptions = {
+export class ChangePrefix implements SocketCommand {
+  options: SocketCommandOptions = {
     id: {
       name: 'changePrefix',
       aliases: ['cp'],
@@ -19,5 +19,9 @@ export class ChangePrefix implements Command {
     msg.channel.send(
       `Prefix changed to \`${BOT.SERVERPREFIXES[msg.guild.id]}\``
     );
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    throw new Error('Method not implemented.');
   }
 }

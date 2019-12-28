@@ -1,10 +1,10 @@
 import { Message, RichEmbed } from 'discord.js';
-import { Song } from '../interfaces/Song';
 import { ServerQueueController } from '../controller/ServerQueueController';
-import { Command, CommandOptions } from '../../../vocality-types/build/src';
+import { Song } from '../types/Song';
+import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
-export class Current implements Command {
-  options: CommandOptions = {
+export class Current implements SocketCommand {
+  options: SocketCommandOptions = {
     id: {
       name: 'current',
     },
@@ -38,5 +38,9 @@ export class Current implements Command {
 
       msg.channel.send(embed);
     }
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    throw new Error('Method not implemented.');
   }
 }

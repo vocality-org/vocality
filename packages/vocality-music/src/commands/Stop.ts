@@ -1,9 +1,9 @@
 import { Message } from 'discord.js';
-import { CommandOptions, Command } from '../../../vocality-types/build/src';
 import { ServerQueueController } from '../controller/ServerQueueController';
+import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
-export class Stop implements Command {
-  options: CommandOptions = {
+export class Stop implements SocketCommand {
+  options: SocketCommandOptions = {
     id: {
       name: 'stop',
     },
@@ -19,5 +19,9 @@ export class Stop implements Command {
       serverEntry.songs = [];
       msg.member.voiceChannel.leave();
     }
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    throw new Error('Method not implemented.');
   }
 }

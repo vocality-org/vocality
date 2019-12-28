@@ -1,10 +1,10 @@
 import { Message } from 'discord.js';
-// import { onQueueChange } from '../dashboard-ws';
-import { CommandOptions, Command } from '../../../vocality-types/build/src';
+import { onQueueChange } from '../dashboard-ws';
 import { ServerQueueController } from '../controller/ServerQueueController';
+import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
-export class Remove implements Command {
-  options: CommandOptions = {
+export class Remove implements SocketCommand {
+  options: SocketCommandOptions = {
     id: {
       name: 'remove',
       aliases: ['rm'],
@@ -31,12 +31,16 @@ export class Remove implements Command {
           if (idToRemove === 1) {
             serverEntry.connection!.dispatcher.end();
           } else {
-            // onQueueChange(serverEntry);
+            onQueueChange(serverEntry);
           }
         }
       } else {
         msg.channel.send('The Argument is not a number');
       }
     }
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    throw new Error('Method not implemented.');
   }
 }

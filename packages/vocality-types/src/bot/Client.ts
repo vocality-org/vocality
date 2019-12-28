@@ -3,29 +3,49 @@ import {
   ClientOptions as DiscordClientOptions,
 } from 'discord.js';
 import { Plugins } from '../common/Plugin';
-import { Command } from './command/Command';
+import { CommandIdentifier, Command } from './command';
 
 export interface Client extends DiscordClient {
-  /**
-   * Amount of milliseconds from UNIX epoch, when the bot was started
-   */
-  readonly initTime: number;
-
   /**
    * Returns all Commands that match a search string in either name or aliases
    */
   findCommand(guildId: string, search: string): Command | Command[] | undefined;
 
   /**
+   * Adds a custom command. Meaning it is not part of any plugin
+   * And will be stored seperately.
+   *
+   * @param {Command} command
+   */
+  addCommand(command: Command): void;
+
+  /**
+   * Add multiple custom commands
+   *
+   * @param {Command[]} command
+   */
+  addCommands(command: Command[]): void;
+
+  /**
+   * Remove a custom command. Only commands stored as custom commands
+   * can be removed.
+   */
+  removeCommand(command: Command | CommandIdentifier): void;
+
+  /**
    * Used to login the Bot with the Discord Token
    */
-  init(): Promise<void>;
+  init(token?: string): Promise<void>;
 }
 
 export interface ClientOptions extends DiscordClientOptions {
   /**
    * List of Plugins to load.
-   * @default DEFAULT_PLUGINS
    */
   plugins?: Plugins;
+
+  /**
+   * The discord bot token.
+   */
+  token?: string;
 }

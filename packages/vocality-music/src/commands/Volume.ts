@@ -1,13 +1,13 @@
 import { Message } from 'discord.js';
-// import { onVolumeChange } from '../dashboard-ws';
-import { Command, CommandOptions } from '../../../vocality-types/build/src';
+import { onVolumeChange } from '../dashboard-ws';
 import { ServerQueueController } from '../controller/ServerQueueController';
+import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
 const UP_VALUE = 10;
 const DOWN_VALUE = -10;
 
-export class Volume implements Command {
-  options: CommandOptions = {
+export class Volume implements SocketCommand {
+  options: SocketCommandOptions = {
     id: {
       name: 'volume',
       aliases: ['vol'],
@@ -32,7 +32,7 @@ export class Volume implements Command {
     }
 
     msg.reply(`Volume changed to ${vol}`);
-    // onVolumeChange(vol);
+    onVolumeChange(vol);
   }
 
   validateArguments(args: string[]): boolean {
@@ -71,5 +71,9 @@ export class Volume implements Command {
     }
 
     return parseFloat(arg0);
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    throw new Error('Method not implemented.');
   }
 }

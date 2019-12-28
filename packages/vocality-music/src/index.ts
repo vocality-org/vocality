@@ -1,14 +1,13 @@
 import { BasePlugin, Exporter } from '@vocality-org/core';
-import { Command } from '@vocality-org/types';
+import { SocketCommand } from './types/SocketCommand';
 
 import * as commandDefs from './commands';
-import { SocketCommandHandler } from './handlers/SocketCommandHandler';
 
 class MusicPlugin extends BasePlugin {
-  commands!: Command[];
+  commands!: SocketCommand[];
 
   initialize() {
-    this.commands = Exporter.loadCommands(commandDefs);
+    this.commands = Exporter.loadCommands(commandDefs) as SocketCommand[];
     return this;
   }
 

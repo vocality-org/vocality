@@ -1,23 +1,19 @@
 import { Message, VoiceChannel } from 'discord.js';
 import ytdl from 'ytdl-core';
-import { QueueContract } from '../interfaces/QueueContract';
-import { Song } from '../interfaces/Song';
+import { QueueContract } from '../types/QueueContract';
+import { Song } from '../types/Song';
 import ytList from 'youtube-playlist';
-// import { onCurrentSongChange, onQueueChange } from '../dashboard-ws';
-import { CommandOptions, Command } from '../../../vocality-types/build/src';
+import { onCurrentSongChange, onQueueChange } from '../dashboard-ws';
 import { ServerQueueController } from '../controller/ServerQueueController';
 import { YouTube } from '../musicAPIs/YouTube';
 import { Spotify } from '../musicAPIs/Spoitfy';
+import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
 /**
  * The Play Class is used to Play Music with the Bot
- *
- * @export
- * @class Play
- * @implements {Command}
  */
-export class Play implements Command {
-  options: CommandOptions = {
+export class Play implements SocketCommand {
+  options: SocketCommandOptions = {
     id: {
       name: 'play',
       aliases: ['p', 'pl'],
@@ -130,10 +126,10 @@ export class Play implements Command {
           )[0];
         }
         this.play(msg, serverEntry, lastSong as Song);
-        // onQueueChange(serverEntry);
+        onQueueChange(serverEntry);
       });
 
-    // onCurrentSongChange(serverEntry);
+    onCurrentSongChange(serverEntry);
   }
   private addSong(song: Song, serverEntry: QueueContract, msg: Message) {
     if (!msg.author.bot) {
@@ -148,9 +144,10 @@ export class Play implements Command {
     } else {
       serverEntry.songs.push(song);
       msg.channel.send(`**${song.title}** has been added to the queue!`);
-      // onQueueChange(serverEntry);
+      onQueueChange(serverEntry);
     }
   }
+
   addPlaylist(
     songs: Song[],
     serverEntry: QueueContract | undefined,
@@ -170,7 +167,11 @@ export class Play implements Command {
       this.play(msg, serverEntry!, serverEntry!.songs[0]);
     } else {
       serverEntry!.songs.push(...songs);
-      // onQueueChange(serverEntry!);
+      onQueueChange(serverEntry!);
     }
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    throw new Error('Method not implemented.');
   }
 }

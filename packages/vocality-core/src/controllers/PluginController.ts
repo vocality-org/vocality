@@ -2,19 +2,26 @@ import { Plugin, Plugins } from '@vocality-org/types';
 import { Collection } from 'discord.js';
 
 export class PluginController {
+  /**
+   * Contains all enabled and disabled plugins
+   */
   readonly plugins: Collection<string, Plugin[]>;
 
   constructor() {
     this.plugins = new Collection<string, Plugin[]>();
   }
 
+  /**
+   * Return all plugins of the current guild
+   */
   guildPlugins(guildId: string): Plugin[] {
     const plugins = this.plugins.get(guildId);
     return plugins ? plugins : [];
   }
 
   /**
-   * Loads a list of plugins. Plugins are expected to extend the BasePlugin.
+   * Loads a list of plugins. Plugins are expected to extend the BasePlugin and
+   * exprot an object named plugin.
    *
    * @param {string} guildId The guild to load the plugins for
    * @param {Plugins} plugins an object whose keys are plugin names and whose
@@ -25,9 +32,13 @@ export class PluginController {
 
     Object.keys(toLoad).forEach(name => {
       const config = toLoad[name];
-      import(config.path).then(module => {
-        this.plugins.set(guildId, module.plugin.enable(config));
-      });
+      try {
+        import(config.path).then(module => {
+          this.plugins.set(guildId, module.plugin.enable(config));
+        });
+      } catch (e) {
+        console.log(e);
+      }
     });
 
     return this;

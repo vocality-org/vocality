@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { QueueContract } from '../interfaces/QueueContract';
+import { QueueContract } from '../types/QueueContract';
 
 export class ServerQueueController {
   private static instance: ServerQueueController;
@@ -62,6 +62,29 @@ export class ServerQueueController {
     }
     this.add(msg.guild.id, newEntry);
     return newEntry;
+  }
+
+  findOrCreateFromGuildId(guildId: string): QueueContract {
+    const existingEntry = this.find(guildId);
+    if (
+      existingEntry &&
+      existingEntry.voiceChannel &&
+      existingEntry.textChannel
+    ) {
+      return existingEntry;
+    } else {
+      return {
+        connection: undefined,
+        songs: [],
+        textChannel: undefined,
+        voiceChannel: undefined,
+        isLooping: false,
+        isShuffling: false,
+        currentlyPlaying: 0,
+        isAutoplaying: false,
+        volume: 0.5,
+      };
+    }
   }
 
   remove(id: string): void {

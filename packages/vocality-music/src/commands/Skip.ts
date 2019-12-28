@@ -1,9 +1,9 @@
 import { Message } from 'discord.js';
-import { CommandOptions, Command } from '../../../vocality-types/build/src';
 import { ServerQueueController } from '../controller/ServerQueueController';
+import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
-export class Skip implements Command {
-  options: CommandOptions = {
+export class Skip implements SocketCommand {
+  options: SocketCommandOptions = {
     id: {
       name: 'skip',
       aliases: ['next'],
@@ -39,5 +39,9 @@ export class Skip implements Command {
     } else {
       serverEntry.connection!.dispatcher.end();
     }
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    throw new Error('Method not implemented.');
   }
 }

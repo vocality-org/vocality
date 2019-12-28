@@ -24,9 +24,4 @@ export interface CommandOptions {
   minArguments?: number;
 
   cooldown?: number;
-
-  /**
-   * If set to true the command can be executed from a websocket connection
-   */
-  socketEnabled?: boolean;
 }

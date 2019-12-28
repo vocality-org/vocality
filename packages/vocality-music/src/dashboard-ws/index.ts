@@ -1,12 +1,15 @@
-import { QueueContract } from './../interfaces/QueueContract';
+import { QueueContract } from '../types/QueueContract';
 import io from 'socket.io';
 import fetch, { Response } from 'node-fetch';
-import { Song } from '../interfaces/Song';
-import { Play } from '../commands';
-import { SocketCommand } from '../interfaces/SocketCommand';
+import { Song } from '../types/Song';
+import { SocketCommandMessage } from '../types/SocketCommand';
 import { ServerQueueController } from '../controller/ServerQueueController';
+import { SocketCommandHandler } from './../handlers/SocketCommandHandler';
+
+const commandHandler = new SocketCommandHandler();
 
 export let socketio = io.listen(process.env.PORT || 3000);
+
 socketio.origins('*:*');
 
 if (process.env.NODE_ENV === 'production') {
@@ -44,14 +47,6 @@ socketio.on('connection', (socket: io.Socket) => {
     }
   });
 
-  // maybe we dont need a fake message.
-  // - we dont need it to reply or send anything to the discord client
-  // if we can make sure there always is an existing serverqueue we only need the guildId
-  // to get an instance.
-  // the find or createFromMessage method could be split maybe
-  // then we need to change the commands to have a public method that takes an optional message parameter
-  // so we can mostly keep the implementations. just check if message is defined and then reply/send
-
   socket.on('addPlaylist', (playlistToAdd: PlayList) => {
     // const serverEntry = ServerQueueController.getInstance().find(
     //   playlistToAdd.guildId
@@ -61,12 +56,12 @@ socketio.on('connection', (socket: io.Socket) => {
     // play.addPlaylist(playlistToAdd.songs, serverEntry, message);
   });
 
-  socket.on('command', (command: SocketCommand) => {
-    // try {
-    //   bot.socketHandler!.handleSocketCommand(command);
-    // } catch (error) {
-    //   socket.emit('commandError', error.message);
-    // }
+  socket.on('command', (command: SocketCommandMessage) => {
+    try {
+      commandHandler.processMessage(command);
+    } catch (error) {
+      socket.emit('commandError', error.message);
+    }
   });
 });
 

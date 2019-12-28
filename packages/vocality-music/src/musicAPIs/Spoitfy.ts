@@ -1,5 +1,5 @@
 import Request from 'request';
-import { Song } from '../interfaces/Song';
+import { Song } from '../types/Song';
 import { YouTube } from './YouTube';
 
 const SPOTIFY_API_URI = 'https://api.spotify.com/v1/';

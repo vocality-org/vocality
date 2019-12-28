@@ -1,10 +1,10 @@
 import { Message } from 'discord.js';
-// import { onShuffleChange, onLoopChange } from '../dashboard-ws';
-import { Command, CommandOptions } from '../../../vocality-types/build/src';
+import { onShuffleChange, onLoopChange } from '../dashboard-ws';
 import { ServerQueueController } from '../controller/ServerQueueController';
+import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
-export class Shuffle implements Command {
-  options: CommandOptions = {
+export class Shuffle implements SocketCommand {
+  options: SocketCommandOptions = {
     id: {
       name: 'shuffle',
     },
@@ -26,11 +26,15 @@ export class Shuffle implements Command {
       serverEntry.isShuffling = true;
       msg.channel.send('Random play is now `enabled`');
       msg.channel.send('Repeating is now `disabled`');
-      // onLoopChange(serverEntry.isLooping);
+      onLoopChange(serverEntry.isLooping);
     } else {
       serverEntry.isShuffling = true;
       msg.channel.send('Random play is now `enabled`');
     }
-    // onShuffleChange(serverEntry.isShuffling);
+    onShuffleChange(serverEntry.isShuffling);
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    throw new Error('Method not implemented.');
   }
 }

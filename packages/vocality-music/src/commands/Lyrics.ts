@@ -3,12 +3,12 @@ import cheerio from 'cheerio';
 import fetch from 'node-fetch';
 import queryString from 'query-string';
 import { ServerQueueController } from '../controller/ServerQueueController';
-import { Command, CommandOptions } from '../../../vocality-types/build/src';
 import { BOT, EMOJI, ReactionHandler } from '@vocality-org/core';
 import { GENIUS } from '../config';
+import { SocketCommandOptions, SocketCommand } from './../types/SocketCommand';
 
-export class Lyrics implements Command {
-  options: CommandOptions = {
+export class Lyrics implements SocketCommand {
+  options: SocketCommandOptions = {
     id: {
       name: 'lyrics',
     },
@@ -123,5 +123,9 @@ export class Lyrics implements Command {
         });
       });
     }
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    throw new Error('Method not implemented.');
   }
 }

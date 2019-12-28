@@ -1,9 +1,9 @@
 import { Message } from 'discord.js';
-import { CommandOptions, Command } from '../../../vocality-types/build/src';
 import { ServerQueueController } from '../controller/ServerQueueController';
+import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
-export class Pause implements Command {
-  options: CommandOptions = {
+export class Pause implements SocketCommand {
+  options: SocketCommandOptions = {
     id: {
       name: 'pause',
     },
@@ -25,5 +25,9 @@ export class Pause implements Command {
         .toISOString()
         .substr(11, 8)}\``
     );
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    throw new Error('Method not implemented.');
   }
 }

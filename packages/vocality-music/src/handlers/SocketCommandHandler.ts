@@ -1,10 +1,9 @@
-import { BaseHandler, ArgumentParser, BotError } from '@vocality-org/core';
-import { Message, TextChannel } from 'discord.js';
-import { SocketCommand } from './../interfaces/SocketCommand';
+import { ArgumentParser, BotError } from '@vocality-org/core';
+import { SocketCommandMessage } from '../types/SocketCommand';
 import { plugin } from '..';
 
-export class SocketCommandHandler extends BaseHandler<SocketCommand> {
-  processMessage(socketCommand: SocketCommand) {
+export class SocketCommandHandler {
+  processMessage(socketCommand: SocketCommandMessage) {
     if (!('name' in socketCommand)) {
       throw new BotError('Command must have a name');
     }
@@ -27,27 +26,6 @@ export class SocketCommandHandler extends BaseHandler<SocketCommand> {
       throw error;
     }
 
-    try {
-      const message = this.createMessage(socketCommand.messageData.guildId);
-      command.execute(message, socketCommand.args);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  createMessage(guildId: string) {
-    const guild = this.bot.guilds.filter(g => g.id === guildId).first();
-    const textChannel = guild.channels
-      .filter(c => {
-        return c.type === 'text';
-      })
-      .first() as TextChannel;
-
-    const message = new Message(
-      textChannel,
-      { author: this.bot.user, embeds: [], attachments: [] },
-      this.bot
-    );
-    return message;
+    command.run(socketCommand.args, socketCommand.messageData.guildId);
   }
 }

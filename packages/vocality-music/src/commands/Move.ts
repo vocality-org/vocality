@@ -1,10 +1,10 @@
 import { Message } from 'discord.js';
-// import { onQueueChange } from '../dashboard-ws';
-import { Command, CommandOptions } from '../../../vocality-types/build/src';
+import { onQueueChange } from '../dashboard-ws';
 import { ServerQueueController } from '../controller/ServerQueueController';
+import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
-export class Move implements Command {
-  options: CommandOptions = {
+export class Move implements SocketCommand {
+  options: SocketCommandOptions = {
     id: {
       name: 'move',
       aliases: ['mv'],
@@ -39,9 +39,13 @@ export class Move implements Command {
     }
     const songs = serverEntry.songs;
     songs.splice(futureSongIndex, 0, songs.splice(songIndex, 1)[0]);
-    // onQueueChange(serverEntry);
+    onQueueChange(serverEntry);
     msg.channel.send(
       `Moved **${serverEntry.songs[futureSongIndex].title}** from position ${songIndex} to ${futureSongIndex}`
     );
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    throw new Error('Method not implemented.');
   }
 }

@@ -1,7 +1,7 @@
 import cheerio from 'cheerio';
 import ytdl, { videoInfo } from 'ytdl-core';
 
-import { Song } from '../interfaces/Song';
+import { Song } from '../types/Song';
 import fetch from 'node-fetch';
 
 export class YouTube {
