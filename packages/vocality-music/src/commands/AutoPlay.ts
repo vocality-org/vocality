@@ -15,20 +15,29 @@ export class AutoPlay implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    const serverEntry = ServerQueueController.getInstance().findOrCreateFromMessage(
-      msg
-    );
-    if (serverEntry.isAutoplaying) {
-      serverEntry.isAutoplaying = false;
-      msg.channel.send('Autoplay is now `disabled`');
-    } else {
-      serverEntry.isAutoplaying = true;
-      msg.channel.send('Autoplay is now `enabled`');
-    }
-    onAutoplayChange(serverEntry.isAutoplaying);
+    this.run(args, msg.guild.id, msg);
   }
 
   run(args: string[], guildId: string, msg?: Message) {
-    throw new Error('Method not implemented.');
+    let serverEntry;
+
+    if (msg) {
+      serverEntry = ServerQueueController.getInstance().findOrCreateFromMessage(
+        msg
+      );
+    } else {
+      serverEntry = ServerQueueController.getInstance().findOrCreateFromGuildId(
+        guildId
+      );
+    }
+
+    if (serverEntry.isAutoplaying) {
+      serverEntry.isAutoplaying = false;
+      msg?.channel.send('Autoplay is now `disabled`');
+    } else {
+      serverEntry.isAutoplaying = true;
+      msg?.channel.send('Autoplay is now `enabled`');
+    }
+    onAutoplayChange(serverEntry.isAutoplaying);
   }
 }

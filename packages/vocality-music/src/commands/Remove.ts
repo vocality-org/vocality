@@ -16,9 +16,14 @@ export class Remove implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    const serverEntry = ServerQueueController.getInstance().find(msg.guild.id)!;
-    if (!msg.member.voiceChannel) {
-      msg.channel.send('You have to be in a voice channel to stop the music!');
+    this.run(args, msg.guild.id, msg);
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    const serverEntry = ServerQueueController.getInstance().find(guildId)!;
+
+    if (!msg?.member.voiceChannel) {
+      msg?.channel.send('You have to be in a voice channel to stop the music!');
     } else if (!serverEntry) {
       msg.channel.send('There is no song that I could remove!');
     } else if (args[0]) {
@@ -38,9 +43,5 @@ export class Remove implements SocketCommand {
         msg.channel.send('The Argument is not a number');
       }
     }
-  }
-
-  run(args: string[], guildId: string, msg?: Message) {
-    throw new Error('Method not implemented.');
   }
 }

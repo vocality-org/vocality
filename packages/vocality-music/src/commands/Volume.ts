@@ -18,21 +18,7 @@ export class Volume implements SocketCommand {
     socketEnabled: true,
   };
   execute(msg: Message, args: string[]): void {
-    if (!this.validateArguments(args)) {
-      msg.reply('Volume is not valid');
-      return;
-    }
-
-    const serverEntry = ServerQueueController.getInstance().find(msg.guild.id)!;
-    const vol = this.calculateVolume(args[0], serverEntry.volume);
-    serverEntry.volume = vol;
-
-    if (serverEntry.connection) {
-      serverEntry.connection!.dispatcher.setVolume(vol / 100);
-    }
-
-    msg.reply(`Volume changed to ${vol}`);
-    onVolumeChange(vol);
+    this.run(args, msg.guild.id, msg);
   }
 
   validateArguments(args: string[]): boolean {
@@ -74,6 +60,20 @@ export class Volume implements SocketCommand {
   }
 
   run(args: string[], guildId: string, msg?: Message) {
-    throw new Error('Method not implemented.');
+    if (!this.validateArguments(args)) {
+      msg?.reply('Volume is not valid');
+      return;
+    }
+
+    const serverEntry = ServerQueueController.getInstance().find(guildId)!;
+    const vol = this.calculateVolume(args[0], serverEntry.volume);
+    serverEntry.volume = vol;
+
+    if (serverEntry.connection) {
+      serverEntry.connection!.dispatcher.setVolume(vol / 100);
+    }
+
+    msg?.reply(`Volume changed to ${vol}`);
+    onVolumeChange(vol);
   }
 }

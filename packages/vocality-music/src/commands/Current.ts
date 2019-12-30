@@ -14,8 +14,13 @@ export class Current implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    const serverEntry = ServerQueueController.getInstance().find(msg.guild.id)!;
-    if (serverEntry.songs.length === 0) msg.channel.send('No song is playing');
+    this.run(args, msg.guild.id, msg);
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    const serverEntry = ServerQueueController.getInstance().find(guildId)!;
+
+    if (serverEntry.songs.length === 0) msg?.channel.send('No song is playing');
     else {
       const song: Song = serverEntry.songs[serverEntry.currentlyPlaying];
       const ss = serverEntry.connection!.dispatcher.time / 1000;
@@ -36,11 +41,7 @@ export class Current implements SocketCommand {
           `${new Date(ss * 1000).toISOString().substr(11, 8)}/${song.length}`
         );
 
-      msg.channel.send(embed);
+      msg?.channel.send(embed);
     }
-  }
-
-  run(args: string[], guildId: string, msg?: Message) {
-    throw new Error('Method not implemented.');
   }
 }

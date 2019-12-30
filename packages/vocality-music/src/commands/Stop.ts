@@ -13,15 +13,16 @@ export class Stop implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    const serverEntry = ServerQueueController.getInstance().find(msg.guild.id)!;
-
-    if (msg.member.voiceChannel) {
-      serverEntry.songs = [];
-      msg.member.voiceChannel.leave();
-    }
+    this.run(args, msg.guild.id, msg);
   }
 
   run(args: string[], guildId: string, msg?: Message) {
-    throw new Error('Method not implemented.');
+    const serverEntry = ServerQueueController.getInstance().find(guildId)!;
+
+    serverEntry.songs = [];
+
+    if (msg?.member.voiceChannel) {
+      msg.member.voiceChannel.leave();
+    }
   }
 }

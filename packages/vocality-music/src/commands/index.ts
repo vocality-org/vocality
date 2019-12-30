@@ -1,5 +1,4 @@
 // barrel file to simplify importing all commands
-export * from './ChangePrefix';
 export * from './Pause';
 export * from './Play';
 export * from './Remove';

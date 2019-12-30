@@ -16,11 +16,23 @@ export class Queue implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    const serverEntry = ServerQueueController.getInstance().findOrCreateFromMessage(
-      msg
-    );
+    this.run(args, msg.guild.id, msg);
+  }
 
-    if (serverEntry.songs.length === 0) msg.channel.send('The Queue is empty');
+  run(args: string[], guildId: string, msg?: Message) {
+    let serverEntry;
+
+    if (msg) {
+      serverEntry = ServerQueueController.getInstance().findOrCreateFromMessage(
+        msg
+      );
+    } else {
+      serverEntry = ServerQueueController.getInstance().findOrCreateFromGuildId(
+        guildId
+      );
+    }
+
+    if (serverEntry.songs.length === 0) msg?.channel.send('The Queue is empty');
     else {
       const songList: string[] = [];
       const pages = Math.ceil(serverEntry.songs.length / 10);
@@ -57,7 +69,7 @@ export class Queue implements SocketCommand {
         .setColor('#00e773')
         .setFooter(`Page 1 of ${songList.length}`);
 
-      msg.channel.send(queue).then(async msg => {
+      msg?.channel.send(queue).then(async msg => {
         const message = msg as Message;
         const rHandler = new ReactionHandler();
 
@@ -83,9 +95,5 @@ export class Queue implements SocketCommand {
         );
       });
     }
-  }
-
-  run(args: string[], guildId: string, msg?: Message) {
-    throw new Error('Method not implemented.');
   }
 }

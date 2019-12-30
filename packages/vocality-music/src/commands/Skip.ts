@@ -15,10 +15,14 @@ export class Skip implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    const serverEntry = ServerQueueController.getInstance().find(msg.guild.id)!;
+    this.run(args, msg.guild.id, msg);
+  }
 
-    if (!msg.member.voiceChannel) {
-      msg.channel.send('You have to be in a voice channel to skip!');
+  run(args: string[], guildId: string, msg?: Message) {
+    const serverEntry = ServerQueueController.getInstance().find(guildId)!;
+
+    if (!msg?.member.voiceChannel) {
+      msg?.channel.send('You have to be in a voice channel to skip!');
     } else if (!serverEntry) {
       msg.channel.send('There is no song that I could skip!');
     } else if (args[0]) {
@@ -39,9 +43,5 @@ export class Skip implements SocketCommand {
     } else {
       serverEntry.connection!.dispatcher.end();
     }
-  }
-
-  run(args: string[], guildId: string, msg?: Message) {
-    throw new Error('Method not implemented.');
   }
 }

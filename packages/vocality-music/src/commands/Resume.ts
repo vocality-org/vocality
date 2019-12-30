@@ -13,26 +13,26 @@ export class Resume implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    if (ServerQueueController.getInstance().find(msg.guild.id) === undefined) {
+    this.run(args, msg.guild.id, msg);
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    if (ServerQueueController.getInstance().find(guildId) === undefined) {
       return;
     }
 
-    const serverEntry = ServerQueueController.getInstance().find(msg.guild.id)!;
+    const serverEntry = ServerQueueController.getInstance().find(guildId)!;
 
     if (serverEntry.songs.length === 0) {
       return;
     }
 
     if (!serverEntry.connection!.dispatcher.paused) {
-      msg.channel.send('Nothing to Resume');
+      msg?.channel.send('Nothing to Resume');
       return;
     }
 
     serverEntry.connection!.dispatcher.resume();
-    msg.channel.send(`**${serverEntry.songs[0].title}** resumed`);
-  }
-
-  run(args: string[], guildId: string, msg?: Message) {
-    throw new Error('Method not implemented.');
+    msg?.channel.send(`**${serverEntry.songs[0].title}** resumed`);
   }
 }

@@ -1,4 +1,4 @@
-import { ClientOptions, Command, Plugins } from '@vocality-org/types';
+import { ClientOptions, Command } from '@vocality-org/types';
 import { BotClient } from './bot/BotClient';
 
 const DEFAULT_OPTIONS = {

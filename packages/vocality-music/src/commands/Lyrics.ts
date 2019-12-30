@@ -18,14 +18,18 @@ export class Lyrics implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    if (ServerQueueController.getInstance().find(msg.guild.id) === undefined) {
+    this.run(args, msg.guild.id, msg);
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    if (ServerQueueController.getInstance().find(guildId) === undefined) {
       return;
     }
 
-    const songs = ServerQueueController.getInstance().find(msg.guild.id)!.songs;
+    const songs = ServerQueueController.getInstance().find(guildId)!.songs;
 
     if (songs.length === 0 && args.length === 0) {
-      msg.channel.send('No Song in Queue and no argument provided');
+      msg?.channel.send('No Song in Queue and no argument provided');
     } else {
       const searchString = { q: '' };
 
@@ -38,10 +42,8 @@ export class Lyrics implements SocketCommand {
         } else if (!song.interpreters && song.songName) {
           searchString.q = `${song.songName}`;
         } else if (!song.interpreters && !song.songName) {
-          msg.channel.send(
-            `No Lyrics found consider using \`\`${
-              BOT.SERVERPREFIXES[msg.guild.id]
-            }lyrics <searchstring>\`\``
+          msg?.channel.send(
+            `No Lyrics found consider using \`\`${BOT.SERVERPREFIXES[guildId]}lyrics <searchstring>\`\``
           );
           return;
         }
@@ -63,10 +65,8 @@ export class Lyrics implements SocketCommand {
         const data = await response.json();
 
         if (data.response.hits.length === 0) {
-          msg.channel.send(
-            `No Lyrics found consider using \`\`${
-              BOT.SERVERPREFIXES[msg.guild.id]
-            }lyrics <searchstring>\`\``
+          msg?.channel.send(
+            `No Lyrics found consider using \`\`${BOT.SERVERPREFIXES[guildId]}lyrics <searchstring>\`\``
           );
           return;
         }
@@ -89,13 +89,11 @@ export class Lyrics implements SocketCommand {
           .setColor('#00e773')
           .setFooter(`Page 1 of ${lyricsList.length}`);
 
-        msg.channel.send(
-          `${EMOJI.WARNING}if this is not the right lyrics consider \`\`${
-            BOT.SERVERPREFIXES[msg.guild.id]
-          }lyrics <searchstring>\`\``
+        msg?.channel.send(
+          `${EMOJI.WARNING}if this is not the right lyrics consider \`\`${BOT.SERVERPREFIXES[guildId]}lyrics <searchstring>\`\``
         );
 
-        msg.channel.send(embed).then(async msg => {
+        msg?.channel.send(embed).then(async msg => {
           const message = msg as Message;
           const duration = args.length !== 0 ? 60000 : songs[0].length_ms;
 
@@ -123,9 +121,5 @@ export class Lyrics implements SocketCommand {
         });
       });
     }
-  }
-
-  run(args: string[], guildId: string, msg?: Message) {
-    throw new Error('Method not implemented.');
   }
 }

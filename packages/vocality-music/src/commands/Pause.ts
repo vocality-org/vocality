@@ -13,21 +13,21 @@ export class Pause implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    if (ServerQueueController.getInstance().find(msg.guild.id) === undefined) {
+    this.run(args, msg.guild.id, msg);
+  }
+
+  run(args: string[], guildId: string, msg?: Message) {
+    if (ServerQueueController.getInstance().find(guildId) === undefined) {
       return;
     }
 
-    const serverEntry = ServerQueueController.getInstance().find(msg.guild.id)!;
+    const serverEntry = ServerQueueController.getInstance().find(guildId)!;
     const ss = serverEntry.connection!.dispatcher.time / 1000;
     serverEntry.connection!.dispatcher.pause();
-    msg.channel.send(
+    msg?.channel.send(
       `paused **${serverEntry.songs[0].title}** at \`${new Date(ss * 1000)
         .toISOString()
         .substr(11, 8)}\``
     );
-  }
-
-  run(args: string[], guildId: string, msg?: Message) {
-    throw new Error('Method not implemented.');
   }
 }
