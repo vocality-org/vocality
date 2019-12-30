@@ -74,6 +74,13 @@ export class BotClient extends DiscordClient implements Client {
   }
 
   /**
+   * Loads a plugin for all guilds.
+   */
+  loadPlugin(plugin: Plugin, enabled: boolean) {
+    throw new Error('Method not implemented.');
+  }
+
+  /**
    * Process a input message and executes a command if found
    *
    * @param {string} guildId Specifies the guild you want the message to be for

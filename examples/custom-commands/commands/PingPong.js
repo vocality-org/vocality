@@ -1,4 +1,4 @@
-export class Cowsay {
+export class PingPong {
   options = {
     id: {
       name: 'ping', // command identifier
@@ -8,6 +8,6 @@ export class Cowsay {
   };
 
   execute(msg, args) {
-    msg.reply('pong');
+    msg.repl('pong');
   }
 }

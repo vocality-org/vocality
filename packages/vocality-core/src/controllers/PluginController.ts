@@ -7,6 +7,13 @@ export class PluginController {
    */
   readonly plugins: Collection<string, Plugin[]>;
 
+  /**
+   * Return all enabled plugins for a given guild
+   */
+  enabledPluginsInGuild(guildId: string) {
+    return this.plugins.get(guildId)?.filter(p => p.config.enabled);
+  }
+
   constructor() {
     this.plugins = new Collection<string, Plugin[]>();
   }
@@ -28,10 +35,8 @@ export class PluginController {
    * values are plugin configs.
    */
   load(guildId: string, plugins: Plugins) {
-    const toLoad = filterPlugins(plugins);
-
-    Object.keys(toLoad).forEach(name => {
-      const config = toLoad[name];
+    plugins.forEach(c => {
+      const config = c;
       try {
         import(config.path).then(module => {
           this.plugins.set(guildId, module.plugin.enable(config));
@@ -72,18 +77,4 @@ export class PluginController {
       });
     });
   }
-}
-
-/**
- * Returns a Plugins Object that meets following criteria:
- *
- * 1) Plugin is enabled
- * 2) Plugin has non-empty path
- */
-function filterPlugins(plugins: Plugins): Plugins {
-  const keys = Object.keys(plugins);
-  return keys.reduce((acc: Plugins, key: string) => {
-    if (plugins[key].enabled && plugins[key].path) acc[key] = plugins[key];
-    return acc;
-  }, {});
 }

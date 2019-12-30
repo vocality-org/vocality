@@ -18,7 +18,7 @@ export class Cowsay {
   }
 
   execute(msg, args) {
-    msg.reply(cowsay.say(args[0]));
+    msg.channel.send(cowsay.say(args[0]));
   }
 }
 
@@ -31,7 +31,7 @@ class Say {
   };
 
   execute(msg, args) {
-    msg.reply(cowsay.say(args[0]));
+    msg.channel.send(cowsay.say(args[0]));
   }
 }
 
@@ -44,6 +44,6 @@ class Think {
   };
 
   execute(msg, args) {
-    msg.reply(cowsay.think(args[0]));
+    msg.channel.send(cowsay.think(args[0]));
   }
 }

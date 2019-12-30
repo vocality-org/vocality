@@ -1,11 +1,11 @@
 import { Plugin, PluginConfig, Command } from '@vocality-org/types';
 
 export abstract class BasePlugin implements Plugin {
-  protected _config!: PluginConfig;
+  config!: PluginConfig;
   abstract commands: Command[];
 
   enable(config: PluginConfig): Plugin {
-    this._config = config;
+    this.config = config;
     return this.initialize();
   }
 

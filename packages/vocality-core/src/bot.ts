@@ -1,4 +1,4 @@
-import { ClientOptions, Command } from '@vocality-org/types';
+import { ClientOptions, Command, Plugins } from '@vocality-org/types';
 import { BotClient } from './bot/BotClient';
 
 const DEFAULT_OPTIONS = {
@@ -22,6 +22,15 @@ export class Bot {
    */
   addCommands(commands: Command[]) {
     commands.forEach(c => this.bot.addCommand(c));
+  }
+
+  /**
+   * Loads a plugin for all guilds
+   *
+   * @param {boolean} [enabled] `true` by default
+   */
+  loadPlugin(plugin: Plugin, enabled?: boolean) {
+    this.bot.loadPlugin(plugin, enabled !== undefined ? enabled : true);
   }
 
   /**

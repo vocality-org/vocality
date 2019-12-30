@@ -38,8 +38,6 @@ const EMOJI = {
   ],
 };
 
-const DEFAULT_PLUGINS = {
-  music: { enabled: true, path: '@vocality-org/music' },
-};
+const DEFAULT_PLUGINS = [{ enabled: true, path: '@vocality-org/music' }];
 
 export { BOT, COLOR, EMOJI, DEFAULT_PLUGINS };

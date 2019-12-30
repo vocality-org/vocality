@@ -6,6 +6,8 @@ export interface Plugin {
    */
   commands?: Command[];
 
+  config: PluginConfig;
+
   enable(config: PluginConfig): Plugin;
   disable(): void;
 }
@@ -28,8 +30,6 @@ export interface PluginConfig {
 }
 
 /**
- * Object with keys as plugin names and configurations as value
+ * Array of enabled and path values
  */
-export interface Plugins {
-  [pluginName: string]: PluginConfig;
-}
+export type Plugins = { enabled: string; path: string }[];
