@@ -1,6 +1,6 @@
 import { Message, MessageReaction, User } from 'discord.js';
 
-import { EMOJI } from '../../config';
+import { EMOJI } from '../config';
 
 export class ReactionHandler {
   private pageChanges: number;

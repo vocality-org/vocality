@@ -20,13 +20,6 @@ export interface Client extends DiscordClient {
   addCommand(command: Command): void;
 
   /**
-   * Add multiple custom commands
-   *
-   * @param {Command[]} command
-   */
-  addCommands(command: Command[]): void;
-
-  /**
    * Remove a custom command. Only commands stored as custom commands
    * can be removed.
    */

@@ -69,10 +69,6 @@ export class BotClient extends DiscordClient implements Client {
     throw new Error('Method not implemented.');
   }
 
-  addCommands(command: Command[]) {
-    throw new Error('Method not implemented.');
-  }
-
   removeCommand(command: Command | CommandIdentifier) {
     throw new Error('Method not implemented.');
   }

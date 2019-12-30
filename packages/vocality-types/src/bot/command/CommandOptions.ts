@@ -11,12 +11,12 @@ export interface CommandOptions {
    *  "play <url or query>",
    *  "skip (<amount>)"
    */
-  displayName: string;
+  displayName?: string;
 
   /**
    * A short description about the command.
    */
-  description: string;
+  description?: string;
 
   /**
    * The minimum amount of arguments the command expects

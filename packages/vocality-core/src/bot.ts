@@ -1,4 +1,4 @@
-import { ClientOptions } from '@vocality-org/types';
+import { ClientOptions, Command } from '@vocality-org/types';
 import { BotClient } from './bot/BotClient';
 
 const DEFAULT_OPTIONS = {
@@ -7,14 +7,21 @@ const DEFAULT_OPTIONS = {
 };
 
 export class Bot {
-  bot: BotClient;
+  private bot: BotClient;
 
   /**
-   * Creates a new instance of Bot.
+   * Creates a new instance.
    */
   constructor(options?: ClientOptions | undefined) {
-    const opts = this.applyDefaults(options);
+    const opts = applyDefaults(options);
     this.bot = new BotClient(opts);
+  }
+
+  /**
+   * Add custom commands to the bot.
+   */
+  addCommands(commands: Command[]) {
+    commands.forEach(c => this.bot.addCommand(c));
   }
 
   /**
@@ -26,27 +33,27 @@ export class Bot {
   async start(token?: string) {
     await this.bot.init(token);
   }
+}
 
-  private applyDefaults(o?: ClientOptions): ClientOptions {
-    let opts = o;
+function applyDefaults(o?: ClientOptions): ClientOptions {
+  let opts = o;
 
-    if (!o) {
-      opts = DEFAULT_OPTIONS;
-    } else {
-      opts = o;
+  if (!o) {
+    opts = DEFAULT_OPTIONS;
+  } else {
+    opts = o;
 
-      opts.messageCacheMaxSize =
-        (o.messageCacheMaxSize || 1000) > 1000 ? 1000 : o.messageCacheMaxSize;
+    opts.messageCacheMaxSize =
+      (o.messageCacheMaxSize || 1000) > 1000 ? 1000 : o.messageCacheMaxSize;
 
-      opts.disabledEvents =
-        (o.disabledEvents || []).length === 0
-          ? ['TYPING_START']
-          : o.disabledEvents;
+    opts.disabledEvents =
+      (o.disabledEvents || []).length === 0
+        ? ['TYPING_START']
+        : o.disabledEvents;
 
-      if (!opts.disabledEvents?.includes('TYPING_START')) {
-        opts.disabledEvents?.push('TYPING_START');
-      }
+    if (!opts.disabledEvents?.includes('TYPING_START')) {
+      opts.disabledEvents?.push('TYPING_START');
     }
-    return opts;
   }
+  return opts;
 }
