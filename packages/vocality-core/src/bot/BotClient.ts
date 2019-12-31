@@ -15,9 +15,8 @@ import { PluginController } from './../controllers/PluginController';
 import { MessageHandler } from './input-handlers/MessageHandler';
 
 export class BotClient extends DiscordClient implements Client {
-  pluginController: PluginController;
-
   private messageHandler: MessageHandler;
+  pluginController: PluginController;
 
   constructor(options?: ClientOptions) {
     super(options);

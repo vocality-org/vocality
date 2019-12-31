@@ -7,21 +7,21 @@ const DEFAULT_OPTIONS = {
 };
 
 export class Bot {
-  private bot: BotClient;
+  static bot: BotClient;
 
   /**
    * Creates a new instance.
    */
   constructor(options?: ClientOptions | undefined) {
     const opts = applyDefaults(options);
-    this.bot = new BotClient(opts);
+    Bot.bot = new BotClient(opts);
   }
 
   /**
    * Add custom commands to the bot.
    */
   addCommands(commands: Command[]) {
-    commands.forEach(c => this.bot.addCommand(c));
+    commands.forEach(c => Bot.bot.addCommand(c));
   }
 
   /**
@@ -30,7 +30,7 @@ export class Bot {
    * @param {boolean} [enabled] `true` by default
    */
   loadPlugin(plugin: Plugin, enabled?: boolean) {
-    this.bot.loadPlugin(plugin, enabled !== undefined ? enabled : true);
+    Bot.bot.loadPlugin(plugin, enabled !== undefined ? enabled : true);
   }
 
   /**
@@ -40,7 +40,7 @@ export class Bot {
    * If unset the token will be read from client options in constructor.
    */
   async start(token?: string) {
-    await this.bot.init(token);
+    await Bot.bot.init(token);
   }
 }
 
