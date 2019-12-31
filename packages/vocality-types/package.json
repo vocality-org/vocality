@@ -1,6 +1,6 @@
 {
   "name": "@vocality-org/types",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "TypeScript types for Vocality",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -34,7 +34,7 @@
     "discord.js": "^11.5.1"
   },
   "devDependencies": {
-    "typescript": "^3.7.3",
-    "gts": "^1.1.2"
+    "gts": "^1.1.2",
+    "typescript": "^3.7.3"
   }
 }

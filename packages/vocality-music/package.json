@@ -1,6 +1,6 @@
 {
   "name": "@vocality-org/music",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Music plugin for Vocality",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
