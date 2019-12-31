@@ -1,7 +1,7 @@
 {
   "name": "@vocality-org/core",
-  "version": "1.0.0",
-  "description": "core functionalities for Vocality",
+  "version": "0.0.0",
+  "description": "Vocality core provides a plugin based discord bot",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {
@@ -24,8 +24,7 @@
   },
   "homepage": "https://github.com/vocality-org/vocality#readme",
   "engines": {
-    "node": "=10.x.x",
-    "npm": "=6.x.x"
+    "node": ">=10.x.x"
   },
   "files": [
     "build/src/**/*.js",

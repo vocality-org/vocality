@@ -1,6 +1,6 @@
 {
   "name": "plugin-setup",
-  "version": "1.0.0",
+  "private": true,
   "description": "Bot setup including custom and vocality plugins",
   "main": "index.js",
   "scripts": {
