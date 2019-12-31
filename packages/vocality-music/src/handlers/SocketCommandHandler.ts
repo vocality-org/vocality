@@ -22,10 +22,9 @@ export class SocketCommandHandler {
 
     try {
       ArgumentParser.validateArguments(command, socketCommand.args);
+      command.run(socketCommand.args, socketCommand.messageData.guildId);
     } catch (error) {
       throw error;
     }
-
-    command.run(socketCommand.args, socketCommand.messageData.guildId);
   }
 }

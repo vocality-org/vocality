@@ -4,7 +4,12 @@ import {
   ClientOptions,
   CommandIdentifier,
 } from '@vocality-org/types';
-import { Client as DiscordClient, TextChannel, Message } from 'discord.js';
+import {
+  Client as DiscordClient,
+  TextChannel,
+  Message,
+  Guild,
+} from 'discord.js';
 import { BOT } from '../config';
 import { PluginController } from './../controllers/PluginController';
 import { MessageHandler } from './input-handlers/MessageHandler';
@@ -63,6 +68,10 @@ export class BotClient extends DiscordClient implements Client {
     }
 
     return undefined;
+  }
+
+  findGuild(guildId: string): Guild | undefined {
+    return this.guilds.get(guildId);
   }
 
   addCommand(command: Command) {
