@@ -3,6 +3,7 @@ build
 .vscode/*
 .nyc_output/*
 .env
+lerna-debug.log
 packages/vocality-core/.env
 packages/vocality-music/.env
 src/cheerioTest.ts
