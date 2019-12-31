@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@vocality-org/core": "^1.0.0",
-    "@vocality-org/music": "^1.0.0"
+    "@vocality-org/core": "^0.1.0",
+    "@vocality-org/music": "^0.1.0"
   }
 }

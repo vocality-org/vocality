@@ -41,7 +41,7 @@
     "typescript": "^3.7.3"
   },
   "dependencies": {
-    "@vocality-org/types": "^1.0.0",
+    "@vocality-org/types": "^0.1.0",
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0"
   }
