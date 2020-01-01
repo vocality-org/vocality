@@ -3,6 +3,7 @@ import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 import { QueueContract } from '../types/QueueContract';
 import { Song } from '../types/Song';
 import ytdl from 'ytdl-core';
+//@ts-ignore
 import ytList from 'youtube-playlist';
 import { ServerQueueController } from '../controller/ServerQueueController';
 import { YouTube } from '../musicAPIs/YouTube';

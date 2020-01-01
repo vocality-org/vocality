@@ -17,23 +17,16 @@ import { MessageHandler } from './input-handlers/MessageHandler';
 export class BotClient extends DiscordClient implements Client {
   private messageHandler: MessageHandler;
   pluginController: PluginController;
-
+  opts: ClientOptions;
   constructor(options?: ClientOptions) {
     super(options);
-
+    this.opts = options!;
     if (options?.token) {
       this.token = options.token;
     }
 
     this.messageHandler = new MessageHandler(this);
-
     this.pluginController = new PluginController();
-    if (options && options.plugins) {
-      this.guilds.forEach(g => {
-        this.pluginController.load(g.id, options.plugins!);
-      });
-    }
-
     this.once('ready', () => {
       this.guilds.tap(guild => {
         BOT.SERVERPREFIXES[guild.id] = BOT.PREFIX;
@@ -121,5 +114,11 @@ export class BotClient extends DiscordClient implements Client {
    */
   async init(token?: string) {
     await this.login(token || this.token);
+    if (this.opts && this.opts.plugins) {
+      console.log(this.guilds.size);
+      this.guilds.forEach(g => {
+        this.pluginController.load(g.id, this.opts.plugins!);
+      });
+    }
   }
 }

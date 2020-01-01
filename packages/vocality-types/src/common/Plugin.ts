@@ -32,4 +32,4 @@ export interface PluginConfig {
 /**
  * Array of enabled and path values
  */
-export type Plugins = { enabled: string; path: string }[];
+export type Plugins = { enabled: boolean; path: string }[];

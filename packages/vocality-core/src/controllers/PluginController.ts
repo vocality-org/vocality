@@ -22,8 +22,14 @@ export class PluginController {
    * Return all plugins of the current guild
    */
   guildPlugins(guildId: string): Plugin[] {
-    const plugins = this.plugins.get(guildId);
-    return plugins ? plugins : [];
+    let plugins = this.plugins.get(guildId);
+    if(!plugins) {
+      plugins = []
+    } else {
+      plugins = Array.isArray(plugins) ? plugins : [plugins];
+    }
+    
+    return plugins
   }
 
   /**
@@ -34,8 +40,9 @@ export class PluginController {
    * @param {Plugins} plugins an object whose keys are plugin names and whose
    * values are plugin configs.
    */
-  load(guildId: string, plugins: Plugins) {
-    plugins.forEach(c => {
+  load(guildId: string, pluginArray: Plugins) {
+    console.log(pluginArray);
+    pluginArray.forEach(c => {
       const config = c;
       try {
         import(config.path).then(module => {

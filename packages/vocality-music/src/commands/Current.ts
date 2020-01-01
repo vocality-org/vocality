@@ -23,6 +23,7 @@ export class Current implements SocketCommand {
     if (serverEntry.songs.length === 0) msg?.channel.send('No song is playing');
     else {
       const song: Song = serverEntry.songs[serverEntry.currentlyPlaying];
+      console.log(song);
       const ss = serverEntry.connection!.dispatcher.time / 1000;
 
       const embed = new RichEmbed()
@@ -41,7 +42,7 @@ export class Current implements SocketCommand {
           `${new Date(ss * 1000).toISOString().substr(11, 8)}/${song.length}`
         );
 
-      msg?.channel.send(embed);
+      msg?.channel.send({ embed });
     }
   }
 }
