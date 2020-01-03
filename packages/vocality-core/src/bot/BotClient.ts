@@ -1,9 +1,4 @@
-import {
-  Client,
-  Command,
-  ClientOptions,
-  CommandIdentifier,
-} from '@vocality-org/types';
+import { Client, Command, ClientOptions, Plugin } from '@vocality-org/types';
 import {
   Client as DiscordClient,
   TextChannel,
@@ -15,18 +10,24 @@ import { PluginController } from './../controllers/PluginController';
 import { MessageHandler } from './input-handlers/MessageHandler';
 
 export class BotClient extends DiscordClient implements Client {
+  // private coreCommands: Command[] = [];
+  private customCommands: Command[] = [];
   private messageHandler: MessageHandler;
+
   pluginController: PluginController;
-  opts: ClientOptions;
+  opts: ClientOptions | undefined;
+
   constructor(options?: ClientOptions) {
     super(options);
-    this.opts = options!;
+    this.opts = options;
+
     if (options?.token) {
       this.token = options.token;
     }
 
     this.messageHandler = new MessageHandler(this);
     this.pluginController = new PluginController();
+
     this.once('ready', () => {
       this.guilds.tap(guild => {
         BOT.SERVERPREFIXES[guild.id] = BOT.PREFIX;
@@ -40,7 +41,7 @@ export class BotClient extends DiscordClient implements Client {
   ): Command | Command[] | undefined {
     const found: Command[] = [];
 
-    this.pluginController.guildPlugins(guildId).forEach(p => {
+    this.pluginController.getGuildPlugins(guildId).forEach(p => {
       p.commands?.forEach(c => {
         if (
           c.options.id.name === search ||
@@ -67,18 +68,25 @@ export class BotClient extends DiscordClient implements Client {
   }
 
   addCommand(command: Command) {
-    throw new Error('Method not implemented.');
+    this.customCommands.push(command);
   }
 
-  removeCommand(command: Command | CommandIdentifier) {
-    throw new Error('Method not implemented.');
+  removeCommand(command: Command | string) {
+    if (typeof command === 'string') {
+      this.customCommands = this.customCommands.filter(
+        c => c.options.id.name !== command
+      );
+    } else {
+      this.customCommands.splice(this.customCommands.indexOf(command), 1);
+    }
   }
 
   /**
    * Loads a plugin for all guilds.
    */
   loadPlugin(plugin: Plugin, enabled: boolean) {
-    throw new Error('Method not implemented.');
+    plugin.config.enabled = enabled;
+    this.guilds.forEach(g => this.pluginController.load(g.id, plugin));
   }
 
   /**
@@ -113,12 +121,11 @@ export class BotClient extends DiscordClient implements Client {
    * Used to login the Bot with the Discord Token
    */
   async init(token?: string) {
-    await this.login(token || this.token);
     if (this.opts && this.opts.plugins) {
-      console.log(this.guilds.size);
       this.guilds.forEach(g => {
-        this.pluginController.load(g.id, this.opts.plugins!);
+        this.pluginController.importAndLoad(g.id, this.opts!.plugins!);
       });
     }
+    await this.login(token || this.token);
   }
 }

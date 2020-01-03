@@ -3,9 +3,11 @@ import {
   ClientOptions as DiscordClientOptions,
 } from 'discord.js';
 import { Plugins } from '../common/Plugin';
-import { CommandIdentifier, Command } from './command';
+import { Command } from './command';
 
 export interface Client extends DiscordClient {
+  opts: ClientOptions | undefined;
+
   /**
    * Returns all Commands that match a search string in either name or aliases
    */
@@ -21,9 +23,11 @@ export interface Client extends DiscordClient {
 
   /**
    * Remove a custom command. Only commands stored as custom commands
-   * can be removed.
+   * can be removed. If multiple commands are found all will be removed.
+   *
+   * @param {(Command | string)} command Command instance or name
    */
-  removeCommand(command: Command | CommandIdentifier): void;
+  removeCommand(command: Command | string): void;
 
   /**
    * Used to login the Bot with the Discord Token

@@ -1,4 +1,4 @@
-import { ClientOptions, Command } from '@vocality-org/types';
+import { ClientOptions, Command, Plugin } from '@vocality-org/types';
 import { BotClient } from './bot/BotClient';
 
 const DEFAULT_OPTIONS = {
@@ -7,21 +7,31 @@ const DEFAULT_OPTIONS = {
 };
 
 export class Bot {
-  static bot: BotClient;
+  bot: BotClient;
 
   /**
    * Creates a new instance.
    */
   constructor(options?: ClientOptions | undefined) {
     const opts = applyDefaults(options);
-    Bot.bot = new BotClient(opts);
+    this.bot = new BotClient(opts);
   }
 
   /**
-   * Add custom commands to the bot.
+   * Add a custom command to the bot which will be enabled for all guilds.
+   * Commands added this way will not belong to any plugin.
    */
-  addCommands(commands: Command[]) {
-    commands.forEach(c => Bot.bot.addCommand(c));
+  addCustomCommands(commands: Command[]) {
+    commands.forEach(c => this.bot.addCommand(c));
+  }
+
+  /**
+   * Remove a custom command from all guilds.
+   *
+   * @param {(Command | string)} command Instance or name of the command
+   */
+  removeCustomCommand(command: Command | string) {
+    this.bot.removeCommand(command);
   }
 
   /**
@@ -30,7 +40,7 @@ export class Bot {
    * @param {boolean} [enabled] `true` by default
    */
   loadPlugin(plugin: Plugin, enabled?: boolean) {
-    Bot.bot.loadPlugin(plugin, enabled !== undefined ? enabled : true);
+    this.bot.loadPlugin(plugin, enabled !== undefined ? enabled : true);
   }
 
   /**
@@ -40,7 +50,7 @@ export class Bot {
    * If unset the token will be read from client options in constructor.
    */
   async start(token?: string) {
-    await Bot.bot.init(token);
+    await this.bot.init(token);
   }
 }
 
@@ -52,8 +62,11 @@ function applyDefaults(o?: ClientOptions): ClientOptions {
   } else {
     opts = o;
 
-    opts.messageCacheMaxSize =
-      (o.messageCacheMaxSize || 1000) > 1000 ? 1000 : o.messageCacheMaxSize;
+    if (!o.messageCacheMaxSize) {
+      opts.messageCacheMaxSize = 1000;
+    } else {
+      o.messageCacheMaxSize > 1000 ? 1000 : o.messageCacheMaxSize;
+    }
 
     opts.disabledEvents =
       (o.disabledEvents || []).length === 0

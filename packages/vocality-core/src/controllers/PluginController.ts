@@ -10,7 +10,7 @@ export class PluginController {
   /**
    * Return all enabled plugins for a given guild
    */
-  enabledPluginsInGuild(guildId: string) {
+  getEnabledPluginsInGuild(guildId: string) {
     return this.plugins.get(guildId)?.filter(p => p.config.enabled);
   }
 
@@ -21,27 +21,26 @@ export class PluginController {
   /**
    * Return all plugins of the current guild
    */
-  guildPlugins(guildId: string): Plugin[] {
+  getGuildPlugins(guildId: string): Plugin[] {
     let plugins = this.plugins.get(guildId);
-    if(!plugins) {
-      plugins = []
+    if (!plugins) {
+      plugins = [];
     } else {
       plugins = Array.isArray(plugins) ? plugins : [plugins];
     }
-    
-    return plugins
+
+    return plugins;
   }
 
   /**
-   * Loads a list of plugins. Plugins are expected to extend the BasePlugin and
+   * Loads a list of imported plugin modules. Plugin modules are expected to extend the BasePlugin and
    * exprot an object named plugin.
    *
    * @param {string} guildId The guild to load the plugins for
    * @param {Plugins} plugins an object whose keys are plugin names and whose
    * values are plugin configs.
    */
-  load(guildId: string, pluginArray: Plugins) {
-    console.log(pluginArray);
+  importAndLoad(guildId: string, pluginArray: Plugins) {
     pluginArray.forEach(c => {
       const config = c;
       try {
@@ -54,6 +53,22 @@ export class PluginController {
     });
 
     return this;
+  }
+
+  /**
+   * Load a plugin for given guild
+   *
+   * @param {string} guildId
+   * @param {Plugin} plugin instance of a plugin
+   */
+  load(guildId: string, plugin: Plugin) {
+    const existingList = this.plugins.get(guildId);
+
+    if (!existingList) {
+      this.plugins.set(guildId, [plugin]);
+    } else {
+      this.plugins.set(guildId, [...existingList, plugin]);
+    }
   }
 
   /**
