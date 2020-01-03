@@ -1,0 +1,40 @@
+{
+  "name": "@vocality-org/types",
+  "version": "0.1.0",
+  "description": "TypeScript types for Vocality",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vocality-org/vocality.git"
+  },
+  "scripts": {
+    "build": "npm run compile",
+    "prepare": "npm run compile",
+    "compile": "tsc -p .",
+    "clean": "gts clean",
+    "check": "gts check",
+    "fix": "gts fix"
+  },
+  "author": "Vocality Authors",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.x.x"
+  },
+  "files": [
+    "build/src/**/*.js",
+    "build/src/**/*.d.ts",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  },
+  "devDependencies": {
+    "gts": "^1.1.2",
+    "typescript": "^3.7.3"
+  }
+}

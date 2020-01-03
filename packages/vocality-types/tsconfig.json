@@ -1,0 +1,8 @@
+{
+  "extends": "../tsconfig-vocality.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "build"
+  },
+  "include": ["src/**/*.ts"]
+}

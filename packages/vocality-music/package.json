@@ -1,0 +1,55 @@
+{
+  "name": "@vocality-org/music",
+  "version": "0.1.0",
+  "description": "Music plugin for Vocality",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vocality-org/vocality.git"
+  },
+  "scripts": {
+    "build": "npm run compile",
+    "prepare": "npm run compile",
+    "compile": "tsc -p .",
+    "clean": "gts clean",
+    "check": "gts check",
+    "fix": "gts fix"
+  },
+  "author": "Vocality Authors",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.x.x"
+  },
+  "files": [
+    "build/src/**/*.js",
+    "build/src/**/*.d.ts",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.15",
+    "@types/node-fetch": "^2.5.4",
+    "@types/request": "^2.48.4",
+    "@types/socket.io": "^2.1.4",
+    "gts": "^1.1.2",
+    "typescript": "^3.7.3"
+  },
+  "dependencies": {
+    "@vocality-org/core": "^0.1.0",
+    "@vocality-org/types": "^0.1.0",
+    "cheerio": "^1.0.0-rc.3",
+    "discord.js": "^11.5.1",
+    "dotenv": "8.2.0",
+    "node-fetch": "^2.6.0",
+    "node-opus": "^0.3.3",
+    "query-string": "^6.9.0",
+    "request": "^2.88.0",
+    "socket.io": "^2.3.0",
+    "youtube-playlist": "^1.0.2",
+    "ytdl-core": "^1.0.3"
+  }
+}
