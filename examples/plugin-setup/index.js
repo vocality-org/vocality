@@ -4,8 +4,8 @@ const plugin = require('./my-plugin/MyPlugin');
 const options = {
   token: 'DISCORD_BOT_TOKEN',
   plugins: [
-    { enabled: true, path: '@vocality-org/music' },
-    // { enabled: true, path: 'other/plugin' },
+    { loaded: true, path: '@vocality-org/music' },
+    // { loaded: true, path: 'some-other-plugin' },
   ],
 };
 
