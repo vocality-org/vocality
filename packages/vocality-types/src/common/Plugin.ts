@@ -6,6 +6,10 @@ export interface Plugin {
    */
   commands?: Command[];
 
+  /**
+   * Plugin config
+   *
+   */
   config: PluginConfig;
 
   enable(config: PluginConfig): Plugin;
@@ -14,14 +18,14 @@ export interface Plugin {
 
 export interface PluginConfig {
   /**
-   * Whether to enable the plugin.
+   * Whether the plugin is loaded or not.
    */
-  enabled: boolean;
+  loaded: boolean;
 
   /**
    * Path of the plugin to load.
    */
-  path: string;
+  path?: string;
 
   /**
    * The plugins ui name.
@@ -32,4 +36,4 @@ export interface PluginConfig {
 /**
  * Array of enabled and path values
  */
-export type Plugins = { enabled: boolean; path: string }[];
+export type Plugins = { loaded: boolean; path: string }[];

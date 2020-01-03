@@ -1,8 +1,13 @@
 import { Plugin, PluginConfig, Command } from '@vocality-org/types';
 
 export abstract class BasePlugin implements Plugin {
-  config!: PluginConfig;
-  abstract commands: Command[];
+  config: PluginConfig;
+  commands: Command[];
+
+  constructor() {
+    this.commands = [];
+    this.config = { loaded: false };
+  }
 
   enable(config: PluginConfig): Plugin {
     this.config = config;
@@ -18,5 +23,8 @@ export abstract class BasePlugin implements Plugin {
    */
   protected abstract initialize(): Plugin;
 
+  /**
+   * Last tasks to execute before the plugin gets disabled.
+   */
   protected abstract destroy(): void;
 }

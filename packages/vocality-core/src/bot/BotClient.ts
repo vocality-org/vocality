@@ -41,7 +41,7 @@ export class BotClient extends DiscordClient implements Client {
   ): Command | Command[] | undefined {
     const found: Command[] = [];
 
-    this.pluginController.getGuildPlugins(guildId).forEach(p => {
+    this.pluginController.getLoadedPluginsInGuild(guildId).forEach(p => {
       p.commands?.forEach(c => {
         if (
           c.options.id.name === search ||
@@ -82,11 +82,11 @@ export class BotClient extends DiscordClient implements Client {
   }
 
   /**
-   * Loads a plugin for all guilds.
+   * Adds a plugin to guilds.
    */
-  loadPlugin(plugin: Plugin, enabled: boolean) {
-    plugin.config.enabled = enabled;
-    this.guilds.forEach(g => this.pluginController.load(g.id, plugin));
+  addPlugin(plugin: Plugin, loaded: boolean) {
+    plugin.config.loaded = loaded;
+    this.guilds.forEach(g => this.pluginController.addPlugin(g.id, plugin));
   }
 
   /**
@@ -123,7 +123,7 @@ export class BotClient extends DiscordClient implements Client {
   async init(token?: string) {
     if (this.opts && this.opts.plugins) {
       this.guilds.forEach(g => {
-        this.pluginController.importAndLoad(g.id, this.opts!.plugins!);
+        this.pluginController.importAndAdd(g.id, this.opts!.plugins!);
       });
     }
     await this.login(token || this.token);
