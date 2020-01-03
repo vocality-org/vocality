@@ -1,4 +1,4 @@
-export class PingPong {
+class PingPong {
   options = {
     id: {
       name: 'ping', // command identifier
@@ -11,3 +11,5 @@ export class PingPong {
     msg.repl('pong');
   }
 }
+
+module.exports = new PingPong();

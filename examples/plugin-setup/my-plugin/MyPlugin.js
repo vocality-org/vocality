@@ -1,14 +1,17 @@
-import { BasePlugin, loadCommands } from '@vocality-org/core';
+const vocality = require('@vocality-org/core');
+const commands = require('./commands');
 
-class MyPlugin extends BasePlugin {
+class MyPlugin extends vocality.BasePlugin {
   constructor() {
+    super();
     this.initialize();
   }
 
   initialize() {
-    this.commands = loadCommands(commandDefs);
+    this.commands = [];
+    Object.keys(commands).forEach(k => this.commands.push(commands[k]));
     return this;
   }
 }
 
-export const plugin = new MyPlugin();
+module.exports = new MyPlugin();

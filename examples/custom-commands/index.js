@@ -1,8 +1,7 @@
-import { Bot, loadCommands } from '@vocality-org/core';
-import * as commands from './commands';
+const Bot = require('@vocality-org/core').Bot;
 
 const bot = new Bot({ token: 'DISCORD_BOT_TOKEN' });
-const customCommands = loadCommands(commands);
+const customCommands = require('./commands');
 
-bot.addCommands(customCommands);
+bot.addCustomCommands(customCommands);
 bot.start();

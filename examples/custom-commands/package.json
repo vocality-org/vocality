@@ -1,5 +1,6 @@
 {
   "name": "custom-commands",
+  "version": "0.1.0",
   "private": true,
   "description": "Example adding multiple custom commands to a vocality setup",
   "main": "index.js",

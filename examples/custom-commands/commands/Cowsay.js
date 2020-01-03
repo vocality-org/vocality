@@ -1,7 +1,7 @@
-import * as cowsay from 'cowsay';
+const cowsay = require('cowsay');
 
 // "cowsay <message>"
-export class Cowsay {
+class Cowsay {
   options = {
     id: {
       name: 'cowsay', // command identifier
@@ -10,7 +10,7 @@ export class Cowsay {
     description: 'A talking to an ascii cow',
   };
 
-  subCommands;
+  subCommands = [];
 
   constructor() {
     this.subCommands.push(new Say());
@@ -47,3 +47,5 @@ class Think {
     msg.channel.send(cowsay.think(args[0]));
   }
 }
+
+module.exports = new Cowsay();

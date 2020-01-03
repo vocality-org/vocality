@@ -19,8 +19,8 @@ rules:
     - 2
     - always
     - - general
+      - examples
       - core
-      - socket
       - types
       - music
   subject-case:

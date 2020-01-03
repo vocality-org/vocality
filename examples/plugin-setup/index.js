@@ -1,5 +1,5 @@
-import { Bot } from '@vocality-org/core';
-import { plugin } from './my-plugin';
+const vocality = require('@vocality-org/core');
+const plugin = require('./my-plugin/MyPlugin');
 
 const options = {
   token: 'DISCORD_BOT_TOKEN',
@@ -9,7 +9,9 @@ const options = {
   ],
 };
 
-const bot = new Bot(options);
+const bot = new vocality.Bot(options);
 
-bot.loadPlugin(plugin);
+console.log(plugin);
+
+bot.addPlugin(plugin);
 bot.start();

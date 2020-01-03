@@ -1,2 +1,1 @@
-export * from './Cowsay';
-export * from './PingPong';
+module.exports = [require('./Cowsay'), require('./PingPong')];

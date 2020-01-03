@@ -1,7 +1,7 @@
-export class MyCommand {
+class MyCommand {
   options = {
     id: {
-      name: 'mycommand', // command identifier
+      name: 'mc', // command identifier
     },
   };
 
@@ -9,3 +9,5 @@ export class MyCommand {
     msg.reply('thanks you for executing my command');
   }
 }
+
+module.exports = new MyCommand();
