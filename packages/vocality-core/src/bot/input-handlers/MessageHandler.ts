@@ -98,7 +98,7 @@ export class MessageHandler {
 
     //! if we want to let users select which command to use, start here
     if (!Array.isArray(found)) {
-      return found;
+      return found?.command;
     }
 
     return undefined;

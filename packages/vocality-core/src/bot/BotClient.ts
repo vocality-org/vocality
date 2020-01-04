@@ -1,4 +1,11 @@
-import { Client, Command, ClientOptions, Plugin } from '@vocality-org/types';
+import {
+  Client,
+  Command,
+  ClientOptions,
+  Plugin,
+  CommandSearchResult,
+  CommandType,
+} from '@vocality-org/types';
 import {
   Client as DiscordClient,
   TextChannel,
@@ -8,10 +15,24 @@ import {
 import { BOT } from '../config';
 import { PluginController } from './../controllers/PluginController';
 import { MessageHandler } from './input-handlers/MessageHandler';
+import { loadCommands } from '../utils/loadCommands';
+
+import * as coreCommandsModule from '../commands';
 
 export class BotClient extends DiscordClient implements Client {
-  // private coreCommands: Command[] = [];
+  /**
+   * All the core commands are stored here. Core commands are globally enabled
+   * across all guilds.
+   */
+  private coreCommands: Command[] = [];
+
+  /**
+   * Only commands added with the addCommand method are stored here.
+   * The commands are like coreCommands globally available across all guilds and
+   * can not be disabled. Only by removing them with the removeCommand method.
+   */
   private customCommands: Command[] = [];
+
   private messageHandler: MessageHandler;
 
   pluginController: PluginController;
@@ -24,6 +45,8 @@ export class BotClient extends DiscordClient implements Client {
     if (options?.token) {
       this.token = options.token;
     }
+
+    this.coreCommands = loadCommands(coreCommandsModule);
 
     this.messageHandler = new MessageHandler(this);
     this.pluginController = new PluginController();
@@ -38,18 +61,40 @@ export class BotClient extends DiscordClient implements Client {
   findCommand(
     guildId: string,
     search: string
-  ): Command | Command[] | undefined {
-    const found: Command[] = [];
+  ): CommandSearchResult | CommandSearchResult[] | undefined {
+    const found: CommandSearchResult[] = [];
 
+    const filter = (c: Command) => {
+      return (
+        c.options.id.name === search || c.options.id.aliases?.includes(search)
+      );
+    };
+
+    // search core commands
+    this.coreCommands.filter(filter).forEach(c =>
+      found.push({
+        command: c,
+        type: CommandType.CoreCommand,
+      })
+    );
+
+    // search custom commands
+    this.customCommands.filter(filter).forEach(c =>
+      found.push({
+        command: c,
+        type: CommandType.CustomCommand,
+      })
+    );
+
+    // search loaded plugin commands
     this.pluginController.getLoadedPluginsInGuild(guildId).forEach(p => {
-      p.commands?.forEach(c => {
-        if (
-          c.options.id.name === search ||
-          c.options.id.aliases?.includes(search)
-        ) {
-          found.push(c);
-        }
-      });
+      p.commands?.filter(filter).forEach(c =>
+        found.push({
+          command: c,
+          plugin: p,
+          type: CommandType.PluginCommand,
+        })
+      );
     });
 
     if (found.length === 1) {
@@ -60,7 +105,11 @@ export class BotClient extends DiscordClient implements Client {
       return found;
     }
 
-    return undefined;
+    return found.length === 0
+      ? undefined
+      : found.length === 1
+      ? found[0]
+      : found;
   }
 
   findGuild(guildId: string): Guild | undefined {
