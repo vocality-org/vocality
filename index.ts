@@ -9,7 +9,7 @@ const options: ClientOptions = {
   disabledEvents: ['TYPING_START'],
   plugins: [
     {
-      enabled: true,
+      loaded: true,
       path:
         '/home/matthias/Documents/vocality/packages/vocality-music/src/index.ts',
     },
