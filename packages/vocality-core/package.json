@@ -6,7 +6,6 @@
   "types": "build/src/index.d.ts",
   "scripts": {
     "prepare": "npm run compile",
-    "start": "NODE_ENV=production node build/src/server.js",
     "build": "npm run compile",
     "compile": "tsc -p .",
     "clean": "gts clean",
@@ -23,9 +22,6 @@
     "url": "https://github.com/vocality-org/vocality/issues"
   },
   "homepage": "https://github.com/vocality-org/vocality#readme",
-  "engines": {
-    "node": ">=10.x.x"
-  },
   "files": [
     "build/src/**/*.js",
     "build/src/**/*.d.ts",

@@ -18,9 +18,6 @@
   },
   "author": "Vocality Authors",
   "license": "MIT",
-  "engines": {
-    "node": ">=10.x.x"
-  },
   "files": [
     "build/src/**/*.js",
     "build/src/**/*.d.ts",
