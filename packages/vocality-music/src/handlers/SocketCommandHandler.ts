@@ -1,6 +1,6 @@
 import { ArgumentParser, BotError } from '@vocality-org/core';
 import { SocketCommandMessage } from '../types/SocketCommand';
-import { plugin } from '..';
+import music from '..';
 
 export class SocketCommandHandler {
   processMessage(socketCommand: SocketCommandMessage) {
@@ -8,7 +8,7 @@ export class SocketCommandHandler {
       throw new BotError('Command must have a name');
     }
 
-    const command = plugin.commands.find(
+    const command = music.commands.find(
       c => c.options.id.name === socketCommand.name
     );
 

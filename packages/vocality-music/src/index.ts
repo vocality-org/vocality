@@ -7,12 +7,12 @@ import * as commandDefs from './commands';
 class MusicPlugin extends BasePlugin {
   commands!: SocketCommand[];
 
-  initialize() {
+  load() {
     this.commands = loadCommands(commandDefs) as SocketCommand[];
     return this;
   }
 
-  destroy() {}
+  unload() {}
 }
 
-export const plugin = new MusicPlugin();
+export default new MusicPlugin();
