@@ -128,6 +128,34 @@ export class BotClient extends DiscordClient implements Client {
   }
 
   /**
+   * Process a input message and executes a command if found
+   *
+   * @param {string} guildId Specifies the guild you want the message to be for
+   * @param {string} message The content of the message to process
+   */
+  input(guildId: string, message: string) {
+    const m = this.createMessage(guildId);
+    m.content = message;
+    this.messageHandler.handleMessage(m);
+  }
+
+  private createMessage(guildId: string) {
+    const guild = this.guilds.filter(g => g.id === guildId).first();
+    const textChannel = guild.channels
+      .filter(c => {
+        return c.type === 'text';
+      })
+      .first() as TextChannel;
+
+    const message = new Message(
+      textChannel,
+      { author: this.user, embeds: [], attachments: [] },
+      this
+    );
+    return message;
+  }
+
+  /**
    * Used to login the Bot with the Discord Token
    */
   async init(token?: string) {
