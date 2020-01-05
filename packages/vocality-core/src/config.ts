@@ -1,5 +1,3 @@
-import { Plugins } from '@vocality-org/types';
-
 const BOT = {
   PREFIX: '?',
   SERVERPREFIXES: {} as GuildPrefixMap,
@@ -40,8 +38,4 @@ const EMOJI = {
   ],
 };
 
-const DEFAULT_PLUGINS: Plugins = [
-  { loaded: true, path: '@vocality-org/music' },
-];
-
-export { BOT, COLOR, EMOJI, DEFAULT_PLUGINS };
+export { BOT, COLOR, EMOJI };

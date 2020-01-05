@@ -97,14 +97,6 @@ export class BotClient extends DiscordClient implements Client {
       );
     });
 
-    if (found.length === 1) {
-      return found[0];
-    }
-
-    if (found.length >= 1) {
-      return found;
-    }
-
     return found.length === 0
       ? undefined
       : found.length === 1
@@ -130,9 +122,6 @@ export class BotClient extends DiscordClient implements Client {
     }
   }
 
-  /**
-   * Adds a plugin to guilds.
-   */
   addPlugin(plugin: Plugin, loaded: boolean) {
     plugin.config.loaded = loaded;
     this.guilds.forEach(g => this.pluginController.addPlugin(g.id, plugin));
@@ -172,7 +161,9 @@ export class BotClient extends DiscordClient implements Client {
   async init(token?: string) {
     if (this.opts && this.opts.plugins) {
       this.guilds.forEach(g => {
-        this.pluginController.importAndAdd(g.id, this.opts!.plugins!);
+        this.opts!.plugins!.forEach(p => {
+          this.pluginController.addPlugin(g.id, p);
+        });
       });
     }
     await this.login(token || this.token);

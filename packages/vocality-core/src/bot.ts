@@ -35,12 +35,14 @@ export class Bot {
   }
 
   /**
-   * Adds a plugin to all guilds.
+   * Adds plugins to all guilds.
    *
-   * @param {boolean} [loaded] `true` by default
+   * @param {boolean} [loaded] `true` by default, for all the plugins passed
    */
-  addPlugin(plugin: Plugin, loaded?: boolean) {
-    this.bot.addPlugin(plugin, loaded !== undefined ? loaded : true);
+  addPlugins(plugins: Plugin[], loaded?: boolean) {
+    plugins.forEach(p => {
+      this.bot.addPlugin(p, loaded !== undefined ? loaded : true);
+    });
   }
 
   /**

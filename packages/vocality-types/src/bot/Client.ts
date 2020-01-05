@@ -2,7 +2,7 @@ import {
   Client as DiscordClient,
   ClientOptions as DiscordClientOptions,
 } from 'discord.js';
-import { Plugin, Plugins } from '../common/Plugin';
+import { Plugin } from '../common/Plugin';
 import { Command, CommandType } from './command';
 
 export interface Client extends DiscordClient {
@@ -38,6 +38,13 @@ export interface Client extends DiscordClient {
   removeCommand(command: Command | string): void;
 
   /**
+   * Load a  plugins for all guilds
+   *
+   * @param {boolean} loaded True if the plugins should be loaded
+   */
+  addPlugin(plugin: Plugin, loaded: boolean): void;
+
+  /**
    * Used to login the Bot with the Discord Token
    */
   init(token?: string): Promise<void>;
@@ -47,7 +54,7 @@ export interface ClientOptions extends DiscordClientOptions {
   /**
    * List of Plugins to load.
    */
-  plugins?: Plugins;
+  plugins?: Plugin[];
 
   /**
    * The discord bot token.

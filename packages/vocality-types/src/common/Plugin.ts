@@ -12,7 +12,7 @@ export interface Plugin {
    */
   config: PluginConfig;
 
-  enable(config: PluginConfig): Plugin;
+  enable(config?: PluginConfig): Plugin;
   disable(): void;
 }
 
@@ -32,8 +32,3 @@ export interface PluginConfig {
    */
   displayName?: string;
 }
-
-/**
- * Array of enabled and path values
- */
-export type Plugins = { loaded: boolean; path: string }[];

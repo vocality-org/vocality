@@ -1,4 +1,4 @@
-import { Plugin, Plugins } from '@vocality-org/types';
+import { Plugin } from '@vocality-org/types';
 import { Collection } from 'discord.js';
 
 export class PluginController {
@@ -35,29 +35,6 @@ export class PluginController {
   }
 
   /**
-   * Adds a list of imported plugin modules to given guild. Plugin modules are expected to extend the BasePlugin and
-   * exprot an object named plugin.
-   *
-   * @param {string} guildId The guild to add the plugins to
-   * @param {Plugins} plugins an object whose keys are plugin names and whose
-   * values are plugin configs.
-   */
-  importAndAdd(guildId: string, pluginArray: Plugins) {
-    pluginArray.forEach(c => {
-      const config = c;
-      try {
-        import(config.path).then(module => {
-          this.plugins.set(guildId, module.plugin.enable(config));
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    });
-
-    return this;
-  }
-
-  /**
    * Add a plugin to a given guild
    *
    * @param {string} guildId
@@ -74,6 +51,27 @@ export class PluginController {
   }
 
   /**
+   * Loads a plugin that was enabled and unloaded
+   *
+   * @param {string} guildId In which guild the plugin should be loaded
+   * @param {Plugin} plugin The plugin that should be loaded
+   */
+  load(guildId: string, plugin: Plugin) {
+    const plugins = this.plugins.get(guildId);
+
+    if (!plugins) {
+      return;
+    }
+
+    const toLoad = plugins.splice(plugins.indexOf(plugin), 1);
+
+    if (toLoad && !toLoad[0].config.loaded) {
+      toLoad[0].enable();
+      this.plugins.set(guildId, [...plugins, toLoad[0]]);
+    }
+  }
+
+  /**
    * Unloads a plugin by invoking the plugins disable method.
    *
    * @param {string} guildId The guild to unload the plugin for
@@ -85,7 +83,6 @@ export class PluginController {
 
     if (toUnload) {
       toUnload.disable();
-      toUnload.config.loaded = false;
     }
   }
 
