@@ -19,6 +19,7 @@ rules:
     - 2
     - always
     - - general
+      - release
       - examples
       - core
       - types

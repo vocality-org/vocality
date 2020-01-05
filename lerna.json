@@ -1,5 +1,14 @@
 {
   "version": "0.1.0",
   "npmClient": "npm",
-  "packages": ["examples/*", "packages/*"]
+  "packages": ["examples/*", "packages/*"],
+  "command": {
+    "version": {
+      "message": "chore(release): Publish %s"
+    },
+    "publish": {
+      "allowBranch": "master",
+      "verifyAccess": false
+    }
+  }
 }

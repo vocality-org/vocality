@@ -15,6 +15,7 @@
     "clean": "lerna run clean",
     "check": "lerna run check",
     "fix": "lerna run fix",
+    "publish:ci": "lerna publish from-git --yes",
     "bump": "lerna version",
     "start": "ts-node index.ts"
   },
