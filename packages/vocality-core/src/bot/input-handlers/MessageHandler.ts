@@ -69,7 +69,7 @@ export class MessageHandler {
 
     let commandtext = args.shift()!.toLowerCase();
     let command = this.getCommandFromName(message.guild.id, commandtext)!;
-    console.log(command);
+
     while (command.subCommands && args.length > 0) {
       commandtext = args.shift()!.toLocaleLowerCase(); // assume the argument is a subcommand
       const sub = this.getSubCommand(command, commandtext);
@@ -79,8 +79,6 @@ export class MessageHandler {
         args.splice(0, 0, commandtext); // argument was no subcommand so we add it back
       }
     }
-
-    console.log(command);
 
     ArgumentParser.validateArguments(command, args);
 
