@@ -1,7 +1,7 @@
 {
   "name": "vocality",
   "version": "0.1.0",
-  "description": "Selfhosted Discord Music Bot",
+  "description": "Plugin Based Discord Bot",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {
