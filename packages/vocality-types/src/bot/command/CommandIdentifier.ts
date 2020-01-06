@@ -1,6 +1,6 @@
 export interface CommandIdentifier {
   /**
-   * Command name in camelCase
+   * Command name. This is the main command identifier.
    *
    * @type {string}
    * @memberof CommandIdentifier
