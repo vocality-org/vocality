@@ -9,6 +9,12 @@ export interface Client extends DiscordClient {
   opts: ClientOptions | undefined;
 
   /**
+   * Returns all Commands loaded. This contains core, custom and plugin
+   * commands.
+   */
+  getAllCommands(guildId: string): CommandSearchResult[];
+
+  /**
    * Returns all Commands that match a search string in either name or aliases.
    *
    * @returns The returned Object contains the command instance, a command type of

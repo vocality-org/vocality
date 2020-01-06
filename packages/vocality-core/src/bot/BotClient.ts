@@ -33,12 +33,13 @@ export class BotClient extends DiscordClient implements Client {
    */
   private customCommands: Command[] = [];
 
+  private static botInstance: BotClient;
   private messageHandler: MessageHandler;
 
   pluginController: PluginController;
   opts: ClientOptions | undefined;
 
-  constructor(options?: ClientOptions) {
+  private constructor(options?: ClientOptions) {
     super(options);
     this.opts = options;
 
@@ -52,10 +53,46 @@ export class BotClient extends DiscordClient implements Client {
     this.pluginController = new PluginController();
 
     this.once('ready', () => {
+      this.loadPluginFromOptions();
       this.guilds.tap(guild => {
         BOT.SERVERPREFIXES[guild.id] = BOT.PREFIX;
       });
     });
+  }
+
+  static instance(options?: ClientOptions): BotClient {
+    if (!this.botInstance) {
+      this.botInstance = new BotClient(options);
+    }
+    return this.botInstance;
+  }
+
+  getAllCommands(guildId: string): CommandSearchResult[] {
+    let pluginCommands: CommandSearchResult[][] = [];
+
+    this.pluginController.getLoadedPluginsInGuild(guildId).forEach(p => {
+      pluginCommands.push(
+        p.commands
+          ? p.commands.map(c => {
+              return {
+                command: c,
+                type: CommandType.PluginCommand,
+                plugin: p,
+              };
+            })
+          : []
+      );
+    });
+
+    return [
+      ...this.coreCommands.map(c => {
+        return { command: c, type: CommandType.CoreCommand };
+      }),
+      ...this.customCommands.map(c => {
+        return { command: c, type: CommandType.CustomCommand };
+      }),
+      ...pluginCommands!.reduce((acc, cur) => [...acc, ...cur]),
+    ];
   }
 
   findCommand(
@@ -155,10 +192,7 @@ export class BotClient extends DiscordClient implements Client {
     return message;
   }
 
-  /**
-   * Used to login the Bot with the Discord Token
-   */
-  async init(token?: string) {
+  private loadPluginFromOptions() {
     if (this.opts && this.opts.plugins) {
       this.guilds.forEach(g => {
         this.opts!.plugins!.forEach(p => {
@@ -166,6 +200,12 @@ export class BotClient extends DiscordClient implements Client {
         });
       });
     }
+  }
+
+  /**
+   * Used to login the Bot with the Discord Token
+   */
+  async init(token?: string) {
     await this.login(token || this.token);
   }
 }

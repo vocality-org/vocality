@@ -35,12 +35,13 @@ export class PluginController {
   }
 
   /**
-   * Add a plugin to a given guild
+   * Add a plugin to a given guild and loads it.
    *
    * @param {string} guildId
    * @param {Plugin} plugin instance of a plugin
    */
   addPlugin(guildId: string, plugin: Plugin) {
+    plugin.config.loaded = true;
     const existingList = this.plugins.get(guildId);
 
     if (!existingList) {

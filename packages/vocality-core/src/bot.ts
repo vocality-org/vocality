@@ -7,14 +7,15 @@ const DEFAULT_OPTIONS = {
 };
 
 export class Bot {
-  bot: BotClient;
+  private bot: BotClient;
 
   /**
    * Creates a new instance.
    */
   constructor(options?: ClientOptions | undefined) {
     const opts = applyDefaults(options);
-    this.bot = new BotClient(opts);
+    this.bot = BotClient.instance(opts);
+    this.bot.opts = opts;
   }
 
   /**
