@@ -1,6 +1,6 @@
 import { ArgumentParser, BotError } from '@vocality-org/core';
 import { SocketCommandMessage } from '../types/SocketCommand';
-import music from '..';
+import { music } from '..';
 
 export class SocketCommandHandler {
   processMessage(socketCommand: SocketCommandMessage) {

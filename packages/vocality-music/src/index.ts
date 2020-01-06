@@ -5,14 +5,19 @@ import './dashboard-ws/index';
 import * as commandDefs from './commands';
 
 class MusicPlugin extends BasePlugin {
-  commands!: SocketCommand[];
+  commands: SocketCommand[];
+
+  constructor() {
+    super();
+    this.config.displayName = 'vocality-music';
+    this.commands = loadCommands(commandDefs) as SocketCommand[];
+  }
 
   load() {
-    this.commands = loadCommands(commandDefs) as SocketCommand[];
     return this;
   }
 
   unload() {}
 }
 
-export default new MusicPlugin();
+export const music = new MusicPlugin();
