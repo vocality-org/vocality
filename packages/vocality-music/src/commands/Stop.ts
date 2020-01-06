@@ -7,7 +7,7 @@ export class Stop implements SocketCommand {
     id: {
       name: 'stop',
     },
-    displayName: 'stop',
+    usage: 'stop',
     description: 'Stop the bot',
     socketEnabled: true,
   };

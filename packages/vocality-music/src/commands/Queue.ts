@@ -9,7 +9,7 @@ export class Queue implements SocketCommand {
       name: 'queue',
       aliases: ['qu'],
     },
-    displayName: 'queue <optional amount of songs>',
+    usage: 'queue <optional amount of songs>',
     description: 'displays the current Song Queue',
     minArguments: 0,
     socketEnabled: false,

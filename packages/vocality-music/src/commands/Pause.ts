@@ -7,7 +7,7 @@ export class Pause implements SocketCommand {
     id: {
       name: 'pause',
     },
-    displayName: 'pause',
+    usage: 'pause',
     description: 'Pause the bot',
     socketEnabled: true,
   };

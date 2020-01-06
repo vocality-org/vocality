@@ -7,7 +7,7 @@ export class Resume implements SocketCommand {
     id: {
       name: 'resume',
     },
-    displayName: 'resume',
+    usage: 'resume',
     description: 'Resume the bot',
     socketEnabled: true,
   };

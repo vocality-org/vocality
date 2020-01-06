@@ -8,7 +8,7 @@ export class Skip implements SocketCommand {
       name: 'skip',
       aliases: ['next'],
     },
-    displayName: 'skip (<optional amount of songs to skip>)',
+    usage: 'skip (<optional amount of songs to skip>)',
     description: 'Skip the current song',
     minArguments: 0,
     socketEnabled: true,

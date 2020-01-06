@@ -20,7 +20,7 @@ export class Play implements SocketCommand {
       name: 'play',
       aliases: ['p', 'pl'],
     },
-    displayName: 'play <link or searchstring>',
+    usage: 'play <link or searchstring>',
     description: 'Play a song',
     minArguments: 1,
     socketEnabled: true,

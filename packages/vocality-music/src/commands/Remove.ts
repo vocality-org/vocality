@@ -9,7 +9,7 @@ export class Remove implements SocketCommand {
       name: 'remove',
       aliases: ['rm'],
     },
-    displayName: 'remove <id of song>',
+    usage: 'remove <id of song>',
     description: 'Remove an item from the queue starting at 1',
     minArguments: 1,
     socketEnabled: true,

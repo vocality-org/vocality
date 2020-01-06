@@ -4,17 +4,18 @@ export interface CommandOptions {
   readonly id: CommandIdentifier;
 
   /**
-   * Name of the Command in client format with arguments
+   * Command usage. Starts with the command name followed by the arguments.
+   * optional arguments are in parenthesis.
    *
    * @example
    *  "help",
    *  "play <url or query>",
    *  "skip (<amount>)"
    */
-  displayName?: string;
+  usage?: string;
 
   /**
-   * A short description about the command.
+   * A short description about the command
    */
   description?: string;
 

@@ -8,7 +8,7 @@ export class Current implements SocketCommand {
     id: {
       name: 'current',
     },
-    displayName: 'current',
+    usage: 'current',
     description: 'Display the current song',
     socketEnabled: false,
   };

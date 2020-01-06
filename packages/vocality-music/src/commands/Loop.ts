@@ -9,7 +9,7 @@ export class Loop implements SocketCommand {
       name: 'loop',
     },
     description: 'If set to true it loops the current song',
-    displayName: 'Loop',
+    usage: 'Loop',
     minArguments: 0,
     socketEnabled: true,
   };

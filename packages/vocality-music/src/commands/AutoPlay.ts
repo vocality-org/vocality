@@ -9,7 +9,7 @@ export class AutoPlay implements SocketCommand {
       name: 'autoplay',
       aliases: ['auto'],
     },
-    displayName: 'autoplay',
+    usage: 'autoplay',
     description: 'bot plays continues playing songs after queue is finished',
     socketEnabled: true,
   };

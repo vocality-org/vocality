@@ -12,7 +12,7 @@ export class Lyrics implements SocketCommand {
     id: {
       name: 'lyrics',
     },
-    displayName: 'lyrics (<optional searchstring>)',
+    usage: 'lyrics (<optional searchstring>)',
     description: 'Display the lyrics',
     socketEnabled: false,
   };

@@ -8,7 +8,7 @@ export class Shuffle implements SocketCommand {
     id: {
       name: 'shuffle',
     },
-    displayName: 'shuffle',
+    usage: 'shuffle',
     description: 'Shuffles the current queue',
     socketEnabled: true,
     minArguments: 0,

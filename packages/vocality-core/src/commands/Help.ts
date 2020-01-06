@@ -14,7 +14,7 @@ export class Help implements Command {
       name: 'help',
       aliases: ['h'],
     },
-    displayName: 'help (command)',
+    usage: 'help (command)',
     description: 'Shows command information',
   };
 
@@ -60,7 +60,7 @@ export class Help implements Command {
     embed.setTitle(`Found ${results.length} Commands`);
 
     embed.setDescription(
-      `Commands are listed below. Use \`${BOT.SERVERPREFIXES[guildId]}${this.options.displayName}\` to get more details.`
+      `Commands are listed below. Use \`${BOT.SERVERPREFIXES[guildId]}${this.options.usage}\` to get more details.`
     );
 
     results.forEach(r => {
@@ -75,7 +75,7 @@ export class Help implements Command {
         `${r.command.options.id.name} (${commandTypeString})`,
         `${r.command.options.description || '*no description*'}\n\`${
           BOT.SERVERPREFIXES[guildId]
-        }${r.command.options.displayName || r.command.options.id.name}\``
+        }${r.command.options.usage || r.command.options.id.name}\``
       );
     });
 
@@ -106,7 +106,7 @@ export class Help implements Command {
 
     embed.addField(
       'Usage',
-      `\`${BOT.SERVERPREFIXES[guildId]}${result.command.options.displayName}\``
+      `\`${BOT.SERVERPREFIXES[guildId]}${result.command.options.usage}\``
     );
 
     return embed;

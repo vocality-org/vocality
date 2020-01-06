@@ -13,7 +13,7 @@ export class Volume implements SocketCommand {
       aliases: ['vol'],
     },
     minArguments: 1,
-    displayName: 'volume [number or up/down]',
+    usage: 'volume [number or up/down]',
     description: 'Change the volume of the bot with a number or keyword',
     socketEnabled: true,
   };

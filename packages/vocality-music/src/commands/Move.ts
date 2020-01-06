@@ -9,7 +9,7 @@ export class Move implements SocketCommand {
       name: 'move',
       aliases: ['mv'],
     },
-    displayName: 'move x(songindex) y(new songindex)',
+    usage: 'move x(songindex) y(new songindex)',
     description: 'moves a Song forward or backward in the queue',
     socketEnabled: true,
     minArguments: 2,
