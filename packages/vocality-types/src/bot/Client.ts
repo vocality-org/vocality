@@ -20,7 +20,7 @@ export interface Client extends DiscordClient {
    * @returns The returned Object contains the command instance, a command type of
    * `CommandType` and the optional plugin the command is stored in.
    *
-   * If no command was found the value is undefined
+   * If no command was found the value is undefined.
    */
   findCommand(
     guildId: string,
