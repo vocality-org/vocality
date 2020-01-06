@@ -36,9 +36,6 @@ jobs:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
           scope: '@vocality-org'
-      - run: ls
-      - run: cat /home/runner/work/_temp/.npmrc
-      - run: cp $NPM_CONFIG_USERCONFIG ./packages/alpha
       - run: npm ci
       - run: npm run publish:ci
         env:
