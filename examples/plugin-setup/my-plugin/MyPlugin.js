@@ -18,4 +18,4 @@ class MyPlugin extends vocality.BasePlugin {
   }
 }
 
-module.exports = new MyPlugin();
+module.exports = { plugin: new MyPlugin() };
