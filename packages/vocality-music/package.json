@@ -1,6 +1,6 @@
 {
   "name": "@vocality-org/music",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Music plugin for Vocality",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -36,8 +36,8 @@
     "typescript": "^3.7.3"
   },
   "dependencies": {
-    "@vocality-org/core": "^0.1.4",
-    "@vocality-org/types": "^0.1.4",
+    "@vocality-org/core": "^0.1.5",
+    "@vocality-org/types": "^0.1.5",
     "cheerio": "^1.0.0-rc.3",
     "discord.js": "^11.5.1",
     "node-fetch": "^2.6.0",
