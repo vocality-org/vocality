@@ -9,7 +9,6 @@ import { ServerQueueController } from '../controller/ServerQueueController';
 import { YouTube } from '../musicAPIs/YouTube';
 import { Spotify } from '../musicAPIs/Spoitfy';
 import { onCurrentSongChange, onQueueChange } from '../dashboard-ws';
-import { BotError } from '@vocality-org/core';
 
 /**
  * The Play Class is used to Play Music with the Bot
@@ -143,7 +142,8 @@ export class Play implements SocketCommand {
       const connection = await msg.member.voiceChannel.join();
       serverEntry.connection = connection;
     } else if (!serverEntry.voiceChannel) {
-      throw new BotError('First play of guild cant be from Dashboard!');
+      console.log('First play of guild cant be from Dashboard!');
+      return;
     }
 
     const yt = new YouTube();

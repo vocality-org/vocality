@@ -9,24 +9,24 @@ export abstract class BasePlugin implements Plugin {
     this.config = config || { loaded: false };
   }
 
-  enable(config?: PluginConfig): Plugin {
+  enable(guildId: string, config?: PluginConfig) {
     this.config = config || { loaded: true };
-    return this.load();
+    this.load?.(guildId);
   }
 
-  disable() {
+  disable(guildId: string) {
     this.config.loaded = false;
-    this.unload();
+    this.unload?.(guildId);
   }
 
   /**
    * Returns a new instance of the plugin. First method executed when a plugin
    * gets loaded.
    */
-  protected abstract load(): Plugin;
+  protected abstract load(guildId: string): void;
 
   /**
    * Last tasks to execute before the plugin gets unloaded.
    */
-  protected abstract unload(): void;
+  protected abstract unload(guildId: string): void;
 }

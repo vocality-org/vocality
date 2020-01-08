@@ -12,8 +12,8 @@ export interface Plugin {
    */
   config: PluginConfig;
 
-  enable(config?: PluginConfig): Plugin;
-  disable(): void;
+  enable(guildId: string, config?: PluginConfig): void;
+  disable(guildId: string): void;
 }
 
 export interface PluginConfig {

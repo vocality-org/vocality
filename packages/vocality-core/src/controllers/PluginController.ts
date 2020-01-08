@@ -67,7 +67,7 @@ export class PluginController {
     const toLoad = plugins.splice(plugins.indexOf(plugin), 1);
 
     if (toLoad && !toLoad[0].config.loaded) {
-      toLoad[0].enable();
+      toLoad[0].enable(guildId);
       this.plugins.set(guildId, [...plugins, toLoad[0]]);
     }
   }
@@ -83,7 +83,7 @@ export class PluginController {
     const toUnload = plugins?.find(p => p === plugin);
 
     if (toUnload) {
-      toUnload.disable();
+      toUnload.disable(guildId);
     }
   }
 
