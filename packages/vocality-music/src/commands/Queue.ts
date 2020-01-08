@@ -69,7 +69,7 @@ export class Queue implements SocketCommand {
         .setColor('#00e773')
         .setFooter(`Page 1 of ${songList.length}`);
 
-      msg?.channel.send(queue).then(async msg => {
+      msg?.channel.send({ embed: queue }).then(async msg => {
         const message = msg as Message;
         const rHandler = new ReactionHandler();
 
