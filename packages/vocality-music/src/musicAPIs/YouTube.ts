@@ -13,7 +13,6 @@ export class YouTube {
    * @memberof YouTube
    */
   async search(searchParam: string) {
-    console.log(searchParam);
     const websiteData = await fetch(
       `https://www.youtube.com/results?search_query=${encodeURIComponent(
         searchParam
@@ -24,7 +23,6 @@ export class YouTube {
     let url = '';
     const result = $('a');
     for (const element of result.toArray()) {
-      console.log(element.attribs['href']);
       if (
         element.attribs['href'].includes('watch') &&
         !element.attribs['href'].includes('googleadservices')

@@ -24,6 +24,7 @@ export class SocketCommandHandler {
       ArgumentParser.validateArguments(command, socketCommand.args);
       command.run(socketCommand.args, socketCommand.messageData.guildId);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }

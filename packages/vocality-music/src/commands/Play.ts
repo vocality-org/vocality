@@ -142,7 +142,7 @@ export class Play implements SocketCommand {
     if (msg) {
       const connection = await msg.member.voiceChannel.join();
       serverEntry.connection = connection;
-    } else {
+    } else if (!serverEntry.voiceChannel) {
       throw new BotError('First play of guild cant be from Dashboard!');
     }
 
