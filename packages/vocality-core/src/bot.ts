@@ -68,7 +68,8 @@ function applyDefaults(o?: ClientOptions): ClientOptions {
     if (!o.messageCacheMaxSize) {
       opts.messageCacheMaxSize = 1000;
     } else {
-      o.messageCacheMaxSize > 1000 ? 1000 : o.messageCacheMaxSize;
+      opts.messageCacheMaxSize =
+        o.messageCacheMaxSize > 1000 ? 1000 : o.messageCacheMaxSize;
     }
 
     opts.disabledEvents =

@@ -68,7 +68,7 @@ export class BotClient extends DiscordClient implements Client {
   }
 
   getAllCommands(guildId: string): CommandSearchResult[] {
-    let pluginCommands: CommandSearchResult[][] = [];
+    const pluginCommands: CommandSearchResult[][] = [];
 
     this.pluginController.getLoadedPluginsInGuild(guildId).forEach(p => {
       pluginCommands.push(
