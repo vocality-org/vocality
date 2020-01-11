@@ -1,4 +1,5 @@
 import { CommandIdentifier } from './CommandIdentifier';
+import { RichEmbed } from 'discord.js';
 
 export interface CommandOptions {
   readonly id: CommandIdentifier;
@@ -25,4 +26,17 @@ export interface CommandOptions {
   minArguments?: number;
 
   cooldown?: number;
+  /**
+   * Pass an example input and output so it can be listed on our landing page as documentation
+   * @example
+   * example: {
+   * input = "ping"
+   * output ="pong"
+   * }
+   *
+   */
+  example?: {
+    input: string;
+    output: string | RichEmbed;
+  };
 }
