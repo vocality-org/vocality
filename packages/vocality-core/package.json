@@ -1,6 +1,6 @@
 {
   "name": "@vocality-org/core",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Vocality core provides a plugin based discord bot",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -37,7 +37,7 @@
     "typescript": "^3.7.3"
   },
   "dependencies": {
-    "@vocality-org/types": "^0.1.6",
+    "@vocality-org/types": "^0.1.7",
     "discord.js": "^11.5.1"
   }
 }
