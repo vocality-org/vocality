@@ -22,7 +22,7 @@ const features = [
     imageUrl: 'img/undraw_docusaurus_tree.svg',
     description: (
       <>
-        Docusaurus lets you focus on the implementation of your Plugin or
+        Vocality lets you focus on the implementation of your Plugin and
         Commands.
       </>
     ),
