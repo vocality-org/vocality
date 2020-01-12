@@ -37,6 +37,8 @@ jobs:
           cp ../media/logo.svg ./static/img/ 
           rm ./src/pages/index.js
           cp ../.docusaurus/index.js ./src/pages/index.js
+          rm ./src/css/custom.css
+          cp ../.docusaurus/custom.css ./src/css/custom.css
           npm run build
 
       - name: Deploy
