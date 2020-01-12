@@ -5,6 +5,7 @@ import { Song } from '../types/Song';
 import { SocketCommandMessage } from '../types/SocketCommand';
 import { ServerQueueController } from '../controller/ServerQueueController';
 import { SocketCommandHandler } from './../handlers/SocketCommandHandler';
+import { Play } from '../commands';
 
 const commandHandler = new SocketCommandHandler();
 
@@ -48,12 +49,11 @@ socketio.on('connection', (socket: io.Socket) => {
   });
 
   socket.on('addPlaylist', (playlistToAdd: PlayList) => {
-    // const serverEntry = ServerQueueController.getInstance().find(
-    //   playlistToAdd.guildId
-    // );
-    // const play = new Play();
-    // const message = bot.socketHandler!.createMessage(playlistToAdd.guildId);
-    // play.addPlaylist(playlistToAdd.songs, serverEntry, message);
+    const serverEntry = ServerQueueController.getInstance().find(
+      playlistToAdd.guildId
+    );
+    const play = new Play();
+    play.addPlaylist(playlistToAdd.songs, serverEntry);
   });
 
   socket.on('command', (command: SocketCommandMessage) => {
