@@ -9,6 +9,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - name: Delete gh-pages branch
+        uses: dawidd6/action-delete-branch@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages
+
       - name: Use Node 12
         uses: actions/setup-node@v1
         with:
