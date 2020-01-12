@@ -11,7 +11,7 @@
     "clean": "gts clean",
     "check": "gts check",
     "fix": "gts fix",
-    "docs": "typedoc --plugin typedoc-plugin-markdown src"
+    "docs": "typedoc --plugin typedoc-plugin-markdown --theme docusaurus2 src"
   },
   "repository": {
     "type": "git",
