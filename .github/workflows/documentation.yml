@@ -21,7 +21,7 @@ jobs:
           rm -rf ../../docusaurus/docs
           npm run docs
           cd ../../docusaurus
-          rm sidebar.js 
+          rm sidebars.js 
           cp ./website/sidebars.js ./
           npm run build
 
