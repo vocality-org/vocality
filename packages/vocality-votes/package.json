@@ -1,0 +1,39 @@
+{
+  "name": "@vocality-org/votes",
+  "version": "1.0.0",
+  "description": "A plugin for making votes",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vocality-org/vocality.git"
+  },
+  "scripts": {
+    "build": "npm run compile",
+    "prepare": "npm run compile",
+    "compile": "tsc -p .",
+    "clean": "gts clean",
+    "check": "gts check",
+    "fix": "gts fix"
+  },
+  "author": "Vocality Authors",
+  "license": "MIT",
+  "files": [
+    "build/src/**/*.js",
+    "build/src/**/*.d.ts",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "gts": "^1.1.2",
+    "typescript": "^3.7.3"
+  },
+  "dependencies": {
+    "@vocality-org/core": "^0.1.7",
+    "@vocality-org/types": "^0.1.7",
+    "discord.js": "^11.5.1"
+  }
+}
