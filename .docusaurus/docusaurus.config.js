@@ -1,6 +1,6 @@
 module.exports = {
   title: 'Vocality Documentation',
-  tagline: 'Documentation for the vocality core package',
+  tagline: 'The plugin based discord bot',
   url: 'https://github.com/vocality-org/vocality',
   baseUrl: '/vocality/',
   favicon: 'img/favicon.ico',
@@ -9,6 +9,10 @@ module.exports = {
   themeConfig: {
     navbar: {
       title: 'Vocality Documentation',
+      logo: {
+        alt: 'Logo',
+        src: 'img/logo.svg',
+      },
       links: [
         { to: 'docs/globals', label: 'Docs', position: 'left' },
         {
@@ -23,6 +27,9 @@ module.exports = {
     [
       '@docusaurus/preset-classic',
       {
+        theme: {
+          customCss: require.resolve('./src/css/custom.css'),
+        },
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
         },
