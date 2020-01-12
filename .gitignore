@@ -8,3 +8,4 @@ packages/vocality-core/.env
 packages/vocality-music/.env
 examples/plugin-setup/.env
 src/cheerioTest.ts
+docs

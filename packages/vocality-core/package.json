@@ -10,7 +10,8 @@
     "compile": "tsc -p .",
     "clean": "gts clean",
     "check": "gts check",
-    "fix": "gts fix"
+    "fix": "gts fix",
+    "docs": "typedoc src"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
   "devDependencies": {
     "gts": "^1.1.2",
     "node-opus": "^0.3.3",
+    "typedoc": "^0.15.8",
     "typescript": "^3.7.3"
   },
   "dependencies": {

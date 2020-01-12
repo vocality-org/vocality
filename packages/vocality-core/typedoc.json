@@ -1,0 +1,8 @@
+{
+  "name": "Vocality Documentation",
+  "hideGenerator": true,
+  "readme": "README.md",
+  "target": "ES5",
+  "mode": "file",
+  "out": "../../docs"
+}

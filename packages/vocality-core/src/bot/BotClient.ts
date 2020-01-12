@@ -73,7 +73,7 @@ export class BotClient extends DiscordClient implements Client {
     this.pluginController.getLoadedPluginsInGuild(guildId).forEach(p => {
       pluginCommands.push(
         p.commands
-          ? p.commands.map(c => {
+          ? p.commands.map((c: Command) => {
               return {
                 command: c,
                 type: CommandType.PluginCommand,
