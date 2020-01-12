@@ -7,7 +7,7 @@ export class ChangePrefix implements Command {
     id: {
       name: 'prefix',
     },
-    usage: 'prefix <character>',
+    usage: 'prefix (character)',
     description: 'Change the bot message prefix for this server',
     minArguments: 1,
   };
