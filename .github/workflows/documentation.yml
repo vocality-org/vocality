@@ -14,12 +14,9 @@ jobs:
 
       - run: |
           npm install
+          npx @docusaurus/init@next init docusaurus classic
           cd ./packages/vocality-core
           npm run docs
-          cd ../../
-          mkdir docusaurus
-          cp -r docs docusaurus
-          cp -r website docusaurus
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
