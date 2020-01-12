@@ -28,11 +28,12 @@ const features = [
     ),
   },
   {
-    title: <>Built for performance</>,
+    title: <>Share your Projects</>,
     imageUrl: 'img/illu-1.svg',
     description: (
       <>
-        By utilizing the discord.js library great performance can be achieved.
+        Vocality makes it possible to share your Plugins and Commands with
+        everyone.
       </>
     ),
   },
