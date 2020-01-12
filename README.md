@@ -7,7 +7,7 @@
 <hr/>
 
 <p align="center">
-<a href="">Website</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a href="">Installation</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a href="">Plugins</a>   
+<a href="">Website</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a href="https://vocality-org.github.io/vocality/">Documentation</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a href="">Plugins</a>   
 </p>
 
 <p align="center">
