@@ -16,9 +16,6 @@ jobs:
           npm install
           cd ./packages/vocality-core
           npm run docs
-          cd ../../
-          cp ./media/favicon.ico ./docs
-          sed -i '8i <link rel=icon href=/favicon.ico>' ./docs/index.html
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
