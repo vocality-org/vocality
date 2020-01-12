@@ -40,6 +40,7 @@ jobs:
           cp ../.docusaurus/index.js ./src/pages/index.js
           rm ./src/css/custom.css
           cp ../.docusaurus/custom.css ./src/css/custom.css
+          cp -r ../.docusaurus/illu*.svg ./static/img/
           npm run build
 
       - name: Deploy

@@ -9,7 +9,7 @@ import styles from './styles.module.css';
 const features = [
   {
     title: <>Plugins</>,
-    imageUrl: 'img/undraw_docusaurus_mountain.svg',
+    imageUrl: 'img/illu-3.svg',
     description: (
       <>
         Vocality offers support for Plugins. Either add official plugins or
@@ -19,7 +19,7 @@ const features = [
   },
   {
     title: <>Focus on What Matters</>,
-    imageUrl: 'img/undraw_docusaurus_tree.svg',
+    imageUrl: 'img/illu-2.svg',
     description: (
       <>
         Vocality lets you focus on the implementation of your Plugin and
@@ -29,7 +29,7 @@ const features = [
   },
   {
     title: <>Built for performance</>,
-    imageUrl: 'img/undraw_docusaurus_react.svg',
+    imageUrl: 'img/illu-1.svg',
     description: (
       <>
         By utilizing the discord.js library great performance can be achieved.
