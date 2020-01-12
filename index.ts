@@ -1,6 +1,7 @@
 import { Bot } from './packages/vocality-core/src/index';
 import { ClientOptions } from './packages/vocality-types/build/src/bot/Client';
 import dotenv from 'dotenv';
+import { votesPlugin } from './packages/vocality-votes/src';
 
 dotenv.config();
 const options: ClientOptions = {
@@ -8,11 +9,7 @@ const options: ClientOptions = {
   messageCacheMaxSize: 100,
   disabledEvents: ['TYPING_START'],
   plugins: [
-    {
-      loaded: true,
-      path:
-        '/home/matthias/Documents/vocality/packages/vocality-music/src/index.ts',
-    },
+    votesPlugin,
     // { enabled: true, path: 'other/plugin' },
   ],
 };

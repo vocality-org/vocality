@@ -24,7 +24,9 @@ export class MessageHandler {
     if (!this.validateMessage(message)) return;
 
     try {
-      this.processMessage(message);
+      if (message.channel.type !== 'dm') {
+        this.processMessage(message);
+      }
     } catch (e) {
       message.reply(e.message);
     }
@@ -49,6 +51,9 @@ export class MessageHandler {
    * starts with the correct prefix
    */
   private validateMessage(message: Message): boolean {
+    if (message.content.length === 0) return false;
+    if (message.guild === null) return true;
+    if (message.guild === null && message.author.bot) return false;
     return (
       (!message.author.bot &&
         message.content.startsWith(BOT.SERVERPREFIXES[message.guild.id])) ||
@@ -63,9 +68,8 @@ export class MessageHandler {
    */
   private processMessage(message: Message) {
     const content = message.content.slice(
-      BOT.SERVERPREFIXES[message.guild.id].length
+      message.guild === null ? 0 : BOT.SERVERPREFIXES[message.guild.id].length
     );
-
     const args = ArgumentParser.parseInput(content);
 
     let commandtext = args.shift()!.toLowerCase();

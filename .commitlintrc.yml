@@ -24,6 +24,7 @@ rules:
       - core
       - types
       - music
+      - vote
   subject-case:
     - 2
     - always
