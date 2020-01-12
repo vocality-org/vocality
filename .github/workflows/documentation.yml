@@ -18,6 +18,7 @@ jobs:
           npm install
           npx @docusaurus/init@next init docusaurus classic
           cd ./packages/vocality-core
+          rm -rf ../../docusaurus/docs
           npm run docs
           cd ../../docusaurus
           npm run build
