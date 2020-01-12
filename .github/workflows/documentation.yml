@@ -17,12 +17,12 @@ jobs:
           cd ./packages/vocality-core
           npm run docs
           mkdir docusaurus
-          cp ./docs docusaurus/
-          cp ./website docusaurus/
+          cp -r docs docusaurus
+          cp -r website docusaurus
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: /
+          FOLDER: docusaurus
