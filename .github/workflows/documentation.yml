@@ -31,7 +31,7 @@ jobs:
           cp ./website/sidebars.js ./
           rm docusaurus.config.js
           cp ../.docusaurus/docusaurus.config.js ./
-          sed -i "26i apiKey: '${{ secrets.ALGOLIA_API_KEY }}'" ./docusaurus.config.js
+          sed -i "26i apiKey: '${{ secrets.ALGOLIA_API_KEY }}'," ./docusaurus.config.js
           rm ./static/img/favicon.ico
           cp ../media/favicon.ico ./static/img/
           rm ./static/img/logo.svg
