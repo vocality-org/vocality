@@ -22,6 +22,9 @@ module.exports = {
         },
       ],
     },
+    algolia: {
+      indexName: 'prod_VOCALITY_DOCS',
+    },
   },
   presets: [
     [
