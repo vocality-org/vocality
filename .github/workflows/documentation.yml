@@ -1,26 +1,26 @@
-name: Documentation
-
-on:
-  push:
-    branches:
-      - master
-
+name: Build and Deploy
+on: [push]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+
+      - name: Use Node 12
         uses: actions/setup-node@v1
-          with:
-            node-version: 12
+        with:
+          node-version: 12
 
       - run: npm install
       - run: cd ./packages/vocality-core
       - run: npm run docs
+      - run: cp ./media/favicon.ico ./docs
+      - run: sed -i '8i <link rel=icon href=/favicon.ico>' ./docs/index.html
 
-      - name: Deploy Docs
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          BRANCH: docs 
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: docs
           FOLDER: docs
