@@ -22,7 +22,7 @@ jobs:
           npm run docs
           cd ../../docusaurus
           rm sidebar.js 
-          cp ./website/sidebar.js ./
+          cp ./website/sidebars.js ./
           npm run build
 
       - name: Deploy
