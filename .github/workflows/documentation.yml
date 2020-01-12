@@ -23,6 +23,8 @@ jobs:
           cd ../../docusaurus
           rm sidebars.js 
           cp ./website/sidebars.js ./
+          rm docusaurus.config.js
+          cp ../.docusaurus/docusaurus.config.js ./
           npm run build
 
       - name: Deploy
