@@ -25,10 +25,10 @@ jobs:
           cp ./website/sidebars.js ./
           rm docusaurus.config.js
           cp ../.docusaurus/docusaurus.config.js ./
-          rm ./img/favicon.ico
-          cp ../media/favicon.ico ./img/
-          rm ./img/logo.svg
-          cp ../media/logo.svg ./img/ 
+          rm ./static/img/favicon.ico
+          cp ../media/favicon.ico ./static/img/
+          rm ./static/img/logo.svg
+          cp ../media/logo.svg ./static/img/ 
           rm ./src/pages/index.js
           cp ../.docusaurus/index.js ./src/pages/index.js
           npm run build
