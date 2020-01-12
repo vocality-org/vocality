@@ -2,7 +2,7 @@ module.exports = {
   title: 'Vocality Documentation',
   tagline: 'Documentation for the vocality core package',
   url: 'https://github.com/vocality-org/vocality',
-  baseUrl: '/vocality',
+  baseUrl: '/vocality/',
   favicon: 'img/favicon.ico',
   organizationName: 'vocality-org',
   projectName: 'vocality',
