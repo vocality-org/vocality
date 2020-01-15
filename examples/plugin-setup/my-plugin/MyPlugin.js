@@ -8,13 +8,12 @@ class MyPlugin extends vocality.BasePlugin {
     Object.keys(commands).forEach(k => this.commands.push(commands[k]));
   }
 
-  load() {
-    console.log('plugin was loaded');
-    return this;
+  load(guildId) {
+    console.log(`plugin was loaded (${guildId})`);
   }
 
-  unload() {
-    console.log('plugin was unloaded');
+  unload(guildId) {
+    console.log(`plugin was unloaded (${guildId})`);
   }
 }
 

@@ -5,6 +5,7 @@ import { Vote } from '../types/Vote';
 import { ServerQueueController } from '../controller/ServerQueueController';
 
 export class WizardUtils {
+  /*ts-ignore*/
   static async handleAnswer(
     serverQueue: Vote,
     msg: Message,
@@ -56,7 +57,7 @@ export class WizardUtils {
           );
           if (exit) {
             msg.author.send('Wizard stopped!');
-            break;
+            return true;
           }
           return false;
         }
