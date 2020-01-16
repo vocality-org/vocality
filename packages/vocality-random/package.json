@@ -32,6 +32,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@types/faker": "^4.1.9",
     "@types/node-fetch": "^2.5.4",
     "@vocality-org/types": "^0.1.7",
     "gts": "^1.1.2",

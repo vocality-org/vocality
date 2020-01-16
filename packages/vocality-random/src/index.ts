@@ -5,6 +5,12 @@ import * as commandDefs from './commands';
 import { RandomDotOrg } from './randomApis/RandomDotOrg';
 
 class RandomPlugin extends BasePlugin {
+  protected load(guildId: string): void {
+    throw new Error('Method not implemented.');
+  }
+  protected unload(guildId: string): void {
+    throw new Error('Method not implemented.');
+  }
   commands: Command[];
   randomDotOrgClient = new RandomDotOrg();
 

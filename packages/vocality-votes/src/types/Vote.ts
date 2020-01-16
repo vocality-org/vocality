@@ -9,4 +9,5 @@ export interface Vote {
   deadline: Date | undefined;
   currentStep: number;
   maxSteps: number;
+  anonymous: boolean;
 }

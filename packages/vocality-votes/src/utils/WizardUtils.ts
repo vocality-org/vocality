@@ -8,14 +8,12 @@ export class WizardUtils {
   /*ts-ignore*/
   static async handleAnswer(
     serverQueue: Vote,
-    msg: Message,
-    answer: string,
-    sentEmbed: Message
-  ) {
+    answer: string
+  ): Promise<{ error: boolean; newMsg: RichEmbed | undefined }> {
     switch (serverQueue.currentStep) {
       case 0:
         serverQueue.question = answer;
-        return true;
+        return { error: false, newMsg: undefined };
       case 1:
         if (answer === '1') {
           serverQueue.votes = [
@@ -29,54 +27,42 @@ export class WizardUtils {
             { id: ANSWER_EMOJIES.thumbs_down, votes: 0 },
           ];
         } else if (answer.split(',').length !== 1) {
-          console.log('right');
           answer.split(',').forEach(val => {
             serverQueue.votes.push({ id: val, votes: 0 });
           });
         } else {
-          console.log('Error');
-          const newMsg = WizardUtils.getQuestion(serverQueue.currentStep);
-          newMsg.addBlankField();
-          newMsg.addField(
-            'False Value',
-            WARNING + 'You did not provide the right value'
-          );
-          const editMsg = await sentEmbed.edit({ embed: newMsg });
-          const collector = editMsg.channel.createMessageCollector(
-            m => m.content,
-            {
-              time: 300000,
-              max: 1,
-            }
-          );
-          const exit = await WizardUtils.collect(
-            serverQueue,
-            collector,
-            msg,
-            editMsg
-          );
-          if (exit) {
-            msg.author.send('Wizard stopped!');
-            return true;
-          }
-          return false;
+          return {
+            error: true,
+            newMsg: this.getError(serverQueue),
+          };
         }
-        return true;
+        return { error: false, newMsg: undefined };
       case 2:
-        return true;
+        if (answer === '1') {
+          serverQueue.anonymous = false;
+          return { error: false, newMsg: undefined };
+        } else if (answer === '2') {
+          serverQueue.anonymous = true;
+          return { error: false, newMsg: undefined };
+        } else {
+          return {
+            error: true,
+            newMsg: this.getError(serverQueue),
+          };
+        }
+
       case 3:
-        return true;
+        return { error: false, newMsg: undefined };
 
       default:
-        return true;
+        return { error: false, newMsg: undefined };
     }
   }
   static async collect(
     serverQueue: Vote,
     collector: MessageCollector,
-    message: Message,
-    sentEmbed: Message
-  ) {
+    message: Message
+  ): Promise<{ exit: boolean; collected: undefined | Message }> {
     return new Promise((res, rej) => {
       collector.on('collect', async collected => {
         if (collected.content === 'stop') {
@@ -94,23 +80,21 @@ export class WizardUtils {
             message.guild.id,
             serverQueue
           );
-          res(true);
+          res({ exit: true, collected: undefined });
         } else {
-          const noError = await WizardUtils.handleAnswer(
-            serverQueue,
-            message,
-            collected.content,
-            sentEmbed
-          );
-          console.log(noError);
-          if (noError) {
-            serverQueue.currentStep++;
-          } else {
-          }
+          res({ collected, exit: false });
         }
-        res(false);
       });
     });
+  }
+  static getError(serverQueue: Vote) {
+    const newMsg = WizardUtils.getQuestion(serverQueue.currentStep);
+    newMsg.addBlankField();
+    newMsg.addField(
+      'False Value',
+      WARNING + '**You did not provide the right value**'
+    );
+    return newMsg;
   }
   static getQuestion(index: number) {
     switch (index) {
