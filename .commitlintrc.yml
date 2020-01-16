@@ -25,6 +25,7 @@ rules:
       - types
       - music
       - vote
+      - random
   subject-case:
     - 2
     - always

@@ -1,7 +1,7 @@
 {
-  "name": "@vocality-org/core",
-  "version": "0.1.7",
-  "description": "Vocality core provides a plugin based discord bot",
+  "name": "@vocality-org/random",
+  "version": "0.1.0",
+  "description": "Random number and image generator plugin for Vocality",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {
@@ -10,8 +10,7 @@
     "compile": "tsc -p .",
     "clean": "gts clean",
     "check": "gts check",
-    "fix": "gts fix",
-    "docs": "typedoc --plugin typedoc-plugin-markdown --theme docusaurus2 src"
+    "fix": "gts fix"
   },
   "repository": {
     "type": "git",
@@ -33,13 +32,12 @@
     "access": "public"
   },
   "devDependencies": {
-    "@vocality-org/types": "^0.1.7",
     "gts": "^1.1.2",
-    "typedoc": "^0.15.8",
-    "typedoc-plugin-markdown": "^2.2.16",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.3",
+    "@vocality-org/types": "^0.1.7"
   },
   "dependencies": {
+    "@vocality-org/core": "^0.1.7",
     "discord.js": "^11.5.1"
   }
 }
