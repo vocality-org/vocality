@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-export const API_MAX_VALUE = 10e9;
+export const API_MAX_VALUE = 10e6;
 
 // Documentation: https://api.random.org/json-rpc/2/basic
 const version = '2.0';
@@ -72,6 +72,7 @@ export class RandomDotOrg {
     if (!this.checkKey()) {
       return;
     }
+
     return fetch(invokeUrl, {
       ...baseReq,
       body: this.buildRequestBody('generateGaussians', {

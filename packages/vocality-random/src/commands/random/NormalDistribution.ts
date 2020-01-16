@@ -15,8 +15,8 @@ export class NormalDistribution implements Command {
 
   execute(msg: Message, args: string[]) {
     const mean = isNaN(parseInt(args[0], 10)) ? 0 : parseInt(args[0], 10);
-    const stdDev = isNaN(parseInt(args[1], 10)) ? 1 : parseInt(args[0], 10);
-    const amount = isNaN(parseInt(args[1], 10)) ? 1 : parseInt(args[0], 10);
+    const stdDev = isNaN(parseInt(args[1], 10)) ? 1 : parseInt(args[1], 10);
+    const amount = isNaN(parseInt(args[2], 10)) ? 1 : parseInt(args[2], 10);
 
     random.randomDotOrgClient
       .gaussian(mean, stdDev, amount)

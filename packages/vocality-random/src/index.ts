@@ -14,7 +14,7 @@ class RandomPlugin extends BasePlugin {
     this.commands = loadCommands(commandDefs);
   }
 
-  set randomDotOrg(secret: string) {
+  set randomOrgApiKey(secret: string) {
     this.randomDotOrgClient.key = secret;
   }
 }

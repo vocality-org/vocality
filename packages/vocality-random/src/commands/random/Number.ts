@@ -22,9 +22,10 @@ export class Number implements Command {
       const parsed = parseMinMax(args[0]);
       if (!parsed) {
         msg.reply('Could not parse the min-max value');
+        return;
       } else {
         min = parsed[0];
-        min = parsed[1];
+        max = parsed[1];
       }
     }
 

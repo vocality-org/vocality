@@ -14,8 +14,8 @@ export class Fraction implements Command {
   };
 
   execute(msg: Message, args: string[]) {
-    const decimals = isNaN(parseInt(args[1], 10)) ? 3 : parseInt(args[0], 10);
-    const amount = isNaN(parseInt(args[1], 10)) ? 1 : parseInt(args[0], 10);
+    const decimals = isNaN(parseInt(args[0], 10)) ? 3 : parseInt(args[0], 10);
+    const amount = isNaN(parseInt(args[1], 10)) ? 1 : parseInt(args[1], 10);
 
     random.randomDotOrgClient.fraction(decimals, amount)?.then(decimals => {
       msg.channel.send(`${decimals.join(', ')}`);

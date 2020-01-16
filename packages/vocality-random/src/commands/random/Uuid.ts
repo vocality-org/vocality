@@ -16,7 +16,7 @@ export class Uuid implements Command {
     const amount = isNaN(parseInt(args[0], 10)) ? 1 : parseInt(args[0], 10);
 
     random.randomDotOrgClient.uuids(amount)?.then(uuids => {
-      msg.channel.send(`${uuids.join(', ')}`);
+      msg.channel.send(`${uuids.map(u => `\`${u}\``).join('\n')}`);
     });
   }
 }
