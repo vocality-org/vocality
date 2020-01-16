@@ -32,6 +32,7 @@
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
+    "@types/faker": "^4.1.9",
     "gts": "^1.1.2",
     "husky": "^3.1.0",
     "lerna": "^3.17.0",

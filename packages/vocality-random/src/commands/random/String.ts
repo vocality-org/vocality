@@ -2,14 +2,14 @@ import { Command, CommandOptions } from '@vocality-org/types';
 import { Message } from 'discord.js';
 import { random } from '../..';
 
-export class Strings implements Command {
+export class String implements Command {
   options: CommandOptions = {
     id: {
-      name: 'strings',
+      name: 'string',
     },
     description: 'This method generates true random strings',
-    usage: 'strings <characters> (<length>) (<amount>)',
-    minArguments: 2,
+    usage: 'string <characters> (<length>) (<amount>)',
+    minArguments: 1,
   };
 
   execute(msg: Message, args: string[]) {
