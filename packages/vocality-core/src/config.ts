@@ -24,6 +24,8 @@ const EMOJI = {
   ARROW_BACKWARD: '◀',
   ARROW_FORWARD: '▶',
   WARNING: '⚠',
+  WHITE_CHECK_MARK: ':white_check_mark:',
+  RED_X: ':x:',
   DIGITS: [
     ':zero:',
     ':one:',
