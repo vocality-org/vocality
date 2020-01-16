@@ -48,6 +48,7 @@ export class ServerQueueController {
       currentStep: 0,
       question: '',
       votes: [],
+      anonymous: false,
     };
     existingEntry?.push(newEntry);
     return newEntry;
