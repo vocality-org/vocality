@@ -23,10 +23,10 @@ export abstract class BasePlugin implements Plugin {
    * Returns a new instance of the plugin. First method executed when a plugin
    * gets loaded.
    */
-  protected abstract load(guildId: string): void;
+  protected load?(guildId: string): void;
 
   /**
    * Last tasks to execute before the plugin gets unloaded.
    */
-  protected abstract unload(guildId: string): void;
+  protected unload?(guildId: string): void;
 }
