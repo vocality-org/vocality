@@ -1,5 +1,5 @@
 import { BasePlugin, loadCommands } from '@vocality-org/core';
-import { Command } from '@vocality-org/types/build/src';
+import { Command } from '@vocality-org/types';
 
 import * as commandDefs from './commands';
 import { RandomDotOrg } from './randomApis/RandomDotOrg';
