@@ -10,11 +10,14 @@ export class Random implements Command {
       name: 'random',
       aliases: ['rndm', 'rand'],
     },
-    description: 'Executes a random command',
+    description: 'Executes a random command of this plugin',
     usage: 'random',
   };
 
   subCommands: Command[] = loadCommands(randomSubCommands);
 
-  execute(msg: Message, args: string[]) {}
+  execute(msg: Message, args: string[]) {
+    const randomIndex = Math.floor(Math.random() * this.subCommands.length);
+    this.subCommands[randomIndex].execute(msg, args);
+  }
 }

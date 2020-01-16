@@ -7,8 +7,8 @@ export class Strings implements Command {
       name: 'strings',
     },
     description: 'This method generates true random strings',
-    usage: 'strings <characters> (<amount>)',
-    minArguments: 1,
+    usage: 'strings <characters> <length> (<amount>)',
+    minArguments: 2,
   };
 
   execute(msg: Message, args: string[]) {}

@@ -32,12 +32,14 @@
     "access": "public"
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.5.4",
+    "@vocality-org/types": "^0.1.7",
     "gts": "^1.1.2",
-    "typescript": "^3.7.3",
-    "@vocality-org/types": "^0.1.7"
+    "typescript": "^3.7.3"
   },
   "dependencies": {
     "@vocality-org/core": "^0.1.7",
-    "discord.js": "^11.5.1"
+    "discord.js": "^11.5.1",
+    "node-fetch": "^2.6.0"
   }
 }
