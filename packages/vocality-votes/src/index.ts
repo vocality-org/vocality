@@ -8,6 +8,7 @@ class VotesPlugin extends BasePlugin {
 
   constructor() {
     super();
+    this.config.displayName = 'vocality-votes';
     this.commands = loadCommands(commandDefs) as Command[];
   }
 
