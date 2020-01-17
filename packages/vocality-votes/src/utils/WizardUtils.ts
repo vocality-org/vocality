@@ -2,6 +2,7 @@ import { RichEmbed, Message, MessageCollector, DMChannel } from 'discord.js';
 import { COLOR } from '@vocality-org/core';
 import { ANSWER_EMOJIES, WARNING } from '../config';
 import { Vote } from '../types/Vote';
+import parse from 'date-fns/parse';
 import { ServerQueueController } from '../controller/ServerQueueController';
 
 export class WizardUtils {
@@ -52,6 +53,24 @@ export class WizardUtils {
         }
 
       case 3:
+        let date = undefined;
+        if (
+          parse(answer, 'dd.MM.yyyy HH:mm', new Date()).toString() !==
+          'Invalid Date'
+        ) {
+          date = parse(answer, 'dd.MM.yyyy HH:mm', new Date());
+        } else if (
+          parse(answer, 'dd.MM.yyyy', new Date()).toString() !== 'Invalid Date'
+        ) {
+          date = parse(answer, 'dd.MM.yyyy', new Date());
+        } else if (
+          parse(answer, 'HH:mm', new Date()).toString() !== 'Invalid Date'
+        ) {
+          date = parse(answer, 'HH:mm', new Date());
+        }
+        console.log(date);
+        serverQueue.deadline = this.checkDate(date);
+        console.log(serverQueue.deadline);
         return { error: false, newMsg: undefined };
 
       default:
@@ -95,6 +114,18 @@ export class WizardUtils {
       WARNING + '**You did not provide the right value**'
     );
     return newMsg;
+  }
+  static checkDate(date: Date | undefined) {
+    if (Object.prototype.toString.call(date) === '[object Date]') {
+      if (isNaN(date!.getTime())) {
+        // d.valueOf() could also work
+        return undefined;
+      } else {
+        return date;
+      }
+    } else {
+      return undefined;
+    }
   }
   static getQuestion(index: number) {
     switch (index) {
@@ -141,19 +172,19 @@ export class WizardUtils {
           .setColor(COLOR.CYAN)
           .setTitle('When does your poll end?')
           .setDescription('Please use one of the folling formats')
-          .addField('dd:MM:yyyy HH:mm:ss', `Date and Time will be used`, true)
+          .addField('dd.MM.yyyy HH:mm', `Date and Time will be used`, true)
           .addField(
-            'dd:MM:yyyy',
+            'dd.MM.yyyy',
             `Only a date will be used so the poll ends at 0 o'click`,
             true
           )
           .addField(
-            'HH:mm:ss',
+            'HH:mm',
             `Only the time will be used so the poll ends at the same date`,
             true
           )
           .addField(
-            'Press 0 for custom',
+            'Press any key for custom',
             `The poll ends when you what it to end`
           )
           .setFooter('You can write stop to exit the setup');
@@ -161,10 +192,8 @@ export class WizardUtils {
       default:
         return new RichEmbed()
           .setColor(COLOR.CYAN)
-          .setTitle('Whats your question?')
-          .setDescription(
-            'Try to be as explanatory as possible in one Sentence'
-          )
+          .setTitle('An Error occured')
+          .setDescription('There is an Error please exit the setup')
           .setFooter('You can write stop to exit the setup');
     }
   }

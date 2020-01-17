@@ -45,7 +45,7 @@ export class ServerQueueController {
       textChannel: msg.channel,
       deadline: undefined,
       maxSteps: 5,
-      currentStep: 0,
+      currentStep: 3,
       question: '',
       votes: [],
       anonymous: false,
