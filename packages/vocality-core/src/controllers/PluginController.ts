@@ -64,11 +64,12 @@ export class PluginController {
       return;
     }
 
-    const toLoad = plugins.splice(plugins.indexOf(plugin), 1);
+    const toLoad = plugins.find(p => p === plugin);
 
-    if (toLoad && !toLoad[0].config.loaded) {
-      toLoad[0].enable(guildId);
-      this.plugins.set(guildId, [...plugins, toLoad[0]]);
+    if (toLoad) {
+      if (!toLoad.config.loaded) {
+        toLoad.enable(guildId);
+      }
     }
   }
 
@@ -80,7 +81,12 @@ export class PluginController {
    */
   unload(guildId: string, plugin: Plugin) {
     const plugins = this.plugins.get(guildId);
-    const toUnload = plugins?.find(p => p === plugin);
+
+    if (!plugins) {
+      return;
+    }
+
+    const toUnload = plugins.find(p => p === plugin);
 
     if (toUnload) {
       toUnload.disable(guildId);

@@ -9,8 +9,8 @@ export abstract class BasePlugin implements Plugin {
     this.config = config || { loaded: false };
   }
 
-  enable(guildId: string, config?: PluginConfig) {
-    this.config = config || { loaded: true };
+  enable(guildId: string) {
+    this.config.loaded = true;
     this.load?.(guildId);
   }
 

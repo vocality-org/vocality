@@ -10,6 +10,7 @@ export class Plugin implements Command {
   options: CommandOptions = {
     id: {
       name: 'plugins',
+      aliases: ['plugin'],
     },
     usage: 'plugins',
     description: 'List all plugins. Load and unload plugins with sub commands',
@@ -32,8 +33,8 @@ export class Plugin implements Command {
           : 1;
       })
       .map(p => {
-        `${p.config.loaded ? EMOJI.WHITE_CHECK_MARK : EMOJI.RED_X}\t${p.config
-          .displayName || '[not-named]'}`;
+        return `${p.config.loaded ? EMOJI.WHITE_CHECK_MARK : EMOJI.RED_X} - ${p
+          .config.displayName || '[not-named]'}`;
       })
       .join('\n');
 
