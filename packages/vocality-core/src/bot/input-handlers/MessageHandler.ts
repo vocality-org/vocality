@@ -3,6 +3,7 @@ import { Message } from 'discord.js';
 import { BotClient } from '../BotClient';
 import { BOT } from '../../config';
 import { ArgumentParser } from '../../utils/ArgumentParser';
+import { BotError } from '../../BotError';
 
 export class MessageHandler {
   private bot: BotClient;
@@ -73,7 +74,11 @@ export class MessageHandler {
     const args = ArgumentParser.parseInput(content);
 
     let commandtext = args.shift()!.toLowerCase();
-    let command = this.getCommandFromName(message.guild.id, commandtext)!;
+    let command = this.getCommandFromName(message.guild.id, commandtext);
+
+    if (!command) {
+      throw new BotError('Command not found');
+    }
 
     while (command.subCommands && args.length > 0) {
       commandtext = args.shift()!.toLocaleLowerCase(); // assume the argument is a subcommand
