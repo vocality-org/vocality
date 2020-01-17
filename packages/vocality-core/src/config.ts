@@ -26,6 +26,7 @@ const EMOJI = {
   WARNING: '⚠',
   WHITE_CHECK_MARK: ':white_check_mark:',
   RED_X: ':x:',
+  LIST_ITEM_POINT: '•',
   DIGITS: [
     ':zero:',
     ':one:',

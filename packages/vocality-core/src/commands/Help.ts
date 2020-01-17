@@ -6,7 +6,7 @@ import {
 } from '@vocality-org/types';
 import { Message, RichEmbed } from 'discord.js';
 import { BotClient } from '../bot/BotClient';
-import { COLOR, BOT } from '../config';
+import { COLOR, BOT, EMOJI } from '../config';
 
 export class Help implements Command {
   options: CommandOptions = {
@@ -91,23 +91,37 @@ export class Help implements Command {
     embed.setTitle(result.command.options.id.name);
     embed.setDescription(result.command.options.description);
 
-    if (result.command.options.id.aliases) {
-      embed.addField(
-        'Aliases',
-        result.command.options.id.aliases?.map(a => `• ${a}`).join('\n') + '\n',
-        true
-      );
-      embed.addBlankField(true);
-    }
+    embed.addField(
+      'Usage',
+      `\`${BOT.SERVERPREFIXES[guildId]}${result.command.options.usage}\``,
+      true
+    );
 
     if (result.type === CommandType.PluginCommand) {
       embed.addField('Plugin', result.plugin?.config.displayName, true);
     }
 
-    embed.addField(
-      'Usage',
-      `\`${BOT.SERVERPREFIXES[guildId]}${result.command.options.usage}\``
-    );
+    embed.addBlankField();
+
+    if (result.command.subCommands) {
+      embed.addField(
+        'Sub Commands',
+        result.command.subCommands
+          .map(s => `${EMOJI.LIST_ITEM_POINT} ${s.options.id.name}`)
+          .join('\n'),
+        true
+      );
+    }
+
+    if (result.command.options.id.aliases) {
+      embed.addField(
+        'Aliases',
+        result.command.options.id.aliases
+          .map(a => `${EMOJI.LIST_ITEM_POINT} ${a}`)
+          .join('\n'),
+        true
+      );
+    }
 
     return embed;
   }
