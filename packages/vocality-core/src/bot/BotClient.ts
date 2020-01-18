@@ -66,7 +66,9 @@ export class BotClient extends DiscordClient implements Client {
     }
     return this.botInstance;
   }
-
+  addCustomListener(event: string, callback: (msg: Message) => void) {
+    this.messageHandler.addCustomListener(event, callback);
+  }
   getAllCommands(guildId: string): CommandSearchResult[] {
     const pluginCommands: CommandSearchResult[][] = [];
 

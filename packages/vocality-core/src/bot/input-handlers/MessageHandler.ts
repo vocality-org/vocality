@@ -18,6 +18,10 @@ export class MessageHandler {
     this.bot.on('messageUpdate', msg => this.handleMessageUpdate(msg));
   }
 
+  addCustomListener(event: string, callback: (msg: Message) => void) {
+    this.bot.on(event, callback);
+  }
+
   /**
    * Processes every message sent on the server
    */
