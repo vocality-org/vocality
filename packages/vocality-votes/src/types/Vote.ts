@@ -10,4 +10,5 @@ export interface Vote {
   currentStep: number;
   maxSteps: number;
   anonymous: boolean;
+  allowedToVote: string[];
 }

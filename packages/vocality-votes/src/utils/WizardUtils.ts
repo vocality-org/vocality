@@ -1,4 +1,10 @@
-import { RichEmbed, Message, MessageCollector, DMChannel } from 'discord.js';
+import {
+  RichEmbed,
+  Message,
+  MessageCollector,
+  DMChannel,
+  Guild,
+} from 'discord.js';
 import { COLOR } from '@vocality-org/core';
 import { ANSWER_EMOJIES, WARNING } from '../config';
 import { Vote } from '../types/Vote';
@@ -6,10 +12,10 @@ import parse from 'date-fns/parse';
 import { ServerQueueController } from '../controller/ServerQueueController';
 
 export class WizardUtils {
-  /*ts-ignore*/
   static async handleAnswer(
     serverQueue: Vote,
-    answer: string
+    answer: string,
+    guild: Guild
   ): Promise<{ error: boolean; newMsg: RichEmbed | undefined }> {
     switch (serverQueue.currentStep) {
       case 0:
@@ -34,7 +40,7 @@ export class WizardUtils {
         } else {
           return {
             error: true,
-            newMsg: this.getError(serverQueue),
+            newMsg: this.getError(serverQueue, guild),
           };
         }
         return { error: false, newMsg: undefined };
@@ -48,7 +54,7 @@ export class WizardUtils {
         } else {
           return {
             error: true,
-            newMsg: this.getError(serverQueue),
+            newMsg: this.getError(serverQueue, guild),
           };
         }
 
@@ -72,7 +78,25 @@ export class WizardUtils {
         serverQueue.deadline = this.checkDate(date);
         console.log(serverQueue.deadline);
         return { error: false, newMsg: undefined };
-
+      case 4:
+        if (answer === '0') {
+          serverQueue.allowedToVote.push(answer);
+          return { error: false, newMsg: undefined };
+        } else if (answer.split(',').every(v => Number(v))) {
+          serverQueue.allowedToVote = guild.roles
+            .map(v => v.name)
+            .filter((v, i) => {
+              const answers = answer.split(',');
+              if (answers.some(a => Number(a) === i)) {
+                return true;
+              }
+              return false;
+            });
+          return { error: false, newMsg: undefined };
+        } else {
+          const newMsg = this.getError(serverQueue, guild);
+          return { error: true, newMsg };
+        }
       default:
         return { error: false, newMsg: undefined };
     }
@@ -106,8 +130,8 @@ export class WizardUtils {
       });
     });
   }
-  static getError(serverQueue: Vote) {
-    const newMsg = WizardUtils.getQuestion(serverQueue.currentStep);
+  static getError(serverQueue: Vote, guild: Guild) {
+    const newMsg = WizardUtils.getQuestion(serverQueue.currentStep, guild);
     newMsg.addBlankField();
     newMsg.addField(
       'False Value',
@@ -127,7 +151,74 @@ export class WizardUtils {
       return undefined;
     }
   }
-  static getQuestion(index: number) {
+  static async executeLogic(serverQueue: Vote, msg: Message) {
+    let hasErr = false;
+    let keepgoing = true;
+    let newMsg;
+    let oldMsg;
+    while (serverQueue.currentStep < serverQueue.maxSteps && keepgoing) {
+      const timeout = setTimeout(() => {
+        keepgoing = false;
+        msg.author.send(
+          'Waited to long for new input, please restart the setup'
+        );
+      }, 180000);
+      let message;
+      let collector;
+      if (hasErr) {
+        const m = (await oldMsg?.edit({ embed: newMsg })) as Message;
+        collector = m.channel.createMessageCollector(m => m.content, {
+          time: 300000,
+          max: 1,
+        });
+      } else {
+        const embed = WizardUtils.getQuestion(
+          serverQueue.currentStep,
+          msg.guild
+        );
+        message = await msg.author.send({ embed });
+        const m = message as Message;
+        oldMsg = m;
+        collector = m.channel.createMessageCollector(m => m.content, {
+          time: 300000,
+          max: 1,
+        });
+      }
+
+      const collectedAnswer = await WizardUtils.collect(
+        serverQueue,
+        collector,
+        msg
+      );
+      if (collectedAnswer.exit) {
+        msg.author.send('Wizard stopped!');
+        break;
+      } else {
+        const error = await WizardUtils.handleAnswer(
+          serverQueue,
+          collectedAnswer.collected!.content,
+          msg.guild
+        );
+        console.log(error);
+        if (!error.error) {
+          hasErr = false;
+          serverQueue.currentStep++;
+        } else {
+          hasErr = true;
+          newMsg = error.newMsg;
+        }
+      }
+      clearTimeout(timeout);
+    }
+    const finishEmbed = new RichEmbed()
+      .setColor(COLOR.CYAN)
+      .setTitle('Setup finished')
+      .setDescription(
+        'The Setup is finished, please return to your guilds chat'
+      );
+    msg.author.send({ embed: finishEmbed });
+  }
+  static getQuestion(index: number, guild: Guild) {
     switch (index) {
       case 0:
         return new RichEmbed()
@@ -186,6 +277,21 @@ export class WizardUtils {
           .addField(
             'Press any key for custom',
             `The poll ends when you what it to end`
+          )
+          .setFooter('You can write stop to exit the setup');
+      case 4:
+        const roles = guild.roles.map(v => v);
+        let roleString = '* `0 for no restriction` \n';
+        for (let i = 0; i < roles.length; i++) {
+          roleString += `* \`${i + 1} for ${roles[i].name}\` \n`;
+        }
+        return new RichEmbed()
+          .setColor(COLOR.CYAN)
+          .setTitle('Who do you want to allow to vote')
+          .setDescription(roleString)
+          .addField(
+            'Example',
+            `Press just 0 for everyone. If you only want specific Roles to vote write their numbers and concat them with a comma`
           )
           .setFooter('You can write stop to exit the setup');
 

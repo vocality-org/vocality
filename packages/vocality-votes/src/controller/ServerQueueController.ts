@@ -45,10 +45,11 @@ export class ServerQueueController {
       textChannel: msg.channel,
       deadline: undefined,
       maxSteps: 5,
-      currentStep: 3,
+      currentStep: 0,
       question: '',
       votes: [],
       anonymous: false,
+      allowedToVote: [],
     };
     existingEntry?.push(newEntry);
     return newEntry;
