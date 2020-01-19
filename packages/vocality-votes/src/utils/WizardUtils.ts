@@ -33,7 +33,10 @@ export class WizardUtils {
             { id: ANSWER_EMOJIES.thinking, votes: 0 },
             { id: ANSWER_EMOJIES.thumbs_down, votes: 0 },
           ];
-        } else if (answer.split(',').length !== 1) {
+        } else if (
+          answer.split(',').length > 1 &&
+          answer.split(',').length <= 7
+        ) {
           answer.split(',').forEach(val => {
             serverQueue.votes.push({ id: val, votes: 0 });
           });
@@ -79,6 +82,7 @@ export class WizardUtils {
         console.log(serverQueue.deadline);
         return { error: false, newMsg: undefined };
       case 4:
+        serverQueue.allowedToVote = [];
         if (answer === '0') {
           serverQueue.allowedToVote.push(answer);
           return { error: false, newMsg: undefined };
@@ -233,7 +237,7 @@ export class WizardUtils {
           .setColor(COLOR.CYAN)
           .setTitle('What are the possible answers?')
           .setDescription(
-            'What are the answers the user can choose from? Everything works with reactions so no writing is involved'
+            'What are the answers the user can choose from(max. 7)? Everything works with reactions so no writing is involved'
           )
           .addField(
             'Press 1',

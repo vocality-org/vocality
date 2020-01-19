@@ -5,6 +5,7 @@ import { Message } from 'discord.js';
 import { ServerQueueController } from '../../controller/ServerQueueController';
 
 import { WizardUtils } from '../../utils/WizardUtils';
+import { VotingUtils } from '../../utils/VotingUtils';
 
 export class New implements Command {
   options: CommandOptions = {
@@ -20,6 +21,7 @@ export class New implements Command {
       msg
     );
     serverQueue.maxSteps = 4;
-    WizardUtils.executeLogic(serverQueue, msg);
+    await WizardUtils.executeLogic(serverQueue, msg);
+    VotingUtils.displayMessage(msg, serverQueue);
   }
 }

@@ -49,7 +49,7 @@ export class ServerQueueController {
       question: '',
       votes: [],
       anonymous: false,
-      allowedToVote: [],
+      allowedToVote: ['0'],
     };
     existingEntry?.push(newEntry);
     return newEntry;
