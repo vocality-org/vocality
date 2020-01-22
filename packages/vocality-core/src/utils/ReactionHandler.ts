@@ -31,11 +31,18 @@ export class ReactionHandler {
    */
   onReactionAll(
     message: Message,
-    duration: number,
-    callback: (reaction: MessageReaction) => void
+    duration: number | undefined,
+    callback: (reaction: MessageReaction, additionalData?: any) => void,
+    additionalData?: any
   ) {
     const filter = () => true;
-    this.onReactionFiltered(message, duration, filter, callback);
+    this.onReactionFiltered(
+      message,
+      duration,
+      filter,
+      callback,
+      additionalData
+    );
   }
 
   /**
@@ -44,7 +51,7 @@ export class ReactionHandler {
    */
   onReactionPagination(
     message: Message,
-    duration: number,
+    duration: number | undefined,
     listLength: number,
     callback: (reaction: MessageReaction, index: number) => void
   ) {
@@ -75,16 +82,24 @@ export class ReactionHandler {
    */
   onReactionFiltered(
     message: Message,
-    duration: number,
-    filter: (reaction: MessageReaction, user: User) => boolean,
-    callback: Function
+    duration: number | undefined,
+    filter: (
+      reaction: MessageReaction,
+      user: User,
+      additionalData?: any
+    ) => boolean,
+    callback: Function,
+    additionalData?: any
   ) {
-    const collector = message.createReactionCollector(filter, {
-      time: duration,
-    });
+    const collector = message.createReactionCollector(
+      (reaction, user) => filter(reaction, user, additionalData),
+      {
+        time: duration,
+      }
+    );
 
     collector.on('collect', (reaction, collector) => {
-      callback(reaction);
+      callback(reaction, additionalData);
     });
 
     collector.on('end', collected => {

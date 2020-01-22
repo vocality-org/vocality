@@ -62,11 +62,12 @@ export class BotClient extends DiscordClient implements Client {
 
   static instance(options?: ClientOptions): BotClient {
     if (!this.botInstance) {
+      console.log('hello');
       this.botInstance = new BotClient(options);
     }
     return this.botInstance;
   }
-  addCustomListener(event: string, callback: (msg: Message) => void) {
+  addCustomListener(event: string, callback: Function) {
     this.messageHandler.addCustomListener(event, callback);
   }
   getAllCommands(guildId: string): CommandSearchResult[] {
@@ -145,6 +146,10 @@ export class BotClient extends DiscordClient implements Client {
 
   findGuild(guildId: string): Guild | undefined {
     return this.guilds.get(guildId);
+  }
+
+  emitCustomEvent(event: string, ...args: any[]) {
+    this.messageHandler.emitCustomEvent(event, args);
   }
 
   addCommand(command: Command) {

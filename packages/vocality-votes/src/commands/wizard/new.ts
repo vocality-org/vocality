@@ -22,6 +22,6 @@ export class New implements Command {
     );
     serverQueue.maxSteps = 4;
     await WizardUtils.executeLogic(serverQueue, msg);
-    VotingUtils.displayMessage(msg, serverQueue);
+    VotingUtils.displayMessage(msg, serverQueue, false);
   }
 }

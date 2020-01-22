@@ -49,6 +49,7 @@ export class PluginController {
     } else {
       this.plugins.set(guildId, [...existingList, plugin]);
     }
+    plugin.enable(guildId);
   }
 
   /**

@@ -43,6 +43,7 @@ export class ServerQueueController {
     const newEntry: Vote = {
       initiator: msg.author.id,
       textChannel: msg.channel,
+      initMessage: msg,
       deadline: undefined,
       maxSteps: 5,
       currentStep: 0,

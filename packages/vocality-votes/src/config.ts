@@ -14,3 +14,4 @@ export const ANSWER_EMOJIES = {
 };
 export const DEFAULT_REACTIONS = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬'];
 export const WARNING = ':warning:';
+export const BLUECIRCLE = '🔵';

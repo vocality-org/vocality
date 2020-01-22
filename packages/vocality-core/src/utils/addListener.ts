@@ -1,4 +1,3 @@
-import { Message } from 'discord.js';
 import { BotClient } from '../bot/BotClient';
 /**
  *  Method for adds a custom, discord related event for the bot to listen on e.g. 'channelCreate'
@@ -6,9 +5,7 @@ import { BotClient } from '../bot/BotClient';
  * @param {string} event
  * @param {(msg: Message) => void} callback
  */
-export const addCustomListener = (
-  event: string,
-  callback: (msg: Message) => void
-) => {
+export const addCustomListener = (event: string, callback: Function) => {
+  console.log(event);
   BotClient.instance().addCustomListener(event, callback);
 };
