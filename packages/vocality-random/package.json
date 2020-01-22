@@ -1,6 +1,6 @@
 {
   "name": "@vocality-org/random",
-  "version": "0.1.0",
+  "version": "0.1.7",
   "description": "Random number and image generator plugin for Vocality",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",

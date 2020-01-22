@@ -6,7 +6,5 @@ import { BotClient } from '../bot/BotClient';
  * @param {(msg: Message) => void} callback
  */
 export const addCustomListener = (event: string, callback: Function) => {
-  console.log('sd');
-
   BotClient.instance().addCustomListener(event, callback);
 };

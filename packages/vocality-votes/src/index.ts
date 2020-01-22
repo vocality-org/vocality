@@ -21,6 +21,8 @@ class VotesPlugin extends BasePlugin {
   }
 
   load(guildId: string) {
+    console.log('loaded for ' + guildId);
+
     ServerQueueController.getInstance().findOrCreateFromGuildId(guildId);
     if (!this.hasListener) {
       addCustomListener('raw', (packet: any) => {

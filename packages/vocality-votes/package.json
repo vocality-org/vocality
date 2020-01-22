@@ -1,6 +1,6 @@
 {
   "name": "@vocality-org/votes",
-  "version": "0.1.0",
+  "version": "0.1.7",
   "description": "A plugin for making votes",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",

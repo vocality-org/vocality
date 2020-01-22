@@ -1,6 +1,6 @@
 import { BasePlugin, loadCommands } from '@vocality-org/core';
 
-import * as commandsModule from './commands';
+import * as commandsModule from '../commands';
 
 class MyPlugin extends BasePlugin {
   constructor() {

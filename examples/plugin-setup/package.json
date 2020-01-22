@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "@vocality-org/core": "^0.1.7",
-    "@vocality-org/music": "^0.1.7"
+    "@vocality-org/music": "^0.1.7",
+    "@vocality-org/votes": "^0.1.7"
   }
 }

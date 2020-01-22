@@ -3,15 +3,16 @@
   "version": "0.1.7",
   "private": true,
   "description": "Bot setup including custom and vocality plugins built with typescript",
-  "main": "build/index.js",
+  "main": "build/src/index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node build/src/index.js",
     "build": "tsc -p ."
   },
   "license": "MIT",
   "dependencies": {
     "@vocality-org/core": "^0.1.7",
-    "@vocality-org/music": "^0.1.7"
+    "@vocality-org/random": "^0.1.7",
+    "@vocality-org/votes": "^0.1.7"
   },
   "devDependencies": {
     "@vocality-org/types": "^0.1.7",

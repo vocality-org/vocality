@@ -19,9 +19,7 @@ export class MessageHandler {
   }
 
   addCustomListener(event: string, callback: Function) {
-    console.log('addCustomListener');
-
-    this.bot.on('messageDelete', msg => console.log(msg));
+    this.bot.on(event, (data: any) => callback(data));
   }
 
   emitCustomEvent(event: string, ...args: any[]) {

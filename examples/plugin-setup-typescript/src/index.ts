@@ -1,12 +1,13 @@
 import { Bot } from '@vocality-org/core';
 import { ClientOptions } from '@vocality-org/types';
-import { music } from '@vocality-org/music';
+import { votesPlugin } from '@vocality-org/votes';
+import { random } from '@vocality-org/random';
 
-music.spotify = 'SPOTIFY_CLIENT_SECRET';
+random.randomOrgApiKey = 'RANDOM_ORG_KEY';
 
 const options: ClientOptions = {
   token: 'DISCORD_BOT_TOKEN',
-  plugins: [music],
+  plugins: [random, votesPlugin],
 };
 
 const bot: Bot = new Bot(options);

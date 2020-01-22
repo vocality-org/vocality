@@ -70,8 +70,7 @@ export class BotClient extends DiscordClient implements Client {
   }
 
   addCustomListener(event: string, callback: Function) {
-    this.on('raw', (m: any) => console.log(m));
-    this.listeners('raw')[0]('mamma mia');
+    this.messageHandler.addCustomListener(event, callback);
   }
 
   getAllCommands(guildId: string): CommandSearchResult[] {
