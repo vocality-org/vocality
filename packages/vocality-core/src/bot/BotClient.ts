@@ -41,6 +41,7 @@ export class BotClient extends DiscordClient implements Client {
 
   private constructor(options?: ClientOptions) {
     super(options);
+
     this.opts = options;
 
     if (options?.token) {
@@ -51,25 +52,28 @@ export class BotClient extends DiscordClient implements Client {
 
     this.messageHandler = new MessageHandler(this);
     this.pluginController = new PluginController();
-
-    this.once('ready', () => {
-      this.loadPluginFromOptions();
-      this.guilds.tap(guild => {
-        BOT.SERVERPREFIXES[guild.id] = BOT.PREFIX;
-      });
-    });
   }
 
   static instance(options?: ClientOptions): BotClient {
     if (!this.botInstance) {
-      console.log('hello');
-      this.botInstance = new BotClient(options);
+      const newBot = new BotClient(options);
+
+      newBot.once('ready', () => {
+        newBot.loadPluginFromOptions();
+        newBot.guilds.tap(guild => {
+          BOT.SERVERPREFIXES[guild.id] = BOT.PREFIX;
+        });
+      });
+
+      this.botInstance = newBot;
     }
     return this.botInstance;
   }
+
   addCustomListener(event: string, callback: Function) {
     this.messageHandler.addCustomListener(event, callback);
   }
+
   getAllCommands(guildId: string): CommandSearchResult[] {
     const pluginCommands: CommandSearchResult[][] = [];
 

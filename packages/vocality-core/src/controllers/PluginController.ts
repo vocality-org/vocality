@@ -41,7 +41,7 @@ export class PluginController {
    * @param {Plugin} plugin instance of a plugin
    */
   addPlugin(guildId: string, plugin: Plugin) {
-    plugin.config.loaded = true;
+    plugin.enable(guildId);
     const existingList = this.plugins.get(guildId);
 
     if (!existingList) {
@@ -49,7 +49,6 @@ export class PluginController {
     } else {
       this.plugins.set(guildId, [...existingList, plugin]);
     }
-    plugin.enable(guildId);
   }
 
   /**

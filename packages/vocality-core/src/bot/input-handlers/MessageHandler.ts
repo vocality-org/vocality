@@ -14,15 +14,16 @@ export class MessageHandler {
   }
 
   private addListeners() {
-    console.log('addListener');
     this.bot.on('messageUpdate', msg => this.handleMessageUpdate(msg));
     this.bot.on('message', msg => this.handleMessage(msg));
   }
 
   addCustomListener(event: string, callback: Function) {
-    this.bot.on('raw', console.log);
     console.log('addCustomListener');
+
+    this.bot.on('messageDelete', msg => console.log(msg));
   }
+
   emitCustomEvent(event: string, ...args: any[]) {
     this.bot.emit(event, args);
   }

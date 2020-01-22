@@ -1,10 +1,13 @@
-import { BasePlugin, loadCommands } from '@vocality-org/core';
+import {
+  BasePlugin,
+  loadCommands,
+  addCustomListener,
+  findGuild,
+  emitCustomEvent,
+} from '@vocality-org/core';
 import { Command } from '@vocality-org/types';
 import * as commandDefs from './commands';
 import { ServerQueueController } from './controller/ServerQueueController';
-import { addCustomListener } from '@vocality-org/core/build/src/utils/addListener';
-import { findGuild } from '@vocality-org/core/build/src/utils/findGuild';
-import { emitCustomEvent } from '@vocality-org/core/build/src/utils/emitEvent';
 import { TextChannel } from 'discord.js';
 
 class VotesPlugin extends BasePlugin {
