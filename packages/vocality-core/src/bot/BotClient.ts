@@ -33,7 +33,7 @@ export class BotClient extends DiscordClient implements Client {
    */
   private customCommands: Command[] = [];
 
-  private static botInstance: BotClient;
+  private static botInstance: BotClient | undefined;
   private messageHandler: MessageHandler;
 
   pluginController: PluginController;
@@ -56,22 +56,22 @@ export class BotClient extends DiscordClient implements Client {
 
   static instance(options?: ClientOptions): BotClient {
     if (!this.botInstance) {
-      const newBot = new BotClient(options);
+      this.botInstance = new BotClient(options);
 
-      newBot.once('ready', () => {
-        newBot.loadPluginFromOptions();
-        newBot.guilds.tap(guild => {
+      this.botInstance.on('ready', () => {
+        this.botInstance!.guilds.tap(guild => {
           BOT.SERVERPREFIXES[guild.id] = BOT.PREFIX;
         });
+        this.botInstance?.loadPluginFromOptions();
       });
-
-      this.botInstance = newBot;
     }
+
     return this.botInstance;
   }
 
   addCustomListener(event: string, callback: Function) {
-    this.messageHandler.addCustomListener(event, callback);
+    this.on('raw', (m: any) => console.log(m));
+    this.listeners('raw')[0]('mamma mia');
   }
 
   getAllCommands(guildId: string): CommandSearchResult[] {
