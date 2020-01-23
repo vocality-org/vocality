@@ -1,0 +1,27 @@
+{
+    "name": "base-build",
+    "version": "0.1.7",
+    "private": true,
+    "description": "Bot setup including custom and vocality plugins built with typescript",
+    "main": "build/src/index.js",
+    "scripts": {
+        "start": "node build/base-build/index.js",
+        "build": "npm run compile",
+        "prepare": "npm run compile",
+        "compile": "tsc -p .",
+        "clean": "gts clean",
+        "check": "gts check",
+        "fix": "gts fix"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@vocality-org/core": "^0.1.7",
+        "@vocality-org/random": "^0.1.7",
+        "@vocality-org/votes": "^0.1.7",
+        "dotenv": "^8.2.0"
+    },
+    "devDependencies": {
+        "@vocality-org/types": "^0.1.7",
+        "typescript": "^3.7.4"
+    }
+}
