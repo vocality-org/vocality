@@ -23,7 +23,8 @@ export class VotingUtils {
         true
       )
       .addField('Anonymous', serverQueue.anonymous, true)
-      .addField('Initiator', serverQueue.initMessage.author.username, true);
+      .addField('Initiator', serverQueue.initMessage.author.username, true)
+      .setFooter(serverQueue.id);
 
     const message = edit
       ? ((await msg.edit({ embed: votingEmbed })) as Message)

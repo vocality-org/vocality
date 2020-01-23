@@ -17,7 +17,7 @@
     "fix": "lerna run fix",
     "publish:ci": "lerna publish from-git --yes",
     "bump": "lerna version",
-    "start": "ts-node index.ts"
+    "start": "ts-node base-build/index.ts"
   },
   "repository": {
     "type": "git",
@@ -30,13 +30,13 @@
   },
   "homepage": "https://github.com/vocality-org/vocality#readme",
   "devDependencies": {
-    "@commitlint/cli": "^8.2.0",
-    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "@types/faker": "^4.1.9",
     "gts": "^1.1.2",
     "husky": "^3.1.0",
-    "lerna": "^3.17.0",
-    "typescript": "^3.7.4"
+    "lerna": "^3.20.2",
+    "typescript": "^3.7.5"
   },
   "engines": {
     "node": "=10.x.x",
@@ -49,6 +49,6 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "ts-node": "^8.5.4"
+    "ts-node": "^8.6.2"
   }
 }

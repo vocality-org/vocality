@@ -8,7 +8,8 @@ import {
 import { Command } from '@vocality-org/types';
 import * as commandDefs from './commands';
 import { ServerQueueController } from './controller/ServerQueueController';
-import { TextChannel } from 'discord.js';
+import { TextChannel, MessageReaction, User } from 'discord.js';
+import { VotingUtils } from './utils/VotingUtils';
 
 class VotesPlugin extends BasePlugin {
   commands: Command[];
@@ -25,8 +26,22 @@ class VotesPlugin extends BasePlugin {
 
     ServerQueueController.getInstance().findOrCreateFromGuildId(guildId);
     if (!this.hasListener) {
+      addCustomListener(
+        'messageReactionRemove',
+        (reaction: MessageReaction, user: User) => {
+          console.log(reaction.count);
+          const serverQueues = ServerQueueController.getInstance().findOrCreateFromGuildId(
+            reaction.message.guild.id
+          );
+          const serverQueue = serverQueues?.find(
+            v => v.id === reaction.message.embeds[0].footer.text
+          );
+          const v = serverQueue!.votes.find(v => v.id === reaction.emoji.name);
+          v!.votes--;
+          VotingUtils.displayMessage(reaction.message, serverQueue!, true);
+        }
+      );
       addCustomListener('raw', (packet: any) => {
-        console.log(packet);
         if (
           !['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(
             packet.t

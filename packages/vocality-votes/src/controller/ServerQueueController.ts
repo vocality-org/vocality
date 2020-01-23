@@ -1,6 +1,8 @@
 import { Message } from 'discord.js';
 import { Vote } from '../types/Vote';
 
+import uuid from 'uuid/v1';
+
 export class ServerQueueController {
   private static instance: ServerQueueController;
   private serverQueues: Map<string, Vote[]>;
@@ -41,6 +43,7 @@ export class ServerQueueController {
       return existingEntry?.find(v => v.initiator === msg.author.id)!;
     }
     const newEntry: Vote = {
+      id: uuid(),
       initiator: msg.author.id,
       textChannel: msg.channel,
       initMessage: msg,
@@ -56,11 +59,12 @@ export class ServerQueueController {
     return newEntry;
   }
 
-  findOrCreateFromGuildId(guildId: string): void {
-    const existingEntry = this.find(guildId);
+  findOrCreateFromGuildId(guildId: string): Vote[] | undefined {
+    let existingEntry = this.find(guildId);
     if (!existingEntry) {
-      this.serverQueues.set(guildId, []);
+      existingEntry = this.serverQueues.set(guildId, []).get(guildId);
     }
+    return existingEntry;
   }
 
   remove(id: string): void {

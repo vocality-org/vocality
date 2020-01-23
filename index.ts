@@ -1,5 +1,5 @@
 import { Bot } from './packages/vocality-core/src/index';
-import { ClientOptions } from './packages/vocality-types/build/src/bot/Client';
+import { ClientOptions } from './packages/vocality-types/src/bot/Client';
 import dotenv from 'dotenv';
 import { votesPlugin } from './packages/vocality-votes/src';
 import { random } from './packages/vocality-random/src';

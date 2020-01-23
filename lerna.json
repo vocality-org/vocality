@@ -1,10 +1,7 @@
 {
   "version": "0.1.7",
   "npmClient": "npm",
-  "packages": [
-    "examples/*",
-    "packages/*"
-  ],
+  "packages": ["examples/*", "packages/*", "base-build"],
   "command": {
     "version": {
       "message": "chore(release): Publish %s"

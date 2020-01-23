@@ -57,7 +57,7 @@ export class BotClient extends DiscordClient implements Client {
   static instance(options?: ClientOptions): BotClient {
     if (!this.botInstance) {
       this.botInstance = new BotClient(options);
-
+      console.log('hello');
       this.botInstance.on('ready', () => {
         this.botInstance!.guilds.tap(guild => {
           BOT.SERVERPREFIXES[guild.id] = BOT.PREFIX;
