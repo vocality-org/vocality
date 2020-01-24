@@ -23,5 +23,6 @@ export class Quick implements Command {
     serverQueue.maxSteps = 3;
     await WizardUtils.executeLogic(serverQueue, msg);
     VotingUtils.displayMessage(msg, serverQueue, false);
+    return;
   }
 }

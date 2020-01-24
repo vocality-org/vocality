@@ -24,21 +24,21 @@ export class WizardUtils {
       case 1:
         if (answer === '1') {
           serverQueue.votes = [
-            { id: ANSWER_EMOJIES.check, votes: 0 },
-            { id: ANSWER_EMOJIES.cross, votes: 0 },
+            { id: ANSWER_EMOJIES.check, votes: 0, users: [] },
+            { id: ANSWER_EMOJIES.cross, votes: 0, users: [] },
           ];
         } else if (answer === '2') {
           serverQueue.votes = [
-            { id: ANSWER_EMOJIES.thumbs_up, votes: 0 },
-            { id: ANSWER_EMOJIES.thinking, votes: 0 },
-            { id: ANSWER_EMOJIES.thumbs_down, votes: 0 },
+            { id: ANSWER_EMOJIES.thumbs_up, votes: 0, users: [] },
+            { id: ANSWER_EMOJIES.thinking, votes: 0, users: [] },
+            { id: ANSWER_EMOJIES.thumbs_down, votes: 0, users: [] },
           ];
         } else if (
           answer.split(',').length > 1 &&
           answer.split(',').length <= 7
         ) {
           answer.split(',').forEach(val => {
-            serverQueue.votes.push({ id: val, votes: 0 });
+            serverQueue.votes.push({ id: val, votes: 0, users: [] });
           });
         } else {
           return {

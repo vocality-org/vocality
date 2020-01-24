@@ -29,15 +29,16 @@ export class VotingUtils {
     const message = edit
       ? ((await msg.edit({ embed: votingEmbed })) as Message)
       : ((await msg.channel.send({ embed: votingEmbed })) as Message);
-    message.pinned ? await message.pin() : undefined;
+    !message.pinned ? await message.pin() : undefined;
     const rHandler = new ReactionHandler();
-    serverQueue.votes.forEach((v, index) => {
+    for (let i = 0; i < serverQueue.votes.length; i++) {
+      const v = serverQueue.votes[i];
       if (this.checkForEmoji(v.id)) {
-        rHandler.addReaction(message, v.id);
+        await rHandler.addReaction(message, v.id);
       } else {
-        rHandler.addReaction(message, DEFAULT_REACTIONS[index]);
+        await rHandler.addReaction(message, DEFAULT_REACTIONS[i]);
       }
-    });
+    }
     if (!edit) {
       rHandler.onReactionFiltered(
         message,
@@ -69,12 +70,51 @@ export class VotingUtils {
       return DEFAULT_REACTIONS.some(dr => dr === reaction.emoji.name);
     }
   }
+  static hasAlreadyVoted(user: User, serverQueue: Vote, name: string) {
+    return serverQueue.votes.some(
+      v => v.users.includes(user.id) && v.id !== name
+    );
+  }
   static onReaction(reaction: MessageReaction, additionalData: any) {
     const serverQueue = additionalData as Vote;
     const answer = serverQueue.votes.find(v => v.id === reaction.emoji.name);
-    answer!.votes++;
-    console.log(serverQueue.votes);
-    VotingUtils.displayMessage(reaction.message, serverQueue, true);
+    if (serverQueue.anonymous) {
+      if (
+        VotingUtils.hasAlreadyVoted(
+          reaction.users.last(),
+          serverQueue,
+          reaction.emoji.name
+        )
+      ) {
+        reaction.message.channel.send(
+          'You cannot vote twice ' + reaction.users.last()
+        );
+      } else if (answer?.users.includes(reaction.users.last().id)) {
+        answer!.users.push(reaction.users.last().id);
+      } else {
+        answer!.votes++;
+        answer!.users.push(reaction.users.last().id);
+        VotingUtils.displayMessage(reaction.message, serverQueue, true);
+      }
+      reaction.remove(reaction.users.last());
+    } else {
+      if (
+        VotingUtils.hasAlreadyVoted(
+          reaction.users.last(),
+          serverQueue,
+          reaction.emoji.name
+        )
+      ) {
+        reaction.message.channel.send(
+          'You cannot vote twice ' + reaction.users.last()
+        );
+        reaction.remove(reaction.users.last());
+      } else {
+        answer!.votes++;
+        answer!.users.push(reaction.users.last().id);
+        VotingUtils.displayMessage(reaction.message, serverQueue, true);
+      }
+    }
   }
   static buildVotingString(serverQueue: Vote, maxVotes: number) {
     const voted = serverQueue.votes.reduce((a, b) => a + b.votes, 0);

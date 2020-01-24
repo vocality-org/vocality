@@ -8,8 +8,8 @@ import {
 import { Command } from '@vocality-org/types';
 import * as commandDefs from './commands';
 import { ServerQueueController } from './controller/ServerQueueController';
-import { TextChannel, MessageReaction, User } from 'discord.js';
-import { VotingUtils } from './utils/VotingUtils';
+import { TextChannel } from 'discord.js';
+import { removeReaction } from './utils/removeReaction';
 
 class VotesPlugin extends BasePlugin {
   commands: Command[];
@@ -26,21 +26,7 @@ class VotesPlugin extends BasePlugin {
 
     ServerQueueController.getInstance().findOrCreateFromGuildId(guildId);
     if (!this.hasListener) {
-      addCustomListener(
-        'messageReactionRemove',
-        (reaction: MessageReaction, user: User) => {
-          console.log(reaction.count);
-          const serverQueues = ServerQueueController.getInstance().findOrCreateFromGuildId(
-            reaction.message.guild.id
-          );
-          const serverQueue = serverQueues?.find(
-            v => v.id === reaction.message.embeds[0].footer.text
-          );
-          const v = serverQueue!.votes.find(v => v.id === reaction.emoji.name);
-          v!.votes--;
-          VotingUtils.displayMessage(reaction.message, serverQueue!, true);
-        }
-      );
+      addCustomListener('messageReactionRemove', removeReaction);
       addCustomListener('raw', (packet: any) => {
         if (
           !['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(
@@ -77,6 +63,9 @@ class VotesPlugin extends BasePlugin {
             );
           }
           if (packet.t === 'MESSAGE_REACTION_REMOVE') {
+            console.log(
+              findGuild(guildId)!.members.get(packet.d.user_id)?.user!
+            );
             emitCustomEvent(
               'messageReactionRemove',
               reaction,
