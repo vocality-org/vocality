@@ -26,6 +26,7 @@ rules:
       - music
       - vote
       - random
+      - base-build
   subject-case:
     - 2
     - always

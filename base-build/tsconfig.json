@@ -17,5 +17,6 @@
     "rootDir": "../",
     "outDir": "build"
   },
-  "exclude": ["node_modules"]
+  "include": ["./**/*.ts"],
+  "exclude": ["node_modules", "build"]
 }

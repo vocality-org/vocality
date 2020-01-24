@@ -3,7 +3,7 @@
   "version": "0.1.7",
   "private": true,
   "description": "Bot setup including custom and vocality plugins built with typescript",
-  "main": "build/src/index.js",
+  "main": "build/index.js",
   "scripts": {
     "start": "ts-node index.ts",
     "build": "npm run compile",
@@ -18,11 +18,11 @@
     "@vocality-org/core": "^0.1.7",
     "@vocality-org/random": "^0.1.7",
     "@vocality-org/votes": "^0.1.7",
-    "dotenv": "^8.2.0",
-    "ts-node": "^8.6.2"
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "@vocality-org/types": "^0.1.7",
+    "ts-node": "^8.6.2",
     "typescript": "^3.7.4"
   }
 }
