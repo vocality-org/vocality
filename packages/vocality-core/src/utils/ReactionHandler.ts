@@ -98,7 +98,7 @@ export class ReactionHandler {
       }
     );
 
-    collector.on('collect', (reaction, collector) => {
+    collector.on('collect', (reaction, cl) => {
       callback(reaction, additionalData);
     });
 

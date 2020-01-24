@@ -2,6 +2,7 @@ const BOT = {
   PREFIX: '?',
   SERVERPREFIXES: {} as GuildPrefixMap,
   SHARDS: 1,
+  NAME: '',
 };
 interface GuildPrefixMap {
   [key: string]: string;

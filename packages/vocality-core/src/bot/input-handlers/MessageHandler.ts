@@ -19,7 +19,7 @@ export class MessageHandler {
   }
 
   addCustomListener(event: string, callback: Function) {
-    this.bot.on(event, (data: any) => callback(data));
+    this.bot.on(event, callback);
   }
 
   emitCustomEvent(event: string, ...args: any[]) {
