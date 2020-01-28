@@ -8,9 +8,12 @@ import { Answer } from '../types/Answer';
 export class VotingUtils {
   static async displayMessage(msg: Message, serverQueue: Vote, edit: boolean) {
     const guild = msg.guild;
-    const maxVotes = getMaxVotes(serverQueue, guild);
+    serverQueue.maxVotes = getMaxVotes(serverQueue, guild);
 
-    const votingString = this.buildVotingString(serverQueue, maxVotes);
+    const votingString = this.buildVotingString(
+      serverQueue,
+      serverQueue.maxVotes
+    );
     const votingEmbed = new RichEmbed()
       .setTitle(serverQueue.question)
       .setDescription(votingString)
@@ -55,8 +58,6 @@ export class VotingUtils {
     user: User,
     additionalData: any
   ) {
-    console.log(reaction.count);
-
     if (user.id === reaction.message.author.id) {
       return false;
     }
@@ -64,8 +65,10 @@ export class VotingUtils {
     if (
       !serverQueue.allowedToVote.some(a =>
         reaction.message.guild.roles.get(a)?.members.find('user', user)
-      )
+      ) &&
+      !serverQueue.allowedToVote.some(a => a === '0')
     ) {
+      reaction.message.channel.send('Your vote will not count ' + user);
       return false;
     }
     if (serverQueue.votes.every(v => VotingUtils.checkForEmoji(v.id))) {
@@ -89,7 +92,7 @@ export class VotingUtils {
       index = DEFAULT_REACTIONS.findIndex(dr => dr === reaction.emoji.name);
       answer = serverQueue.votes[index];
     }
-
+    console.log(answer);
     if (serverQueue.anonymous) {
       if (
         VotingUtils.hasAlreadyVoted(

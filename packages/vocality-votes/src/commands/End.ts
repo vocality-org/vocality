@@ -3,22 +3,25 @@ import { Message } from 'discord.js';
 import { ServerQueueController } from '../controller/ServerQueueController';
 import { handleDelete } from '../utils/handleDelete';
 
-export class Wizard implements Command {
+export class End implements Command {
   options: CommandOptions = {
     id: {
       name: 'end',
     },
     description: 'End a Poll',
-    usage: '?end <id>',
+    usage: 'end <id or username>',
     minArguments: 1,
   };
   async execute(msg: Message, args: string[]) {
     const serverQueues = ServerQueueController.getInstance().find(msg.guild.id);
-    let polls = serverQueues?.filter(
-      v => msg.guild.members.get(v.initiator)?.user.username === args[0]
+    const polls = serverQueues?.filter(v =>
+      msg.guild.members.get(v.initiator)?.user.username === args[0]
+        ? true
+        : false
     );
-    if (!polls) {
-      let poll = serverQueues?.find(v => v.id === args[0]);
+    if (polls === undefined || polls!.length === 0) {
+      const poll = serverQueues!.find(v => v.id === args[0]);
+      console.log(poll);
       if (!poll) {
         msg.channel.send(
           'Your username or the Id you provided are not correct'
@@ -27,8 +30,7 @@ export class Wizard implements Command {
       } else {
         handleDelete(poll, msg);
       }
-    }
-    if (polls !== undefined) {
+    } else {
       if (polls.length > 1) {
         msg.channel.send(
           'There are more than one Polls active please provide a unique Identifier (you can find the unique Id in the Footer of the Poll)'

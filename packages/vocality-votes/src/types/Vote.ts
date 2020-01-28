@@ -13,4 +13,5 @@ export interface Vote {
   maxSteps: number;
   anonymous: boolean;
   allowedToVote: string[];
+  maxVotes: number;
 }

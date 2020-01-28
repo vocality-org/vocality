@@ -6,15 +6,13 @@ import { DEFAULT_REACTIONS } from '../config';
 import { Answer } from '../types/Answer';
 
 export const removeReaction = (reaction: MessageReaction, user: User) => {
-  console.log(BOT.NAME);
-  console.log(user.username);
-
   const serverQueues = ServerQueueController.getInstance().findOrCreateFromGuildId(
     reaction.message.guild.id
   );
   const serverQueue = serverQueues?.find(
     v => v.id === reaction.message.embeds[0].footer.text
   )!;
+  if (!serverQueue) return;
   let v: Answer;
   if (serverQueue.votes.every(v => VotingUtils.checkForEmoji(v.id))) {
     v = serverQueue.votes.find(v => v.id === reaction.emoji.name)!;

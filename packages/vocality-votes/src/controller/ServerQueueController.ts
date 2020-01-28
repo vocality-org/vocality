@@ -1,6 +1,5 @@
 import { Message } from 'discord.js';
 import { Vote } from '../types/Vote';
-
 import uuid from 'uuid/v1';
 
 export class ServerQueueController {
@@ -53,6 +52,7 @@ export class ServerQueueController {
       question: '',
       votes: [],
       anonymous: false,
+      maxVotes: 0,
       allowedToVote: ['0'],
     };
     existingEntry?.push(newEntry);
