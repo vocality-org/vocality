@@ -8,7 +8,6 @@ import {
 import { COLOR } from '@vocality-org/core';
 import { ANSWER_EMOJIES, WARNING } from '../config';
 import { Vote } from '../types/Vote';
-import parse from 'date-fns/parse';
 import { ServerQueueController } from '../controller/ServerQueueController';
 
 export class WizardUtils {
@@ -60,35 +59,14 @@ export class WizardUtils {
             newMsg: this.getError(serverQueue, guild),
           };
         }
-
       case 3:
-        let date = undefined;
-        if (
-          parse(answer, 'dd.MM.yyyy HH:mm', new Date()).toString() !==
-          'Invalid Date'
-        ) {
-          date = parse(answer, 'dd.MM.yyyy HH:mm', new Date());
-        } else if (
-          parse(answer, 'dd.MM.yyyy', new Date()).toString() !== 'Invalid Date'
-        ) {
-          date = parse(answer, 'dd.MM.yyyy', new Date());
-        } else if (
-          parse(answer, 'HH:mm', new Date()).toString() !== 'Invalid Date'
-        ) {
-          date = parse(answer, 'HH:mm', new Date());
-        }
-        console.log(date);
-        serverQueue.deadline = this.checkDate(date);
-        console.log(serverQueue.deadline);
-        return { error: false, newMsg: undefined };
-      case 4:
         serverQueue.allowedToVote = [];
         if (answer === '0') {
           serverQueue.allowedToVote.push(answer);
           return { error: false, newMsg: undefined };
         } else if (answer.split(',').every(v => Number(v))) {
           serverQueue.allowedToVote = guild.roles
-            .map(v => v.name)
+            .map(v => v.id)
             .filter((v, i) => {
               const answers = answer.split(',');
               if (answers.some(a => Number(a) === i)) {
@@ -263,27 +241,6 @@ export class WizardUtils {
           .addField('Press 2', `Anonymos`)
           .setFooter('You can write stop to exit the setup');
       case 3:
-        return new RichEmbed()
-          .setColor(COLOR.CYAN)
-          .setTitle('When does your poll end?')
-          .setDescription('Please use one of the folling formats')
-          .addField('dd.MM.yyyy HH:mm', `Date and Time will be used`, true)
-          .addField(
-            'dd.MM.yyyy',
-            `Only a date will be used so the poll ends at 0 o'click`,
-            true
-          )
-          .addField(
-            'HH:mm',
-            `Only the time will be used so the poll ends at the same date`,
-            true
-          )
-          .addField(
-            'Press any key for custom',
-            `The poll ends when you what it to end`
-          )
-          .setFooter('You can write stop to exit the setup');
-      case 4:
         const roles = guild.roles.map(v => v);
         let roleString = '* `0 for no restriction` \n';
         for (let i = 0; i < roles.length; i++) {

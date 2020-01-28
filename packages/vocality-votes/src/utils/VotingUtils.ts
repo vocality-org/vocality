@@ -1,9 +1,9 @@
 import { Message, RichEmbed, User, MessageReaction } from 'discord.js';
 import { Vote } from '../types/Vote';
-import { format } from 'date-fns';
 import { ReactionHandler } from '@vocality-org/core';
 import { DEFAULT_REACTIONS, BLUECIRCLE } from '../config';
 import { getMaxVotes } from './getMaxVotes';
+import { Answer } from '../types/Answer';
 
 export class VotingUtils {
   static async displayMessage(msg: Message, serverQueue: Vote, edit: boolean) {
@@ -15,13 +15,7 @@ export class VotingUtils {
       .setTitle(serverQueue.question)
       .setDescription(votingString)
       .addBlankField()
-      .addField(
-        'Deadline',
-        serverQueue.deadline
-          ? format(serverQueue.deadline, 'dd.MM.yyyy HH:mm')
-          : 'Custom',
-        true
-      )
+      .addField('Stop Voting', 'Write ?end with the ID from the Footer', true)
       .addField('Anonymous', serverQueue.anonymous, true)
       .addField('Initiator', serverQueue.initMessage.author.username, true)
       .setFooter(serverQueue.id);
@@ -30,6 +24,8 @@ export class VotingUtils {
       ? ((await msg.edit({ embed: votingEmbed })) as Message)
       : ((await msg.channel.send({ embed: votingEmbed })) as Message);
     !message.pinned ? await message.pin() : undefined;
+
+    serverQueue.votingMessage = message;
     const rHandler = new ReactionHandler();
     for (let i = 0; i < serverQueue.votes.length; i++) {
       const v = serverQueue.votes[i];
@@ -42,7 +38,7 @@ export class VotingUtils {
     if (!edit) {
       rHandler.onReactionFiltered(
         message,
-        serverQueue.deadline ? serverQueue.deadline.getTime() : undefined,
+        undefined,
         this.filterReactions,
         this.onReaction,
         serverQueue
@@ -60,10 +56,18 @@ export class VotingUtils {
     additionalData: any
   ) {
     console.log(reaction.count);
+
     if (user.id === reaction.message.author.id) {
       return false;
     }
     const serverQueue = additionalData as Vote;
+    if (
+      !serverQueue.allowedToVote.some(a =>
+        reaction.message.guild.roles.get(a)?.members.find('user', user)
+      )
+    ) {
+      return false;
+    }
     if (serverQueue.votes.every(v => VotingUtils.checkForEmoji(v.id))) {
       return serverQueue.votes.some(v => v.id === reaction.emoji.name);
     } else {
@@ -77,7 +81,15 @@ export class VotingUtils {
   }
   static onReaction(reaction: MessageReaction, additionalData: any) {
     const serverQueue = additionalData as Vote;
-    const answer = serverQueue.votes.find(v => v.id === reaction.emoji.name);
+    let answer: Answer;
+    if (serverQueue.votes.every(v => VotingUtils.checkForEmoji(v.id))) {
+      answer = serverQueue.votes.find(v => v.id === reaction.emoji.name)!;
+    } else {
+      let index = 0;
+      index = DEFAULT_REACTIONS.findIndex(dr => dr === reaction.emoji.name);
+      answer = serverQueue.votes[index];
+    }
+
     if (serverQueue.anonymous) {
       if (
         VotingUtils.hasAlreadyVoted(

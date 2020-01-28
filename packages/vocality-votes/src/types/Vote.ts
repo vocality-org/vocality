@@ -6,9 +6,9 @@ export interface Vote {
   textChannel: TextChannel | DMChannel | GroupDMChannel;
   initiator: string;
   initMessage: Message;
+  votingMessage: Message | undefined;
   question: string;
   votes: Answer[];
-  deadline: Date | undefined;
   currentStep: number;
   maxSteps: number;
   anonymous: boolean;

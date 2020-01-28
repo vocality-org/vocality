@@ -47,7 +47,7 @@ export class ServerQueueController {
       initiator: msg.author.id,
       textChannel: msg.channel,
       initMessage: msg,
-      deadline: undefined,
+      votingMessage: undefined,
       maxSteps: 5,
       currentStep: 0,
       question: '',
