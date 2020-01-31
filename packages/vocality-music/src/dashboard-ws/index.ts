@@ -6,6 +6,7 @@ import { SocketCommandMessage } from '../types/SocketCommand';
 import { ServerQueueController } from '../controller/ServerQueueController';
 import { SocketCommandHandler } from './../handlers/SocketCommandHandler';
 import { Play } from '../commands';
+import './keep-alive';
 
 const commandHandler = new SocketCommandHandler();
 

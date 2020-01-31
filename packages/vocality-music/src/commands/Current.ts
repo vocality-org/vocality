@@ -23,7 +23,6 @@ export class Current implements SocketCommand {
     if (serverEntry.songs.length === 0) msg?.channel.send('No song is playing');
     else {
       const song: Song = serverEntry.songs[serverEntry.currentlyPlaying];
-      console.log(song);
       const ss = serverEntry.connection!.dispatcher.time / 1000;
 
       const embed = new RichEmbed()

@@ -32,6 +32,7 @@
     "@types/node-fetch": "^2.5.4",
     "@types/request": "^2.48.4",
     "@types/socket.io": "^2.1.4",
+    "@types/socket.io-client": "^1.4.32",
     "gts": "^1.1.2",
     "typescript": "^3.7.3"
   },
@@ -45,6 +46,7 @@
     "query-string": "^6.9.0",
     "request": "^2.88.0",
     "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
     "youtube-playlist": "^1.0.2",
     "ytdl-core": "^1.0.3"
   }

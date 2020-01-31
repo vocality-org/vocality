@@ -3,9 +3,9 @@ import { TextChannel, DMChannel, GroupDMChannel, Message } from 'discord.js';
 
 export interface Vote {
   id: string;
-  textChannel: TextChannel | DMChannel | GroupDMChannel;
+  textChannel: TextChannel | DMChannel | GroupDMChannel | undefined;
   initiator: string;
-  initMessage: Message;
+  initMessage: Message | undefined;
   votingMessage: Message | undefined;
   question: string;
   votes: Answer[];
@@ -14,4 +14,5 @@ export interface Vote {
   anonymous: boolean;
   allowedToVote: string[];
   maxVotes: number;
+  startTime: Date;
 }

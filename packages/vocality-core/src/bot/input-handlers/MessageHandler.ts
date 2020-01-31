@@ -50,7 +50,6 @@ export class MessageHandler {
     try {
       this.processMessage(message);
     } catch (e) {
-      console.log(e);
       message.reply(e.message);
     }
   }

@@ -97,9 +97,11 @@ export class WizardUtils {
               c =>
                 (c as DMChannel).recipient.username === message.author.username
             );
+          console.log(serverQueue.currentStep * 2);
           const fetched = await (channel! as DMChannel).fetchMessages({
-            limit: serverQueue.currentStep * 2,
+            limit: (serverQueue.currentStep + 1) * 2,
           });
+          console.log(fetched.size);
           fetched.map(val => val.delete());
           ServerQueueController.getInstance().findAndRemoveVote(
             message.guild.id,
@@ -142,7 +144,7 @@ export class WizardUtils {
       const timeout = setTimeout(() => {
         keepgoing = false;
         msg.author.send(
-          'Waited to long for new input, please restart the setup'
+          'Waited too long for new input, please restart the setup'
         );
       }, 180000);
       let message;
@@ -162,7 +164,7 @@ export class WizardUtils {
         const m = message as Message;
         oldMsg = m;
         collector = m.channel.createMessageCollector(m => m.content, {
-          time: 300000,
+          time: 180000,
           max: 1,
         });
       }
@@ -174,14 +176,14 @@ export class WizardUtils {
       );
       if (collectedAnswer.exit) {
         msg.author.send('Wizard stopped!');
-        break;
+        clearTimeout(timeout);
+        return true;
       } else {
         const error = await WizardUtils.handleAnswer(
           serverQueue,
           collectedAnswer.collected!.content,
           msg.guild
         );
-        console.log(error);
         if (!error.error) {
           hasErr = false;
           serverQueue.currentStep++;
@@ -192,13 +194,18 @@ export class WizardUtils {
       }
       clearTimeout(timeout);
     }
-    const finishEmbed = new RichEmbed()
-      .setColor(COLOR.CYAN)
-      .setTitle('Setup finished')
-      .setDescription(
-        'The Setup is finished, please return to your guilds chat'
-      );
-    msg.author.send({ embed: finishEmbed });
+    if (keepgoing) {
+      const finishEmbed = new RichEmbed()
+        .setColor(COLOR.CYAN)
+        .setTitle('Setup finished')
+        .setDescription(
+          'The Setup is finished, please return to your guilds chat'
+        );
+      msg.author.send({ embed: finishEmbed });
+      return false;
+    } else {
+      return true;
+    }
   }
   static getQuestion(index: number, guild: Guild) {
     switch (index) {

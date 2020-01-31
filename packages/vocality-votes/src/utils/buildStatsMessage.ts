@@ -1,7 +1,7 @@
 import { Vote } from '../types/Vote';
 import { Message, RichEmbed } from 'discord.js';
 import { Answer } from '../types/Answer';
-import { ReactionHandler } from '@vocality-org/core';
+import { ReactionHandler, COLOR } from '@vocality-org/core';
 
 export const buildStatsMessage = async (serverQueue: Vote, msg: Message) => {
   const winner: Answer = serverQueue.votes.reduce((prev, curr) =>
@@ -14,7 +14,6 @@ export const buildStatsMessage = async (serverQueue: Vote, msg: Message) => {
       })
     )
     .reduce((acc, val) => acc.concat(val));
-  console.log(allVoters);
   const voters: string[] = [];
   const pages = Math.ceil(allVoters.length / 10);
   for (let i = 1; i <= pages; i++) {
@@ -51,7 +50,8 @@ export const buildStatsMessage = async (serverQueue: Vote, msg: Message) => {
     )
     .addField('Anonymous', serverQueue.anonymous, true)
     .setDescription(voters[0])
-    .setFooter(`Page 1 of ${pages}`);
+    .setFooter(`Page 1 of ${pages}`)
+    .setColor(COLOR.CYAN);
   const message = (await msg.channel.send({ embed: richEmbed })) as Message;
   const rHandler = new ReactionHandler();
   rHandler.addPagination(message);

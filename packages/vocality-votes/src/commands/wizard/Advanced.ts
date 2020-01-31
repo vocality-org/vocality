@@ -7,12 +7,13 @@ import { ServerQueueController } from '../../controller/ServerQueueController';
 import { WizardUtils } from '../../utils/WizardUtils';
 import { VotingUtils } from '../../utils/VotingUtils';
 
-export class New implements Command {
+export class Advanced implements Command {
   options: CommandOptions = {
     id: {
-      name: 'new',
+      name: 'advanced',
     },
     description: 'Start a poll with advanced settings',
+    usage: '?wizard advanced',
     minArguments: 0,
   };
 
@@ -21,8 +22,11 @@ export class New implements Command {
       msg
     );
     serverQueue.maxSteps = 4;
-    await WizardUtils.executeLogic(serverQueue, msg);
-    VotingUtils.displayMessage(msg, serverQueue, false);
+    const stopped = await WizardUtils.executeLogic(serverQueue, msg);
+    if (!stopped) {
+      VotingUtils.displayMessage(msg, serverQueue, false);
+    }
+
     return;
   }
 }

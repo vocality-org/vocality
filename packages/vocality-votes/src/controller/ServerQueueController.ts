@@ -38,8 +38,8 @@ export class ServerQueueController {
 
   findOrCreateFromMessage(msg: Message): Vote {
     const existingEntry = this.find(msg.guild.id);
-    if (existingEntry?.find(v => v.initMessage.id === msg.id)) {
-      return existingEntry?.find(v => v.initMessage.id === msg.id)!;
+    if (existingEntry?.find(v => v.initMessage!.id === msg.id)) {
+      return existingEntry?.find(v => v.initMessage!.id === msg.id)!;
     }
     const newEntry: Vote = {
       id: uuid(),
@@ -52,6 +52,7 @@ export class ServerQueueController {
       question: '',
       votes: [],
       anonymous: false,
+      startTime: new Date(),
       maxVotes: 0,
       allowedToVote: ['0'],
     };

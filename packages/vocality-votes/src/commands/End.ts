@@ -21,7 +21,6 @@ export class End implements Command {
     );
     if (polls === undefined || polls!.length === 0) {
       const poll = serverQueues!.find(v => v.id === args[0]);
-      console.log(poll);
       if (!poll) {
         msg.channel.send(
           'Your username or the Id you provided are not correct'

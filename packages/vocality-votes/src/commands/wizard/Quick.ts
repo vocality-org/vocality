@@ -13,6 +13,7 @@ export class Quick implements Command {
       name: 'quick',
     },
     description: 'Start a poll with reduced settings',
+    usage: '?wizard quick',
     minArguments: 0,
   };
 
@@ -21,8 +22,11 @@ export class Quick implements Command {
       msg
     );
     serverQueue.maxSteps = 3;
-    await WizardUtils.executeLogic(serverQueue, msg);
-    VotingUtils.displayMessage(msg, serverQueue, false);
+    const stopped = await WizardUtils.executeLogic(serverQueue, msg);
+    console.log(stopped);
+    if (!stopped) {
+      VotingUtils.displayMessage(msg, serverQueue, false);
+    }
     return;
   }
 }

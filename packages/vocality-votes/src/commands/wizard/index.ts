@@ -1,2 +1,2 @@
-export * from './new';
-export * from './quick';
+export * from './Advanced';
+export * from './Quick';

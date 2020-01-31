@@ -20,7 +20,7 @@ export class VotingUtils {
       .addBlankField()
       .addField('Stop Voting', 'Write ?end with the ID from the Footer', true)
       .addField('Anonymous', serverQueue.anonymous, true)
-      .addField('Initiator', serverQueue.initMessage.author.username, true)
+      .addField('Initiator', serverQueue.initMessage!.author.username, true)
       .setFooter(serverQueue.id);
 
     const message = edit
@@ -92,7 +92,6 @@ export class VotingUtils {
       index = DEFAULT_REACTIONS.findIndex(dr => dr === reaction.emoji.name);
       answer = serverQueue.votes[index];
     }
-    console.log(answer);
     if (serverQueue.anonymous) {
       if (
         VotingUtils.hasAlreadyVoted(

@@ -10,6 +10,7 @@ import * as commandDefs from './commands';
 import { ServerQueueController } from './controller/ServerQueueController';
 import { TextChannel } from 'discord.js';
 import { removeReaction } from './utils/removeReaction';
+import { BACKUP } from './config';
 
 class VotesPlugin extends BasePlugin {
   commands: Command[];
@@ -22,8 +23,6 @@ class VotesPlugin extends BasePlugin {
   }
 
   load(guildId: string) {
-    console.log('loaded for ' + guildId);
-
     ServerQueueController.getInstance().findOrCreateFromGuildId(guildId);
     if (!this.hasListener) {
       addCustomListener('messageReactionRemove', removeReaction);
@@ -63,9 +62,6 @@ class VotesPlugin extends BasePlugin {
             );
           }
           if (packet.t === 'MESSAGE_REACTION_REMOVE') {
-            console.log(
-              findGuild(guildId)!.members.get(packet.d.user_id)?.user!
-            );
             emitCustomEvent(
               'messageReactionRemove',
               reaction,
@@ -83,6 +79,9 @@ class VotesPlugin extends BasePlugin {
 
   unload(guildId: string) {
     ServerQueueController.getInstance().remove(guildId);
+  }
+  saveBackupPath(path: string) {
+    BACKUP.path = path;
   }
 }
 export const votesPlugin = new VotesPlugin();
