@@ -4,6 +4,7 @@
   "private": true,
   "description": "Bot setup including custom and vocality plugins built with typescript",
   "main": "build/index.js",
+  "license": "MIT",
   "scripts": {
     "start": "ts-node index.ts",
     "build": "npm run compile",
@@ -13,12 +14,12 @@
     "check": "gts check",
     "fix": "gts fix"
   },
-  "license": "MIT",
   "dependencies": {
+    "@discordjs/opus": "^0.1.0",
     "@vocality-org/core": "^0.1.7",
+    "@vocality-org/music": "^0.1.7",
     "@vocality-org/random": "^0.1.7",
     "@vocality-org/votes": "^0.1.7",
-    "@vocality-org/music": "^0.1.7",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
