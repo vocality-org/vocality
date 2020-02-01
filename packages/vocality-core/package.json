@@ -35,7 +35,7 @@
   "devDependencies": {
     "@vocality-org/types": "^0.1.7",
     "gts": "^1.1.2",
-    "typedoc": "^0.15.8",
+    "typedoc": "^0.16.9",
     "typedoc-plugin-markdown": "^2.2.16",
     "typescript": "^3.7.3"
   },
