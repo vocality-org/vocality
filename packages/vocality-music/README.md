@@ -24,7 +24,7 @@ You also need to make sure that you have **FFMPEG** installed whereever you are 
 
 - play youtube and spotify links
 - search for songs
-- websocket connection to use our dashboard
+- websocket connection to use our [dashboard](https://github.com/vocality-org/vocality-web-dashboard)
 - skip songs
 - get lyrics for song
 - remove songs from queue
