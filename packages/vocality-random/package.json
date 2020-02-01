@@ -36,7 +36,7 @@
     "@types/node-fetch": "^2.5.4",
     "@vocality-org/types": "^0.1.7",
     "gts": "^1.1.2",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.5"
   },
   "dependencies": {
     "@vocality-org/core": "^0.1.7",
