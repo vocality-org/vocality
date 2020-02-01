@@ -27,7 +27,11 @@ export class End implements Command {
         );
         return;
       } else {
-        handleDelete(poll, msg);
+        if (poll.initiator === msg.author.id) {
+          handleDelete(poll, msg);
+        } else {
+          msg.reply('You are not the Initiator of the Poll!');
+        }
       }
     } else {
       if (polls.length > 1) {
@@ -36,7 +40,11 @@ export class End implements Command {
         );
         return;
       } else {
-        handleDelete(polls[0], msg);
+        if (polls[0].initiator === msg.author.id) {
+          handleDelete(polls[0], msg);
+        } else {
+          msg.reply('You are not the Initiator of the Poll!');
+        }
       }
     }
   }

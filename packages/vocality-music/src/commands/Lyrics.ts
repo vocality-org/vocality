@@ -6,6 +6,7 @@ import { ServerQueueController } from '../controller/ServerQueueController';
 import { BOT, EMOJI, ReactionHandler } from '@vocality-org/core';
 import { GENIUS } from '../config';
 import { SocketCommandOptions, SocketCommand } from './../types/SocketCommand';
+import { music } from '..';
 
 export class Lyrics implements SocketCommand {
   options: SocketCommandOptions = {
@@ -25,7 +26,10 @@ export class Lyrics implements SocketCommand {
     if (ServerQueueController.getInstance().find(guildId) === undefined) {
       return;
     }
-
+    if (!music.genius) {
+      msg?.channel.send('Genius API Token not provided!');
+      return;
+    }
     const songs = ServerQueueController.getInstance().find(guildId)!.songs;
 
     if (songs.length === 0 && args.length === 0) {

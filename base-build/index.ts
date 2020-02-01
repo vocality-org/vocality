@@ -15,5 +15,7 @@ const options: ClientOptions = {
 };
 votesPlugin.saveBackupPath(__dirname + '/' + 'votingResults.json');
 const bot: Bot = new Bot(options);
-
+music.spotify_client_id = '<your spotify CLIENT_ID>';
+music.spotify_secret = '<your spotify SECRET>';
+music.genius = '<<your genius API TOKEN>';
 bot.start();

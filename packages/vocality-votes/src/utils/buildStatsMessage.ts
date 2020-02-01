@@ -7,6 +7,13 @@ export const buildStatsMessage = async (serverQueue: Vote, msg: Message) => {
   const winner: Answer = serverQueue.votes.reduce((prev, curr) =>
     prev.votes < curr.votes ? curr : prev
   );
+  if (
+    serverQueue.votes.some((v, ind, arr) =>
+      arr.some(v2 => v2.votes === v.votes)
+    )
+  ) {
+    winner.id = 'draw';
+  }
   const allVoters = serverQueue.votes
     .map(v =>
       v.users.map(u => {

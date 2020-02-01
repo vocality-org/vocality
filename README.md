@@ -7,7 +7,7 @@
 <hr/>
 
 <p align="center">
-<a href="https://vocality-landing-page.now.sh/">Website</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a href="https://vocality-org.github.io/vocality/">Documentation</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a href="">Plugins</a>   
+<a href="https://vocality-landing-page.now.sh/">Website</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a href="https://vocality-org.github.io/vocality/">Documentation</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a href="https://vocality-landing-page.now.sh/plugins">Plugins</a>   
 </p>
 
 <p align="center">
@@ -18,3 +18,19 @@
 
 </p>
 </p>
+
+# Do it yourself
+
+If you want to try our Bot out with this repository yourself you have to follow these steps.
+
+1. clone it with `git clone https://github.com/vocality-org/vocality.git`.
+
+2. run `npm install`
+
+3. run `npm run bootstrap`
+
+4. go to `cd base-build`
+
+5. make a .env file with your keys and tokens
+
+6. run `npm start`

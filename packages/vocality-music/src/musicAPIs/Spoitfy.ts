@@ -10,9 +10,9 @@ export class Spotify {
    * get an access token for the Spotify API
    */
   async init() {
-    if (music.spotify) {
+    if (music.spotify_secret) {
       const b64 = Buffer.from(
-        `${process.env.SPOTIFY_ClIENT_ID}:${music.spotify}`
+        `${music.spotify_client_id}:${music.spotify_secret}`
       ).toString('base64');
       const authOptions: Request.CoreOptions = {
         headers: {
@@ -28,21 +28,21 @@ export class Spotify {
         'https://accounts.spotify.com/api/token',
         authOptions,
         (error, response, body) => {
-          process.env.SPOTIFY_ACCESS_TOKEN = body.access_token;
+          music.spotify_access_token = body.access_token;
         }
       );
     }
   }
 
   getSong(url: string) {
-    if (process.env.SPOTIFY_ACCESS_TOKEN) {
+    if (music.spotify_access_token) {
       return new Promise<Song | null>(async (res, rej) => {
         const songId = url.split('/')[url.split('/').length - 1];
         Request.get(
           SPOTIFY_API_URI + 'tracks/' + songId,
           {
             headers: {
-              Authorization: 'Bearer ' + process.env.SPOTIFY_ACCESS_TOKEN,
+              Authorization: 'Bearer ' + music.spotify_access_token,
               'Content-type': 'application/json',
             },
           },
