@@ -1,4 +1,4 @@
-import { Message, RichEmbed } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import { ServerQueueController } from '../controller/ServerQueueController';
 import { Song } from '../types/Song';
 import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
@@ -14,7 +14,7 @@ export class Current implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    this.run(args, msg.guild.id, msg);
+    this.run(args, msg.guild!.id, msg);
   }
 
   run(args: string[], guildId: string, msg?: Message) {
@@ -23,9 +23,9 @@ export class Current implements SocketCommand {
     if (serverEntry.songs.length === 0) msg?.channel.send('No song is playing');
     else {
       const song: Song = serverEntry.songs[serverEntry.currentlyPlaying];
-      const ss = serverEntry.connection!.dispatcher.time / 1000;
+      const ss = serverEntry.connection!.dispatcher.streamTime / 1000;
 
-      const embed = new RichEmbed()
+      const embed = new MessageEmbed()
         .setAuthor(
           song.author.name,
           song.author.avatarURL,

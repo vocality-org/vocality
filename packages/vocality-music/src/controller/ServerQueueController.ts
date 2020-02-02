@@ -33,7 +33,7 @@ export class ServerQueueController {
   }
 
   findOrCreateFromMessage(msg: Message): QueueContract {
-    const existingEntry = this.find(msg.guild.id);
+    const existingEntry = this.find(msg.guild!.id);
     if (
       existingEntry &&
       existingEntry.voiceChannel &&
@@ -45,7 +45,7 @@ export class ServerQueueController {
       connection: undefined,
       songs: [],
       textChannel: msg.channel,
-      voiceChannel: msg.member.voiceChannel,
+      voiceChannel: msg.member?.voice.channel,
       isLooping: false,
       isShuffling: false,
       currentlyPlaying: 0,
@@ -57,10 +57,10 @@ export class ServerQueueController {
       !existingEntry.voiceChannel &&
       !existingEntry.textChannel
     ) {
-      this.serverQueues.delete(msg.guild.id);
-      this.serverQueues.set(msg.guild.id, newEntry);
+      this.serverQueues.delete(msg.guild!.id);
+      this.serverQueues.set(msg.guild!.id, newEntry);
     }
-    this.add(msg.guild.id, newEntry);
+    this.add(msg.guild!.id, newEntry);
     return newEntry;
   }
 

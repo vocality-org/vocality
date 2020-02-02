@@ -1,4 +1,4 @@
-import { Message, RichEmbed } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import cheerio from 'cheerio';
 import fetch from 'node-fetch';
 import queryString from 'query-string';
@@ -19,7 +19,7 @@ export class Lyrics implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    this.run(args, msg.guild.id, msg);
+    this.run(args, msg.guild!.id, msg);
   }
 
   run(args: string[], guildId: string, msg?: Message) {
@@ -58,16 +58,17 @@ export class Lyrics implements SocketCommand {
       fetch(
         GENIUS.GENIUS_API_URI +
           '/search?' +
-          queryString.stringify(searchString) +
-          '&access_token=' +
-          process.env.GENIUS_API_TOKEN,
+          queryString.stringify(searchString),
         {
-          headers: { 'content-type': 'application/json' },
+          headers: {
+            'content-type': 'application/json',
+            authorization: `Bearer ${music.genius}`,
+          },
           method: 'GET',
         }
       ).then(async response => {
         const data = await response.json();
-
+        console.log(data.response.hits[0]);
         if (data.response.hits.length === 0) {
           msg?.channel.send(
             `No Lyrics found consider using \`\`${BOT.SERVERPREFIXES[guildId]}lyrics <searchstring>\`\``
@@ -80,7 +81,7 @@ export class Lyrics implements SocketCommand {
         const lyrics = $('.lyrics').text();
         const lyricsList = lyrics.match(/[\s\S]{1,2048}/g) as string[];
 
-        const embed = new RichEmbed()
+        const embed = new MessageEmbed()
           .setTitle(
             `Lyrics for ${
               args.length !== 0
@@ -97,7 +98,7 @@ export class Lyrics implements SocketCommand {
           `${EMOJI.WARNING}if this is not the right lyrics consider \`\`${BOT.SERVERPREFIXES[guildId]}lyrics <searchstring>\`\``
         );
 
-        msg?.channel.send(embed).then(async msg => {
+        msg?.channel.send({ embed }).then(async msg => {
           const message = msg as Message;
           const duration = args.length !== 0 ? 60000 : songs[0].length_ms;
 
@@ -110,7 +111,7 @@ export class Lyrics implements SocketCommand {
             duration,
             lyricsList.length,
             (reaction, index) => {
-              const embed = new RichEmbed({
+              const embed = new MessageEmbed({
                 title: message.embeds[0].title,
                 url: message.embeds[0].url,
                 color: message.embeds[0].color,
@@ -118,8 +119,8 @@ export class Lyrics implements SocketCommand {
               });
               embed.setFooter(`Page ${1 + index} of ${lyricsList.length}`);
 
-              message.edit(embed);
-              reaction.remove(reaction.users.lastKey());
+              message.edit({ embed });
+              reaction.users.remove(reaction.users.lastKey());
             }
           );
         });

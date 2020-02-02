@@ -13,7 +13,7 @@ export class Pause implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    this.run(args, msg.guild.id, msg);
+    this.run(args, msg.guild!.id, msg);
   }
 
   run(args: string[], guildId: string, msg?: Message) {
@@ -22,7 +22,7 @@ export class Pause implements SocketCommand {
     }
 
     const serverEntry = ServerQueueController.getInstance().find(guildId)!;
-    const ss = serverEntry.connection!.dispatcher.time / 1000;
+    const ss = serverEntry.connection!.dispatcher.streamTime / 1000;
     serverEntry.connection!.dispatcher.pause();
     msg?.channel.send(
       `paused **${serverEntry.songs[0].title}** at \`${new Date(ss * 1000)

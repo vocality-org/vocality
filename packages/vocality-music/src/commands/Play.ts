@@ -26,7 +26,7 @@ export class Play implements SocketCommand {
   };
 
   async execute(msg: Message, args: string[]): Promise<void> {
-    this.run(args, msg.guild.id, msg);
+    this.run(args, msg.guild!.id, msg);
   }
 
   private async play(
@@ -59,7 +59,7 @@ export class Play implements SocketCommand {
     msg?.channel.send(`Now playing **${song!.title}**`);
 
     serverEntry
-      .connection!.playStream(ytdl(song!.url, { filter: 'audioonly' }), {
+      .connection!.play(ytdl(song!.url, { filter: 'audioonly' }), {
         volume: serverEntry.volume,
       })
       .on('end', () => {
@@ -122,7 +122,7 @@ export class Play implements SocketCommand {
   }
 
   async run(args: string[], guildId: string, msg?: Message) {
-    if (msg && !msg.member.voiceChannel) {
+    if (msg && !msg.member?.voice.channel) {
       msg.channel.send('Please join a voice channel');
       return;
     }
@@ -137,9 +137,8 @@ export class Play implements SocketCommand {
         guildId
       );
     }
-
     if (msg) {
-      const connection = await msg.member.voiceChannel.join();
+      const connection = await msg.member?.voice.channel!.join();
       serverEntry.connection = connection;
     } else if (!serverEntry.voiceChannel) {
       console.log('First play of guild cant be from Dashboard!');

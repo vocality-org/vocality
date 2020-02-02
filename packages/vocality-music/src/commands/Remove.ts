@@ -16,21 +16,21 @@ export class Remove implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    this.run(args, msg.guild.id, msg);
+    this.run(args, msg.guild!.id, msg);
   }
 
   run(args: string[], guildId: string, msg?: Message) {
     const serverEntry = ServerQueueController.getInstance().find(guildId)!;
 
-    if (!msg?.member.voiceChannel) {
+    if (!msg?.member!.voice.channel) {
       msg?.channel.send('You have to be in a voice channel to stop the music!');
     } else if (!serverEntry) {
-      msg.channel.send('There is no song that I could remove!');
+      msg?.channel.send('There is no song that I could remove!');
     } else if (args[0]) {
       if (Number(args[0])) {
         const idToRemove: number = Number.parseInt(args[0], 10);
         if (idToRemove > serverEntry.songs.length) {
-          msg.channel.send('The number is too big');
+          msg?.channel.send('The number is too big');
         } else {
           serverEntry.songs.splice(idToRemove - 1, 1);
           if (idToRemove === 1) {
@@ -40,7 +40,7 @@ export class Remove implements SocketCommand {
           }
         }
       } else {
-        msg.channel.send('The Argument is not a number');
+        msg?.channel.send('The Argument is not a number');
       }
     }
   }

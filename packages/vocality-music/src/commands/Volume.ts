@@ -4,7 +4,7 @@ import { ServerQueueController } from '../controller/ServerQueueController';
 import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
 const UP_VALUE = 10;
-const DOWN_VALUE = -10;
+const DOWN_VALUE = 10;
 
 export class Volume implements SocketCommand {
   options: SocketCommandOptions = {
@@ -18,7 +18,7 @@ export class Volume implements SocketCommand {
     socketEnabled: true,
   };
   execute(msg: Message, args: string[]): void {
-    this.run(args, msg.guild.id, msg);
+    this.run(args, msg.guild!.id, msg);
   }
 
   validateArguments(args: string[]): boolean {
@@ -66,8 +66,8 @@ export class Volume implements SocketCommand {
     }
 
     const serverEntry = ServerQueueController.getInstance().find(guildId)!;
-    const vol = this.calculateVolume(args[0], serverEntry.volume);
-    serverEntry.volume = vol;
+    const vol = this.calculateVolume(args[0], serverEntry.volume * 100);
+    serverEntry.volume = vol / 100;
 
     if (serverEntry.connection) {
       serverEntry.connection!.dispatcher.setVolume(vol / 100);

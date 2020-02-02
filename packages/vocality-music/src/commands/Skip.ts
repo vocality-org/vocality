@@ -15,13 +15,13 @@ export class Skip implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    this.run(args, msg.guild.id, msg);
+    this.run(args, msg.guild!.id, msg);
   }
 
   run(args: string[], guildId: string, msg?: Message) {
     const serverEntry = ServerQueueController.getInstance().find(guildId)!;
 
-    if (!msg?.member.voiceChannel) {
+    if (!msg?.member?.voice.channel) {
       msg?.channel.send('You have to be in a voice channel to skip!');
     } else if (!serverEntry) {
       msg.channel.send('There is no song that I could skip!');

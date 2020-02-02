@@ -1,5 +1,5 @@
 import { ReactionHandler } from '@vocality-org/core';
-import { Message, RichEmbed } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import { ServerQueueController } from '../controller/ServerQueueController';
 import { SocketCommandOptions, SocketCommand } from '../types/SocketCommand';
 
@@ -16,7 +16,7 @@ export class Queue implements SocketCommand {
   };
 
   execute(msg: Message, args: string[]): void {
-    this.run(args, msg.guild.id, msg);
+    this.run(args, msg.guild!.id, msg);
   }
 
   run(args: string[], guildId: string, msg?: Message) {
@@ -62,7 +62,7 @@ export class Queue implements SocketCommand {
         value: `[${serverEntry.songs[0].title}](${serverEntry.songs[0].url}) | length: \`${serverEntry.songs[0].length}\` | requested by: \`${serverEntry.songs[0].requested_by}\``,
       };
 
-      const queue = new RichEmbed()
+      const queue = new MessageEmbed()
         .setTitle('Current Song Queue')
         .addField(nowPlaying.name, nowPlaying.value)
         .setDescription(songList[0])
@@ -80,7 +80,7 @@ export class Queue implements SocketCommand {
           100000,
           songList.length,
           (reaction, index) => {
-            const embed = new RichEmbed({
+            const embed = new MessageEmbed({
               title: message.embeds[0].title,
               url: message.embeds[0].url,
               color: message.embeds[0].color,
@@ -89,8 +89,8 @@ export class Queue implements SocketCommand {
             embed.setFooter(`Page ${1 + index} of ${songList.length}`);
             embed.addField(nowPlaying.name, nowPlaying.value);
 
-            message.edit(embed);
-            reaction.remove(reaction.users.lastKey());
+            message.edit({ embed });
+            reaction.users.remove(reaction.users.lastKey());
           }
         );
       });

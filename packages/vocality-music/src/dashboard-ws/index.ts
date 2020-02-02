@@ -76,7 +76,7 @@ export function onCurrentSongChange(queue: QueueContract) {
   if (queue && queue.connection) {
     const currentSong = queue.songs[0];
 
-    const currentTimeMs = queue.connection!!.dispatcher.time;
+    const currentTimeMs = queue.connection!!.dispatcher.streamTime;
 
     socketio.emit('currentSong', {
       current_time_ms: currentTimeMs,
