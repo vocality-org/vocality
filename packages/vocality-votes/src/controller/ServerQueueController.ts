@@ -37,7 +37,7 @@ export class ServerQueueController {
   }
 
   findOrCreateFromMessage(msg: Message): Vote {
-    const existingEntry = this.find(msg.guild.id);
+    const existingEntry = this.find(msg.guild!.id);
     if (existingEntry?.find(v => v.initMessage!.id === msg.id)) {
       return existingEntry?.find(v => v.initMessage!.id === msg.id)!;
     }

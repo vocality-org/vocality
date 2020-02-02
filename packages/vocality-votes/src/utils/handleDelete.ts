@@ -11,7 +11,7 @@ export const handleDelete = (serverQueue: Vote, msg: Message) => {
   }
   buildStatsMessage(serverQueue, msg);
   const data = FileOperations.readFromFile();
-  const guildId = serverQueue.initMessage!.guild.id;
+  const guildId = serverQueue.initMessage!.guild!.id;
   serverQueue.initMessage = undefined;
   serverQueue.textChannel = undefined;
   serverQueue.votingMessage = undefined;

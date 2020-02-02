@@ -28,9 +28,10 @@
     "access": "public"
   },
   "dependencies": {
-    "discord.js": "^11.5.1"
+    "discord.js": "github:discordjs/discord.js"
   },
   "devDependencies": {
+    "@types/ws": "^7.2.1",
     "gts": "^1.1.2",
     "typescript": "^3.7.3"
   }

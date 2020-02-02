@@ -12,7 +12,9 @@ export class MyVote implements Command {
     minArguments: 0,
   };
   execute(msg: Message, args: string[]) {
-    const serverQueues = ServerQueueController.getInstance().find(msg.guild.id);
+    const serverQueues = ServerQueueController.getInstance().find(
+      msg.guild!.id
+    );
     let myVote;
     console.log(args.length);
     if (args.length === 0) {

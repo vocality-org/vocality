@@ -1,5 +1,5 @@
 import { Command, CommandOptions } from '@vocality-org/types';
-import { Message, RichEmbed } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import { BotClient } from '../bot/BotClient';
 import { loadCommands } from '../utils/loadCommands';
 import { COLOR, EMOJI } from '../config';
@@ -20,7 +20,7 @@ export class Plugin implements Command {
 
   execute(msg: Message, args: string[]) {
     const plugins = BotClient.instance().pluginController.getGuildPlugins(
-      msg.guild.id
+      msg.guild!.id
     );
 
     const description = plugins
@@ -38,7 +38,7 @@ export class Plugin implements Command {
       })
       .join('\n');
 
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
       .setTitle(`Found ${plugins.length} Plugins`)
       .setColor(COLOR.CYAN)
       .setDescription(description);

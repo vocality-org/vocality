@@ -15,7 +15,6 @@
     "fix": "gts fix"
   },
   "dependencies": {
-    "@discordjs/opus": "^0.1.0",
     "@vocality-org/core": "^0.1.7",
     "@vocality-org/music": "^0.1.7",
     "@vocality-org/random": "^0.1.7",

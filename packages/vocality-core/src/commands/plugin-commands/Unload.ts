@@ -14,7 +14,7 @@ export class Unload implements Command {
 
   execute(msg: Message, args: string[]) {
     const plugins = BotClient.instance().pluginController.getGuildPlugins(
-      msg.guild.id
+      msg.guild!.id
     );
 
     const found = plugins.find(p => p.config.displayName === args[0]);
@@ -29,6 +29,6 @@ export class Unload implements Command {
       return;
     }
 
-    BotClient.instance().pluginController.unload(msg.guild.id, found);
+    BotClient.instance().pluginController.unload(msg.guild!.id, found);
   }
 }

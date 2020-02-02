@@ -1,5 +1,5 @@
 import { Command, CommandOptions } from '@vocality-org/types';
-import { Message, RichEmbed } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import fetch from 'node-fetch';
 
 const baseUrl = 'https://unsplash.it';
@@ -30,7 +30,7 @@ export class Image implements Command {
     fetch(`${baseUrl}/${dimensions}`, {
       method: 'GET',
     }).then(res => {
-      const embed = new RichEmbed().setImage(res.url);
+      const embed = new MessageEmbed().setImage(res.url);
       msg.channel.send({ embed });
     });
   }

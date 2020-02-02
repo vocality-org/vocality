@@ -1,6 +1,6 @@
 import { Command, CommandOptions } from '@vocality-org/types';
 
-import { Message, RichEmbed } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import { FileOperations } from '../../utils/FileOperations';
 import { Vote } from '../../types/Vote';
 import { ReactionHandler, COLOR } from '@vocality-org/core';
@@ -19,7 +19,7 @@ export class List implements Command {
     const data = FileOperations.readFromFile();
     if (data) {
       const guildMap: Map<string, Vote[]> = new Map(JSON.parse(data));
-      const guildArray = guildMap.get(msg.guild.id);
+      const guildArray = guildMap.get(msg.guild!.id);
       const archived: string[] = [];
       const pages = Math.ceil(guildArray!.length / 10);
       for (let i = 1; i <= pages; i++) {
@@ -33,12 +33,12 @@ export class List implements Command {
             `**${j + 1}.Entry** [${
               guildArray![j].id
             }]        initiated by        *${
-              msg.guild.members.get(guildArray![j].initiator)?.user.username
+              msg.guild!.members.get(guildArray![j].initiator)?.user.username
             }* with Question **${guildArray![j].question}**`
           );
         }
         archived.push(list.join('\n\n'));
-        const richEmbed = new RichEmbed()
+        const richEmbed = new MessageEmbed()
           .setTitle('Archived Polls')
           .setDescription(archived)
           .setColor(COLOR.CYAN);
@@ -53,7 +53,7 @@ export class List implements Command {
           undefined,
           pages,
           (reaction, index) => {
-            const embed = new RichEmbed({
+            const embed = new MessageEmbed({
               title: message.embeds[0].title,
               url: message.embeds[0].url,
               color: message.embeds[0].color,
@@ -63,7 +63,7 @@ export class List implements Command {
             embed.setFooter(`Page ${1 + index} of ${pages}`);
 
             message.edit(embed);
-            reaction.remove(reaction.users.lastKey());
+            reaction.users.remove(reaction.users.lastKey());
           }
         );
       }

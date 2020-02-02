@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@vocality-org/core": "^0.1.7",
-    "discord.js": "^11.5.1",
+    "discord.js": "github:discordjs/discord.js",
     "faker": "^4.1.0",
     "node-fetch": "^2.6.0"
   }

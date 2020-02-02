@@ -19,7 +19,7 @@ export class Details implements Command {
     if (data) {
       const guildMap: Map<string, Vote[]> = new Map(JSON.parse(data));
       const archivedPoll = guildMap
-        .get(msg.guild.id)
+        .get(msg.guild!.id)
         ?.find(v => v.id === args[0]);
       if (archivedPoll) {
         buildStatsMessage(archivedPoll, msg);

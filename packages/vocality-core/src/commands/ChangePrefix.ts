@@ -13,9 +13,9 @@ export class ChangePrefix implements Command {
   };
 
   execute(msg: Message, args: string[]) {
-    BOT.SERVERPREFIXES[msg.guild.id] = args[0];
+    BOT.SERVERPREFIXES[msg.guild!.id] = args[0];
     msg.channel.send(
-      `Prefix changed to \`${BOT.SERVERPREFIXES[msg.guild.id]}\``
+      `Prefix changed to \`${BOT.SERVERPREFIXES[msg.guild!.id]}\``
     );
   }
 }

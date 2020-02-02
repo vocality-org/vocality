@@ -35,9 +35,7 @@
   "dependencies": {
     "@vocality-org/core": "^0.1.7",
     "@vocality-org/types": "^0.1.7",
-    "app-root-path": "^3.0.0",
-    "date-fns": "^2.9.0",
-    "discord.js": "^11.5.1",
+    "discord.js": "github:discordjs/discord.js",
     "uuid": "^3.4.0"
   }
 }

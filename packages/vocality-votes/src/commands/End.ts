@@ -13,9 +13,11 @@ export class End implements Command {
     minArguments: 1,
   };
   async execute(msg: Message, args: string[]) {
-    const serverQueues = ServerQueueController.getInstance().find(msg.guild.id);
+    const serverQueues = ServerQueueController.getInstance().find(
+      msg.guild!.id
+    );
     const polls = serverQueues?.filter(v =>
-      msg.guild.members.get(v.initiator)?.user.username === args[0]
+      msg.guild!.members.get(v.initiator)?.user.username === args[0]
         ? true
         : false
     );

@@ -1,5 +1,5 @@
 import { CommandIdentifier } from './CommandIdentifier';
-import { RichEmbed } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 
 export interface CommandOptions {
   readonly id: CommandIdentifier;
@@ -37,6 +37,6 @@ export interface CommandOptions {
    */
   example?: {
     input: string;
-    output: string | RichEmbed;
+    output: string | MessageEmbed;
   };
 }

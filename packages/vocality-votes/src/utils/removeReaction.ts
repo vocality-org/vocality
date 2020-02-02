@@ -7,10 +7,10 @@ import { Answer } from '../types/Answer';
 
 export const removeReaction = (reaction: MessageReaction, user: User) => {
   const serverQueues = ServerQueueController.getInstance().findOrCreateFromGuildId(
-    reaction.message.guild.id
+    reaction.message.guild!.id
   );
   const serverQueue = serverQueues?.find(
-    v => v.id === reaction.message.embeds[0].footer.text
+    v => v.id === reaction.message.embeds[0].footer!.text
   )!;
   if (!serverQueue) return;
   let v: Answer;

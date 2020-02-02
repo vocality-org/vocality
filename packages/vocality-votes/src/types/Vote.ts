@@ -1,9 +1,9 @@
 import { Answer } from './Answer';
-import { TextChannel, DMChannel, GroupDMChannel, Message } from 'discord.js';
+import { TextChannel, DMChannel, Message } from 'discord.js';
 
 export interface Vote {
   id: string;
-  textChannel: TextChannel | DMChannel | GroupDMChannel | undefined;
+  textChannel: TextChannel | DMChannel | undefined;
   initiator: string;
   initMessage: Message | undefined;
   votingMessage: Message | undefined;

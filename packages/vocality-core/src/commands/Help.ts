@@ -4,7 +4,7 @@ import {
   CommandSearchResult,
   CommandType,
 } from '@vocality-org/types';
-import { Message, RichEmbed } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import { BotClient } from '../bot/BotClient';
 import { COLOR, BOT, EMOJI } from '../config';
 
@@ -23,9 +23,9 @@ export class Help implements Command {
     let commands: CommandSearchResult[];
 
     if (emptySearch) {
-      commands = BotClient.instance().getAllCommands(msg.guild.id);
+      commands = BotClient.instance().getAllCommands(msg.guild!.id);
     } else {
-      const found = BotClient.instance().findCommand(msg.guild.id, args[0]);
+      const found = BotClient.instance().findCommand(msg.guild!.id, args[0]);
 
       if (!found) {
         msg.reply('Not found');
@@ -37,7 +37,7 @@ export class Help implements Command {
     if (emptySearch) {
       for (let i = 0; commands.length > 0; i += 24) {
         const embed = this.buildMultiCommandEmbed(
-          msg.guild.id,
+          msg.guild!.id,
           commands.splice(i, i + 24)
         );
 
@@ -45,7 +45,7 @@ export class Help implements Command {
       }
     } else {
       commands.forEach(result => {
-        const embed = this.buildSingleCommandEmbed(msg.guild.id, result);
+        const embed = this.buildSingleCommandEmbed(msg.guild!.id, result);
         msg.channel.send(embed);
       });
     }
@@ -54,8 +54,8 @@ export class Help implements Command {
   private buildMultiCommandEmbed(
     guildId: string,
     results: CommandSearchResult[]
-  ): RichEmbed {
-    const embed = new RichEmbed().setColor(COLOR.CYAN);
+  ): MessageEmbed {
+    const embed = new MessageEmbed().setColor(COLOR.CYAN);
 
     embed.setTitle(`Found ${results.length} Commands`);
 
@@ -85,8 +85,8 @@ export class Help implements Command {
   private buildSingleCommandEmbed(
     guildId: string,
     result: CommandSearchResult
-  ): RichEmbed {
-    const embed = new RichEmbed().setColor(COLOR.CYAN);
+  ): MessageEmbed {
+    const embed = new MessageEmbed().setColor(COLOR.CYAN);
 
     embed.setTitle(result.command.options.id.name);
     embed.setDescription(result.command.options.description);

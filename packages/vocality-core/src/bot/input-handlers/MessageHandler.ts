@@ -14,8 +14,10 @@ export class MessageHandler {
   }
 
   private addListeners() {
-    this.bot.on('messageUpdate', msg => this.handleMessageUpdate(msg));
-    this.bot.on('message', msg => this.handleMessage(msg));
+    this.bot.on('messageUpdate', (msg: Message) =>
+      this.handleMessageUpdate(msg)
+    );
+    this.bot.on('message', (msg: Message) => this.handleMessage(msg));
   }
 
   addCustomListener(event: string, callback: Function) {
@@ -81,7 +83,7 @@ export class MessageHandler {
     const args = ArgumentParser.parseInput(content);
 
     let commandtext = args.shift()!.toLowerCase();
-    let command = this.getCommandFromName(message.guild.id, commandtext);
+    let command = this.getCommandFromName(message.guild!.id, commandtext);
 
     if (!command) {
       throw new BotError('Command not found');

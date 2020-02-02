@@ -1,5 +1,5 @@
 import {
-  RichEmbed,
+  MessageEmbed,
   Message,
   MessageCollector,
   DMChannel,
@@ -15,7 +15,7 @@ export class WizardUtils {
     serverQueue: Vote,
     answer: string,
     guild: Guild
-  ): Promise<{ error: boolean; newMsg: RichEmbed | undefined }> {
+  ): Promise<{ error: boolean; newMsg: MessageEmbed | undefined }> {
     switch (serverQueue.currentStep) {
       case 0:
         serverQueue.question = answer;
@@ -92,19 +92,19 @@ export class WizardUtils {
       collector.on('collect', async collected => {
         if (collected.content === 'stop') {
           const channel = collected.channel.client.channels
-            .filter(c => c.type === 'dm')
+            .filter((c: any) => c.type === 'dm')
             .find(
-              c =>
+              (c: any) =>
                 (c as DMChannel).recipient.username === message.author.username
             );
           console.log(serverQueue.currentStep * 2);
-          const fetched = await (channel! as DMChannel).fetchMessages({
+          const fetched = await (channel! as DMChannel).messages.fetch({
             limit: (serverQueue.currentStep + 1) * 2,
           });
           console.log(fetched.size);
           fetched.map(val => val.delete());
           ServerQueueController.getInstance().findAndRemoveVote(
-            message.guild.id,
+            message.guild!.id,
             serverQueue
           );
           res({ exit: true, collected: undefined });
@@ -158,7 +158,7 @@ export class WizardUtils {
       } else {
         const embed = WizardUtils.getQuestion(
           serverQueue.currentStep,
-          msg.guild
+          msg.guild!
         );
         message = await msg.author.send({ embed });
         const m = message as Message;
@@ -182,7 +182,7 @@ export class WizardUtils {
         const error = await WizardUtils.handleAnswer(
           serverQueue,
           collectedAnswer.collected!.content,
-          msg.guild
+          msg.guild!
         );
         if (!error.error) {
           hasErr = false;
@@ -195,7 +195,7 @@ export class WizardUtils {
       clearTimeout(timeout);
     }
     if (keepgoing) {
-      const finishEmbed = new RichEmbed()
+      const finishEmbed = new MessageEmbed()
         .setColor(COLOR.CYAN)
         .setTitle('Setup finished')
         .setDescription(
@@ -210,7 +210,7 @@ export class WizardUtils {
   static getQuestion(index: number, guild: Guild) {
     switch (index) {
       case 0:
-        return new RichEmbed()
+        return new MessageEmbed()
           .setColor(COLOR.CYAN)
           .setTitle('Whats your question?')
           .setDescription(
@@ -218,7 +218,7 @@ export class WizardUtils {
           )
           .setFooter('You can write stop to exit the setup');
       case 1:
-        return new RichEmbed()
+        return new MessageEmbed()
           .setColor(COLOR.CYAN)
           .setTitle('What are the possible answers?')
           .setDescription(
@@ -238,7 +238,7 @@ export class WizardUtils {
           )
           .setFooter('You can write stop to exit the setup');
       case 2:
-        return new RichEmbed()
+        return new MessageEmbed()
           .setColor(COLOR.CYAN)
           .setTitle('Is your poll anonymus?')
           .setDescription(
@@ -253,7 +253,7 @@ export class WizardUtils {
         for (let i = 0; i < roles.length; i++) {
           roleString += `* \`${i + 1} for ${roles[i].name}\` \n`;
         }
-        return new RichEmbed()
+        return new MessageEmbed()
           .setColor(COLOR.CYAN)
           .setTitle('Who do you want to allow to vote')
           .setDescription(roleString)
@@ -264,7 +264,7 @@ export class WizardUtils {
           .setFooter('You can write stop to exit the setup');
 
       default:
-        return new RichEmbed()
+        return new MessageEmbed()
           .setColor(COLOR.CYAN)
           .setTitle('An Error occured')
           .setDescription('There is an Error please exit the setup')

@@ -1,5 +1,5 @@
 import { Vote } from '../types/Vote';
-import { Message, RichEmbed } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import { Answer } from '../types/Answer';
 import { ReactionHandler, COLOR } from '@vocality-org/core';
 
@@ -32,7 +32,7 @@ export const buildStatsMessage = async (serverQueue: Vote, msg: Message) => {
     ) {
       list.push(
         `**${j + 1}.Entry** [${
-          msg.guild.members.get(allVoters[j].user)?.user.username
+          msg.guild!.members.get(allVoters[j].user)?.user.username
         }]        voted for        *${
           serverQueue.anonymous ? 'anonymous' : allVoters[j].v
         }*`
@@ -43,7 +43,7 @@ export const buildStatsMessage = async (serverQueue: Vote, msg: Message) => {
   const voted = serverQueue.votes.reduce((a, b) => a + b.votes, 0);
   serverQueue.votingMessage?.unpin();
   serverQueue.votingMessage?.delete();
-  const richEmbed = new RichEmbed()
+  const richEmbed = new MessageEmbed()
     .setTitle(`Results for vote ${serverQueue.id}`)
     .addBlankField()
     .addField('Question', serverQueue.question, true)
@@ -52,7 +52,7 @@ export const buildStatsMessage = async (serverQueue: Vote, msg: Message) => {
     .addField('Participation', `${(voted * 100) / serverQueue.maxVotes}%`, true)
     .addField(
       'Initiator',
-      msg.guild.members.get(serverQueue.initiator)?.user.username,
+      msg.guild!.members.get(serverQueue.initiator)?.user.username,
       true
     )
     .addField('Anonymous', serverQueue.anonymous, true)
@@ -67,7 +67,7 @@ export const buildStatsMessage = async (serverQueue: Vote, msg: Message) => {
     undefined,
     pages,
     (reaction, index) => {
-      const embed = new RichEmbed({
+      const embed = new MessageEmbed({
         title: message.embeds[0].title,
         url: message.embeds[0].url,
         color: message.embeds[0].color,
@@ -77,7 +77,7 @@ export const buildStatsMessage = async (serverQueue: Vote, msg: Message) => {
       embed.setFooter(`Page ${1 + index} of ${pages}`);
 
       message.edit(embed);
-      reaction.remove(reaction.users.lastKey());
+      reaction.users.remove(reaction.users.lastKey());
     }
   );
 };

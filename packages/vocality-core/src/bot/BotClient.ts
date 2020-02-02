@@ -58,8 +58,8 @@ export class BotClient extends DiscordClient implements Client {
     if (!this.botInstance) {
       this.botInstance = new BotClient(options);
       this.botInstance.on('ready', () => {
-        BOT.NAME = this.botInstance!.user.username;
-        this.botInstance!.guilds.tap(guild => {
+        BOT.NAME = this.botInstance!.user!.username;
+        this.botInstance!.guilds.forEach(guild => {
           BOT.SERVERPREFIXES[guild.id] = BOT.PREFIX;
         });
         this.botInstance?.loadPluginFromOptions();
@@ -188,16 +188,16 @@ export class BotClient extends DiscordClient implements Client {
 
   private createMessage(guildId: string) {
     const guild = this.guilds.filter(g => g.id === guildId).first();
-    const textChannel = guild.channels
+    const textChannel = guild!.channels
       .filter(c => {
         return c.type === 'text';
       })
       .first() as TextChannel;
 
     const message = new Message(
-      textChannel,
+      this,
       { author: this.user, embeds: [], attachments: [] },
-      this
+      textChannel
     );
     return message;
   }
@@ -216,6 +216,6 @@ export class BotClient extends DiscordClient implements Client {
    * Used to login the Bot with the Discord Token
    */
   async init(token?: string) {
-    await this.login(token || this.token);
+    await this.login(token || (this.token as string | undefined));
   }
 }

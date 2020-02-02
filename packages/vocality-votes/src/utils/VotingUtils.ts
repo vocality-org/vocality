@@ -1,4 +1,4 @@
-import { Message, RichEmbed, User, MessageReaction } from 'discord.js';
+import { Message, User, MessageEmbed, MessageReaction } from 'discord.js';
 import { Vote } from '../types/Vote';
 import { ReactionHandler } from '@vocality-org/core';
 import { DEFAULT_REACTIONS, BLUECIRCLE } from '../config';
@@ -7,14 +7,14 @@ import { Answer } from '../types/Answer';
 
 export class VotingUtils {
   static async displayMessage(msg: Message, serverQueue: Vote, edit: boolean) {
-    const guild = msg.guild;
+    const guild = msg.guild!;
     serverQueue.maxVotes = getMaxVotes(serverQueue, guild);
 
     const votingString = this.buildVotingString(
       serverQueue,
       serverQueue.maxVotes
     );
-    const votingEmbed = new RichEmbed()
+    const votingEmbed = new MessageEmbed()
       .setTitle(serverQueue.question)
       .setDescription(votingString)
       .addBlankField()
@@ -64,7 +64,9 @@ export class VotingUtils {
     const serverQueue = additionalData as Vote;
     if (
       !serverQueue.allowedToVote.some(a =>
-        reaction.message.guild.roles.get(a)?.members.find('user', user)
+        reaction.message
+          .guild!.roles.get(a)
+          ?.members.find(u => u.user.id === user.id)
       ) &&
       !serverQueue.allowedToVote.some(a => a === '0')
     ) {
@@ -95,7 +97,7 @@ export class VotingUtils {
     if (serverQueue.anonymous) {
       if (
         VotingUtils.hasAlreadyVoted(
-          reaction.users.last(),
+          reaction.users.last()!,
           serverQueue,
           reaction.emoji.name
         )
@@ -103,18 +105,18 @@ export class VotingUtils {
         reaction.message.channel.send(
           'You cannot vote twice ' + reaction.users.last()
         );
-      } else if (answer?.users.includes(reaction.users.last().id)) {
-        answer!.users.push(reaction.users.last().id);
+      } else if (answer?.users.includes(reaction.users.last()!.id)) {
+        answer!.users.push(reaction.users.last()!.id);
       } else {
         answer!.votes++;
-        answer!.users.push(reaction.users.last().id);
+        answer!.users.push(reaction.users.last()!.id);
         VotingUtils.displayMessage(reaction.message, serverQueue, true);
       }
-      reaction.remove(reaction.users.last());
+      reaction.users.remove(reaction.users.last());
     } else {
       if (
         VotingUtils.hasAlreadyVoted(
-          reaction.users.last(),
+          reaction.users.last()!,
           serverQueue,
           reaction.emoji.name
         )
@@ -122,10 +124,10 @@ export class VotingUtils {
         reaction.message.channel.send(
           'You cannot vote twice ' + reaction.users.last()
         );
-        reaction.remove(reaction.users.last());
+        reaction.users.remove(reaction.users.last());
       } else {
         answer!.votes++;
-        answer!.users.push(reaction.users.last().id);
+        answer!.users.push(reaction.users.last()!.id);
         VotingUtils.displayMessage(reaction.message, serverQueue, true);
       }
     }

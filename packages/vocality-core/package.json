@@ -40,6 +40,7 @@
     "typescript": "^3.7.3"
   },
   "dependencies": {
-    "discord.js": "^11.5.1"
+    "@discordjs/opus": "github:discordjs/opus",
+    "discord.js": "github:discordjs/discord.js"
   }
 }
