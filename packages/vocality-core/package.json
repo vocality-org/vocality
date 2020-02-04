@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/vocality-org/vocality/issues"
   },
-  "homepage": "https://github.com/vocality-org/vocality#readme",
+  "homepage": "https://github.com/vocality-org/vocality/tree/master/packages/vocality-core#readme",
   "files": [
     "build/src/**/*.js",
     "build/src/**/*.d.ts",
