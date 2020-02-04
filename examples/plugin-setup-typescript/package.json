@@ -1,6 +1,6 @@
 {
   "name": "plugin-setup-typescript",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "private": true,
   "description": "Bot setup including custom and vocality plugins built with typescript",
   "main": "build/src/index.js",
@@ -10,13 +10,13 @@
   },
   "license": "MIT",
   "dependencies": {
-    "dotenv": "^8.2.0",
-    "@vocality-org/core": "^0.1.7",
-    "@vocality-org/random": "^0.1.7",
-    "@vocality-org/votes": "^0.1.7"
+    "@vocality-org/core": "^1.0.0",
+    "@vocality-org/random": "^1.0.0",
+    "@vocality-org/votes": "^1.0.0",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
-    "@vocality-org/types": "^0.1.7",
+    "@vocality-org/types": "^1.0.0",
     "typescript": "^3.7.4"
   }
 }

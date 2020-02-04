@@ -1,6 +1,6 @@
 {
   "name": "@vocality-org/types",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "description": "TypeScript types for Vocality",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",

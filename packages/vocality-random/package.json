@@ -1,6 +1,6 @@
 {
   "name": "@vocality-org/random",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "description": "Random number and image generator plugin for Vocality",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -34,12 +34,12 @@
   "devDependencies": {
     "@types/faker": "^4.1.9",
     "@types/node-fetch": "^2.5.4",
-    "@vocality-org/types": "^0.1.7",
+    "@vocality-org/types": "^1.0.0",
     "gts": "^1.1.2",
     "typescript": "^3.7.3"
   },
   "dependencies": {
-    "@vocality-org/core": "^0.1.7",
+    "@vocality-org/core": "^1.0.0",
     "discord.js": "github:discordjs/discord.js",
     "faker": "^4.1.0",
     "node-fetch": "^2.6.0"
