@@ -1,6 +1,6 @@
 {
   "name": "base",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Basic Vocality Setup",
   "main": "index.js",
@@ -9,6 +9,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@vocality-org/core": "^1.0.0"
+    "@vocality-org/core": "^1.0.1"
   }
 }
