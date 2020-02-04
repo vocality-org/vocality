@@ -6,6 +6,7 @@ const DEFAULT_OPTIONS = {
   disabledEvents: ['TYPING_START'] as any[],
 };
 
+// this is the exposed bot class
 export class Bot {
   private bot: BotClient;
 
