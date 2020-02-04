@@ -1,6 +1,6 @@
 {
   "name": "plugin-setup",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "Bot setup including custom and vocality plugins",
   "main": "index.js",
@@ -9,8 +9,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@vocality-org/core": "^1.0.1",
-    "@vocality-org/music": "^1.0.1",
-    "@vocality-org/votes": "^1.0.1"
+    "@vocality-org/core": "^1.0.2",
+    "@vocality-org/music": "^1.0.2",
+    "@vocality-org/votes": "^1.0.2"
   }
 }
