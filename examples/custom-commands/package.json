@@ -1,6 +1,6 @@
 {
   "name": "custom-commands",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "description": "Example adding multiple custom commands to a vocality setup",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@vocality-org/core": "^1.0.2",
+    "@vocality-org/core": "^1.0.3",
     "cowsay": "^1.4.0"
   }
 }
