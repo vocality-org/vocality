@@ -12,8 +12,7 @@
   "dependencies": {
     "@vocality-org/core": "^1.0.2",
     "@vocality-org/random": "^1.0.2",
-    "@vocality-org/votes": "^1.0.2",
-    "dotenv": "^8.2.0"
+    "@vocality-org/votes": "^1.0.2"
   },
   "devDependencies": {
     "@vocality-org/types": "^1.0.0",

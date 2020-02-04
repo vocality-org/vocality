@@ -1,5 +1,6 @@
 {
   "name": "vocality",
+  "version": "1.0.0",
   "description": "Plugin Based Discord Bot",
   "scripts": {
     "postinstall": "npm run bootstrap",
