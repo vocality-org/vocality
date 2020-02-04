@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[21],{144:function(a){a.exports=JSON.parse('{"allTagsPath":"/vocality/blog/tags","slug":"hola","name":"hola","count":1,"permalink":"/vocality/blog/tags/hola"}')}}]);
