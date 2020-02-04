@@ -175,7 +175,7 @@ export class BotClient extends DiscordClient implements Client {
   }
 
   /**
-   * Process a input message and executes a command if found
+   * Process a input message and executes a command if found.
    *
    * @param {string} guildId Specifies the guild you want the message to be for
    * @param {string} message The content of the message to process
