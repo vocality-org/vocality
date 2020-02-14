@@ -90,7 +90,7 @@ export class Queue implements SocketCommand {
             embed.addField(nowPlaying.name, nowPlaying.value);
 
             message.edit({ embed });
-            reaction.users.remove(reaction.users.lastKey());
+            reaction.users.remove(reaction.users.cache.lastKey());
           }
         );
       });

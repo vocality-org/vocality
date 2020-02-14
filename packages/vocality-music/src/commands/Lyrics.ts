@@ -120,7 +120,7 @@ export class Lyrics implements SocketCommand {
               embed.setFooter(`Page ${1 + index} of ${lyricsList.length}`);
 
               message.edit({ embed });
-              reaction.users.remove(reaction.users.lastKey());
+              reaction.users.remove(reaction.users.cache.lastKey());
             }
           );
         });
