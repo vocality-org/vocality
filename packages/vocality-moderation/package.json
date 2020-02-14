@@ -1,0 +1,45 @@
+{
+  "name": "@vocality-org/moderation",
+  "version": "1.0.3",
+  "description": "Server moderation plugin for Vocality",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vocality-org/vocality.git"
+  },
+  "author": "Vocality Authors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vocality-org/vocality/issues"
+  },
+  "homepage": "https://github.com/vocality-org/vocality/tree/master/packages/vocality-moderation#readme",
+  "scripts": {
+    "build": "npm run compile",
+    "prepare": "npm run compile",
+    "compile": "tsc -p .",
+    "clean": "gts clean",
+    "check": "gts check",
+    "fix": "gts fix"
+  },
+  "files": [
+    "build/src/**/*.js",
+    "build/src/**/*.d.ts",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/lowdb": "^1.0.9",
+    "gts": "^1.1.2",
+    "typescript": "^3.7.3"
+  },
+  "dependencies": {
+    "@vocality-org/core": "^1.0.3",
+    "@vocality-org/types": "^1.0.3",
+    "discord.js": "github:discordjs/discord.js",
+    "lowdb": "^1.0.0"
+  }
+}

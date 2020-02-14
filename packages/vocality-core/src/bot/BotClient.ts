@@ -69,10 +69,6 @@ export class BotClient extends DiscordClient implements Client {
     return this.botInstance;
   }
 
-  addCustomListener(event: string, callback: Function) {
-    this.messageHandler.addCustomListener(event, callback);
-  }
-
   getAllCommands(guildId: string): CommandSearchResult[] {
     const pluginCommands: CommandSearchResult[][] = [];
 
@@ -149,6 +145,10 @@ export class BotClient extends DiscordClient implements Client {
 
   findGuild(guildId: string): Guild | undefined {
     return this.guilds.cache.get(guildId);
+  }
+
+  addCustomListener(event: string, callback: Function) {
+    this.messageHandler.addCustomListener(event, callback);
   }
 
   emitCustomEvent(event: string, ...args: any[]) {
