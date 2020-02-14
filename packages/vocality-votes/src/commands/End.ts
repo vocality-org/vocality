@@ -17,7 +17,7 @@ export class End implements Command {
       msg.guild!.id
     );
     const polls = serverQueues?.filter(v =>
-      msg.guild!.members.get(v.initiator)?.user.username === args[0]
+      msg.guild!.members.cache.get(v.initiator)?.user.username === args[0]
         ? true
         : false
     );

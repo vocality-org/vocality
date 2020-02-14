@@ -65,7 +65,7 @@ export class WizardUtils {
           serverQueue.allowedToVote.push(answer);
           return { error: false, newMsg: undefined };
         } else if (answer.split(',').every(v => Number(v))) {
-          serverQueue.allowedToVote = guild.roles
+          serverQueue.allowedToVote = guild.roles.cache
             .map(v => v.id)
             .filter((v, i) => {
               const answers = answer.split(',');
@@ -248,7 +248,7 @@ export class WizardUtils {
           .addField('Press 2', `Anonymos`)
           .setFooter('You can write stop to exit the setup');
       case 3:
-        const roles = guild.roles.map(v => v);
+        const roles = guild.roles.cache.map(v => v);
         let roleString = '* `0 for no restriction` \n';
         for (let i = 0; i < roles.length; i++) {
           roleString += `* \`${i + 1} for ${roles[i].name}\` \n`;

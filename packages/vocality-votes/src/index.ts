@@ -34,11 +34,11 @@ class VotesPlugin extends BasePlugin {
         )
           return;
         // Grab the channel to check the message from
-        const channel = findGuild(guildId)!.channels.get(
+        const channel = findGuild(guildId)!.channels.cache.get(
           packet.d.channel_id
         ) as TextChannel;
         // There's no need to emit if the message is cached, because the event will fire anyway for that
-        if (channel!.messages.has(packet.d.message_id)) return;
+        if (channel!.messages.cache.has(packet.d.message_id)) return;
         // Since we have confirmed the message is not cached, let's fetch it
         channel!.messages.fetch(packet.d.message_id).then(message => {
           // Emojis can have identifiers of name:id format, so we have to account for that case as well
@@ -46,26 +46,26 @@ class VotesPlugin extends BasePlugin {
             ? `${packet.d.emoji.name}:${packet.d.emoji.id}`
             : packet.d.emoji.name;
           // This gives us the reaction we need to emit the event properly, in top of the message object
-          const reaction = message.reactions.get(emoji);
+          const reaction = message.reactions.cache.get(emoji);
           // Adds the currently reacting user to the reaction's users collection.
           if (reaction)
-            reaction.users.set(
+            reaction.users.cache.set(
               packet.d.user_id,
-              findGuild(guildId)!.members.get(packet.d.user_id)?.user!
+              findGuild(guildId)!.members.cache.get(packet.d.user_id)?.user!
             );
           // Check which type of event it is before emitting
           if (packet.t === 'MESSAGE_REACTION_ADD') {
             emitCustomEvent(
               'messageReactionAdd',
               reaction,
-              findGuild(guildId)!.members.get(packet.d.user_id)?.user!
+              findGuild(guildId)!.members.cache.get(packet.d.user_id)?.user!
             );
           }
           if (packet.t === 'MESSAGE_REACTION_REMOVE') {
             emitCustomEvent(
               'messageReactionRemove',
               reaction,
-              findGuild(guildId)!.members.get(packet.d.user_id)?.user!
+              findGuild(guildId)!.members.cache.get(packet.d.user_id)?.user!
             );
           }
         });

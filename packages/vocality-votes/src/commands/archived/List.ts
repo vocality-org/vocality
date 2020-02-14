@@ -33,7 +33,8 @@ export class List implements Command {
             `**${j + 1}.Entry** [${
               guildArray![j].id
             }]        initiated by        *${
-              msg.guild!.members.get(guildArray![j].initiator)?.user.username
+              msg.guild!.members.cache.get(guildArray![j].initiator)?.user
+                .username
             }* with Question **${guildArray![j].question}**`
           );
         }
@@ -63,7 +64,7 @@ export class List implements Command {
             embed.setFooter(`Page ${1 + index} of ${pages}`);
 
             message.edit(embed);
-            reaction.users.remove(reaction.users.lastKey());
+            reaction.users.remove(reaction.users.cache.lastKey());
           }
         );
       }

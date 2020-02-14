@@ -65,7 +65,7 @@ export class VotingUtils {
     if (
       !serverQueue.allowedToVote.some(a =>
         reaction.message
-          .guild!.roles.get(a)
+          .guild!.roles.cache.get(a)
           ?.members.find(u => u.user.id === user.id)
       ) &&
       !serverQueue.allowedToVote.some(a => a === '0')
@@ -97,37 +97,37 @@ export class VotingUtils {
     if (serverQueue.anonymous) {
       if (
         VotingUtils.hasAlreadyVoted(
-          reaction.users.last()!,
+          reaction.users.cache.last()!,
           serverQueue,
           reaction.emoji.name
         )
       ) {
         reaction.message.channel.send(
-          'You cannot vote twice ' + reaction.users.last()
+          'You cannot vote twice ' + reaction.users.cache.last()
         );
-      } else if (answer?.users.includes(reaction.users.last()!.id)) {
-        answer!.users.push(reaction.users.last()!.id);
+      } else if (answer?.users.includes(reaction.users.cache.last()!.id)) {
+        answer!.users.push(reaction.users.cache.last()!.id);
       } else {
         answer!.votes++;
-        answer!.users.push(reaction.users.last()!.id);
+        answer!.users.push(reaction.users.cache.last()!.id);
         VotingUtils.displayMessage(reaction.message, serverQueue, true);
       }
-      reaction.users.remove(reaction.users.last());
+      reaction.users.remove(reaction.users.cache.last());
     } else {
       if (
         VotingUtils.hasAlreadyVoted(
-          reaction.users.last()!,
+          reaction.users.cache.last()!,
           serverQueue,
           reaction.emoji.name
         )
       ) {
         reaction.message.channel.send(
-          'You cannot vote twice ' + reaction.users.last()
+          'You cannot vote twice ' + reaction.users.cache.last()
         );
-        reaction.users.remove(reaction.users.last());
+        reaction.users.remove(reaction.users.cache.last());
       } else {
         answer!.votes++;
-        answer!.users.push(reaction.users.last()!.id);
+        answer!.users.push(reaction.users.cache.last()!.id);
         VotingUtils.displayMessage(reaction.message, serverQueue, true);
       }
     }

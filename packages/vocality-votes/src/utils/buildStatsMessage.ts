@@ -32,7 +32,7 @@ export const buildStatsMessage = async (serverQueue: Vote, msg: Message) => {
     ) {
       list.push(
         `**${j + 1}.Entry** [${
-          msg.guild!.members.get(allVoters[j].user)?.user.username
+          msg.guild!.members.cache.get(allVoters[j].user)?.user.username
         }]        voted for        *${
           serverQueue.anonymous ? 'anonymous' : allVoters[j].v
         }*`
@@ -52,7 +52,7 @@ export const buildStatsMessage = async (serverQueue: Vote, msg: Message) => {
     .addField('Participation', `${(voted * 100) / serverQueue.maxVotes}%`, true)
     .addField(
       'Initiator',
-      msg.guild!.members.get(serverQueue.initiator)?.user.username,
+      msg.guild!.members.cache.get(serverQueue.initiator)?.user.username,
       true
     )
     .addField('Anonymous', serverQueue.anonymous, true)
@@ -77,7 +77,7 @@ export const buildStatsMessage = async (serverQueue: Vote, msg: Message) => {
       embed.setFooter(`Page ${1 + index} of ${pages}`);
 
       message.edit(embed);
-      reaction.users.remove(reaction.users.lastKey());
+      reaction.users.remove(reaction.users.cache.lastKey());
     }
   );
 };
