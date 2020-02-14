@@ -59,7 +59,7 @@ export class BotClient extends DiscordClient implements Client {
       this.botInstance = new BotClient(options);
       this.botInstance.on('ready', () => {
         BOT.NAME = this.botInstance!.user!.username;
-        this.botInstance!.guilds.forEach(guild => {
+        this.botInstance!.guilds.cache.forEach(guild => {
           BOT.SERVERPREFIXES[guild.id] = BOT.PREFIX;
         });
         this.botInstance?.loadPluginFromOptions();
@@ -148,7 +148,7 @@ export class BotClient extends DiscordClient implements Client {
   }
 
   findGuild(guildId: string): Guild | undefined {
-    return this.guilds.get(guildId);
+    return this.guilds.cache.get(guildId);
   }
 
   emitCustomEvent(event: string, ...args: any[]) {
@@ -171,7 +171,9 @@ export class BotClient extends DiscordClient implements Client {
 
   addPlugin(plugin: Plugin, loaded: boolean) {
     plugin.config.loaded = loaded;
-    this.guilds.forEach(g => this.pluginController.addPlugin(g.id, plugin));
+    this.guilds.cache.forEach(g =>
+      this.pluginController.addPlugin(g.id, plugin)
+    );
   }
 
   /**
@@ -187,8 +189,8 @@ export class BotClient extends DiscordClient implements Client {
   }
 
   private createMessage(guildId: string) {
-    const guild = this.guilds.filter(g => g.id === guildId).first();
-    const textChannel = guild!.channels
+    const guild = this.guilds.cache.filter(g => g.id === guildId).first();
+    const textChannel = guild!.channels.cache
       .filter(c => {
         return c.type === 'text';
       })
@@ -204,7 +206,7 @@ export class BotClient extends DiscordClient implements Client {
 
   private loadPluginFromOptions() {
     if (this.opts && this.opts.plugins) {
-      this.guilds.forEach(g => {
+      this.guilds.cache.forEach(g => {
         this.opts!.plugins!.forEach(p => {
           this.pluginController.addPlugin(g.id, p);
         });
